@@ -26,7 +26,8 @@
     transition:background .35s ease, color .35s ease;
   }
   /* one quiet brand contrail, no motion */
-  .mark{position:absolute;top:1.5%;right:0;width:62%;max-width:880px;opacity:.7;pointer-events:none}
+  .mark{position:absolute;top:0;right:0;width:46%;max-width:560px;opacity:.16;pointer-events:none}
+  .mark path{fill:none;stroke-linecap:round}
 
   .wrap{position:relative;z-index:2;max-width:1160px;margin:0 auto;
     padding:clamp(22px,3.6vw,46px) clamp(20px,4vw,52px)}
@@ -42,6 +43,10 @@
   .logo-light{display:none}
   [data-theme="light"] .logo-dark{display:none}
   [data-theme="light"] .logo-light{display:block}
+  .logo-fallback{display:none;font-size:16px;font-weight:500;letter-spacing:.03em;color:var(--muted)}
+  .logo-fallback b{color:var(--ink);font-weight:500}
+  .brand.fb .logo{display:none}
+  .brand.fb .logo-fallback{display:inline}
   .meta{text-align:right;width:290px;flex:0 0 auto}
   .metatime #greet{display:block;font-family:'Barlow Condensed';font-weight:500;
     font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--sky)}
@@ -143,7 +148,11 @@
 </style>
 </head>
 <body>
-  <img class="mark" src="assets/images/brand_misc/Brand_Abstract_Contrails/PNGs/2024%20Brand%20Illustrations-RGB_Brand-Contrail.png" alt="" aria-hidden="true">
+  <svg class="mark" viewBox="0 0 560 300" aria-hidden="true">
+    <path d="M40 70 C 240 50, 420 80, 560 46" stroke="#10CFC9" stroke-width="2"/>
+    <path d="M70 104 C 260 86, 440 112, 560 82" stroke="#00A651" stroke-width="1.6"/>
+    <path d="M120 146 C 300 130, 470 156, 560 128" stroke="#10CFC9" stroke-width="1.1" opacity=".7"/>
+  </svg>
 
   <div class="wrap">
     <nav class="hotlinks rise d1" aria-label="Quick links">
@@ -152,9 +161,10 @@
       <button id="themeToggle" class="themetoggle" type="button"></button>
     </nav>
     <div class="top rise d1">
-      <div class="brand">
-        <img class="logo logo-dark" src="assets/images/logos/Sales_Enablement_Logos/Typemark_Qlik-Sales-Enablement_2cReverse.svg" alt="Qlik Sales Enablement">
-        <img class="logo logo-light" src="assets/images/logos/Sales_Enablement_Logos/Typemark_Qlik-Sales-Enablement_Color.svg" alt="Qlik Sales Enablement">
+      <div class="brand" id="brand">
+        <img class="logo logo-dark" src="assets/images/logos/Sales_Enablement_Logos/Typemark_Qlik-Sales-Enablement_2cReverse.svg" alt="Qlik Sales Enablement" onerror="brandFallback()">
+        <img class="logo logo-light" src="assets/images/logos/Sales_Enablement_Logos/Typemark_Qlik-Sales-Enablement_Color.svg" alt="Qlik Sales Enablement" onerror="brandFallback()">
+        <span class="logo-fallback"><b>Qlik</b> Sales Enablement</span>
       </div>
       <div class="meta">
         <div class="metatime"><span id="greet">Welcome</span><span id="clock">—</span></div>
@@ -178,6 +188,8 @@
   </div>
 
 <script>
+function brandFallback(){ var b=document.getElementById('brand'); if(b) b.classList.add('fb'); }
+
 /* EDIT HERE — labels, one-line descriptions, and Mindtickle deep-links. */
 const DESTINATIONS = [
   { label:"Sales Methodology",     desc:"Frameworks, story selling, the Qlik way.",        icon:"compass", href:"#REPLACE_MT_LINK" },
