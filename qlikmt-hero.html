@@ -26,8 +26,7 @@
     transition:background .35s ease, color .35s ease;
   }
   /* one quiet brand contrail, no motion */
-  .mark{position:absolute;top:0;right:0;width:46%;max-width:560px;opacity:.16;pointer-events:none}
-  .mark path{fill:none;stroke-linecap:round}
+  .mark{position:absolute;top:1.5%;right:0;width:62%;max-width:880px;opacity:.7;pointer-events:none}
 
   .wrap{position:relative;z-index:2;max-width:1160px;margin:0 auto;
     padding:clamp(22px,3.6vw,46px) clamp(20px,4vw,52px)}
@@ -39,8 +38,10 @@
   .top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;
     padding:clamp(22px,3.4vw,34px) 0 clamp(28px,5vw,56px)}
   .brand{display:flex;align-items:center;gap:11px}
-  .brand b{font-weight:500;font-size:16px;letter-spacing:.03em}
-  .brand span{color:var(--muted);font-weight:400}
+  .brand .logo{height:30px;width:auto;display:block}
+  .logo-light{display:none}
+  [data-theme="light"] .logo-dark{display:none}
+  [data-theme="light"] .logo-light{display:block}
   .meta{text-align:right;width:290px;flex:0 0 auto}
   .metatime #greet{display:block;font-family:'Barlow Condensed';font-weight:500;
     font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--sky)}
@@ -142,11 +143,7 @@
 </style>
 </head>
 <body>
-  <svg class="mark" viewBox="0 0 560 300" aria-hidden="true">
-    <path d="M40 70 C 240 50, 420 80, 560 46" stroke="#10CFC9" stroke-width="2"/>
-    <path d="M70 104 C 260 86, 440 112, 560 82" stroke="#00A651" stroke-width="1.6"/>
-    <path d="M120 146 C 300 130, 470 156, 560 128" stroke="#10CFC9" stroke-width="1.1" opacity=".7"/>
-  </svg>
+  <img class="mark" src="assets/images/brand_misc/Brand_Abstract_Contrails/PNGs/2024%20Brand%20Illustrations-RGB_Brand-Contrail.png" alt="" aria-hidden="true">
 
   <div class="wrap">
     <nav class="hotlinks rise d1" aria-label="Quick links">
@@ -156,8 +153,8 @@
     </nav>
     <div class="top rise d1">
       <div class="brand">
-        <!-- production: swap for the official Qlik Sales Enablement logo in assets/images/logos/ -->
-        <div><b>Qlik</b> <span>Sales Enablement</span></div>
+        <img class="logo logo-dark" src="assets/images/logos/Sales_Enablement_Logos/Typemark_Qlik-Sales-Enablement_2cReverse.svg" alt="Qlik Sales Enablement">
+        <img class="logo logo-light" src="assets/images/logos/Sales_Enablement_Logos/Typemark_Qlik-Sales-Enablement_Color.svg" alt="Qlik Sales Enablement">
       </div>
       <div class="meta">
         <div class="metatime"><span id="greet">Welcome</span><span id="clock">—</span></div>
@@ -289,7 +286,7 @@ setTheme(theme);
 tBtn.addEventListener('click', ()=>{ theme = (theme==='dark') ? 'light' : 'dark'; setTheme(theme); });
 
 /* ---- market pulse (live via the Vercel proxy) ---- */
-const MARKET_ENDPOINT = 'REPLACE_WITH_YOUR_VERCEL_URL/api/market';   /* e.g. https://qlikmt-main.vercel.app/api/market */
+const MARKET_ENDPOINT = '/api/market';   /* same-origin on Vercel — no domain to hardcode */
 const SAMPLE = [   /* placeholder shown until the live endpoint answers — no LIVE badge until it does */
   {label:'S&P 500',   price:5894.20, pct:0.42},
   {label:'Nasdaq 100', price:21340.70, pct:0.61},
