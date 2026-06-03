@@ -23,6 +23,7 @@
     background:
       radial-gradient(140% 120% at 88% -10%, #1b4670 0%, var(--navy-2) 26%, var(--navy-1) 58%, var(--navy-0) 100%);
     min-height:100vh;position:relative;overflow:hidden;
+    transition:background .35s ease, color .35s ease;
   }
   /* one quiet brand contrail, no motion */
   .mark{position:absolute;top:0;right:0;width:46%;max-width:560px;opacity:.16;pointer-events:none}
@@ -31,14 +32,30 @@
   .wrap{position:relative;z-index:2;max-width:1160px;margin:0 auto;
     padding:clamp(22px,3.6vw,46px) clamp(20px,4vw,52px)}
 
-  .top{display:flex;align-items:center;justify-content:space-between;gap:16px;
-    padding-bottom:clamp(28px,5vw,56px)}
+  .hotlinks{display:flex;flex-wrap:wrap;gap:22px;align-items:center;font-size:13px;
+    padding-bottom:14px;border-bottom:1px solid var(--line)}
+  .hotlinks a{color:var(--muted);text-decoration:none;letter-spacing:.02em;transition:color .2s}
+  .hotlinks a:hover{color:var(--sky)}
+  .top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;
+    padding:clamp(22px,3.4vw,34px) 0 clamp(28px,5vw,56px)}
   .brand{display:flex;align-items:center;gap:11px}
-  .qmark{width:28px;height:28px;flex:0 0 auto}
-  .brand b{font-weight:500;font-size:15px;letter-spacing:.03em}
+  .brand b{font-weight:500;font-size:16px;letter-spacing:.03em}
   .brand span{color:var(--muted);font-weight:400}
-  .meta{text-align:right;color:var(--muted);font-size:13px;line-height:1.4}
-  .meta #clock{font-variant-numeric:tabular-nums}
+  .meta{text-align:right;width:290px;flex:0 0 auto}
+  .metatime #greet{display:block;font-family:'Barlow Condensed';font-weight:500;
+    font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--sky)}
+  .metatime .tod svg{width:15px;height:15px;vertical-align:-2px;margin-left:4px;
+    fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .metatime #clock{display:block;font-family:'Barlow Condensed';font-weight:600;
+    font-size:clamp(36px,4.4vw,46px);line-height:1;color:var(--ink);
+    font-variant-numeric:tabular-nums;margin-top:3px}
+  .quote{margin-top:16px;border-right:2px solid var(--green);padding-right:13px;
+    height:70px;overflow:hidden}
+  .quote #qtext{display:block;font-size:13px;line-height:1.42;color:var(--muted);
+    min-height:38px;text-wrap:balance}
+  .quote #qby{display:block;font-size:11px;color:#7d93aa;margin-top:5px;
+    letter-spacing:.04em;transition:opacity .45s}
+  .quote .scr{color:var(--sky)}
 
   .lead{max-width:680px}
   .eyebrow{font-family:'Barlow Condensed';font-weight:500;font-size:14px;
@@ -48,9 +65,11 @@
   h1 .ac{color:var(--green)}
   .sub{font-size:clamp(15px,1.5vw,17px);line-height:1.6;color:#bccfe2;max-width:520px}
 
-  .tiles{margin-top:clamp(34px,5vw,58px);display:grid;gap:12px;
-    grid-template-columns:repeat(auto-fit,minmax(212px,1fr))}
-  .tile{position:relative;display:flex;flex-direction:column;gap:11px;
+  .divider{margin-top:clamp(30px,4.5vw,50px);height:1px;background:var(--line);position:relative}
+  .divider::before{content:"";position:absolute;left:0;top:0;height:1px;width:46px;background:var(--green)}
+  .tiles{margin-top:clamp(18px,2.6vw,26px);display:grid;gap:12px;
+    grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr}
+  .tile{position:relative;display:flex;flex-direction:column;gap:11px;height:100%;
     text-decoration:none;color:inherit;
     background:rgba(255,255,255,.035);border:1px solid var(--line);
     border-radius:var(--radius);padding:17px 17px 15px;
@@ -68,12 +87,58 @@
     transition:transform .25s ease, color .25s ease}
   .tile:hover .tarrow{transform:translate(2px,-2px);color:var(--sky)}
 
+  /* ---------- LIGHT MODE (variable overrides + card adjustments) ---------- */
+  [data-theme="light"]{
+    --ink:#0E2742; --muted:#5b7088; --line:rgba(15,40,70,.14);
+    --sky:#0E8A84; --green:#00904A;
+  }
+  [data-theme="light"] body{
+    background:radial-gradient(140% 120% at 88% -10%, #ffffff 0%, #eef3f9 42%, #e2eaf2 100%);
+  }
+  [data-theme="light"] .mark{opacity:.4}
+  [data-theme="light"] .sub{color:#42566c}
+  [data-theme="light"] .quote #qby{color:#6b7f95}
+  [data-theme="light"] .tile{background:#ffffff;border-color:rgba(15,40,70,.12);
+    box-shadow:0 1px 2px rgba(15,40,70,.05)}
+  [data-theme="light"] .tile:hover{background:#ffffff;border-color:var(--sky);
+    box-shadow:0 10px 24px -14px rgba(14,138,132,.55)}
+  [data-theme="light"] .tico{background:rgba(14,138,132,.08);border-color:rgba(15,40,70,.12)}
+
+  /* theme toggle */
+  .themetoggle{margin-left:auto;display:inline-flex;align-items:center;justify-content:center;
+    width:30px;height:30px;padding:0;border:1px solid var(--line);border-radius:8px;
+    background:transparent;color:var(--muted);cursor:pointer;transition:color .2s, border-color .2s}
+  .themetoggle:hover{color:var(--sky);border-color:rgba(16,207,201,.5)}
+  .themetoggle:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+  .themetoggle svg{width:16px;height:16px;fill:none;stroke:currentColor;
+    stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+  /* ---------- MARKET PULSE strip ---------- */
+  .pulse{margin-top:clamp(24px,3.4vw,34px);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .pulse-h{display:flex;align-items:center;gap:8px;font-family:'Barlow Condensed';font-weight:500;
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+  .live{width:7px;height:7px;border-radius:50%;background:#5b7088;flex:0 0 auto}
+  .live.on{background:var(--green);box-shadow:0 0 0 0 rgba(0,166,81,.5);animation:livep 2.2s infinite}
+  @keyframes livep{0%{box-shadow:0 0 0 0 rgba(0,166,81,.5)}70%{box-shadow:0 0 0 7px rgba(0,166,81,0)}100%{box-shadow:0 0 0 0 rgba(0,166,81,0)}}
+  .chips{display:flex;gap:9px;flex-wrap:wrap}
+  .chip{display:flex;align-items:baseline;gap:7px;padding:7px 11px;border:1px solid var(--line);
+    border-radius:10px;background:rgba(255,255,255,.03)}
+  .chip .c-l{color:var(--muted);font-size:11px;letter-spacing:.02em}
+  .chip .c-p{color:var(--ink);font-size:13px;font-weight:500;font-variant-numeric:tabular-nums}
+  .chip .c-d{font-size:11px;font-variant-numeric:tabular-nums}
+  .chip .up{color:#21c46b}
+  .chip .down{color:#ff6b6b}
+  [data-theme="light"] .chip{background:#fff;border-color:rgba(15,40,70,.12)}
+  [data-theme="light"] .chip .up{color:#0a8f4d}
+  [data-theme="light"] .chip .down{color:#d23b3b}
+
   .rise{opacity:0;transform:translateY(14px);animation:rise .7s ease forwards}
   .d1{animation-delay:.04s}.d2{animation-delay:.12s}.d3{animation-delay:.2s}.d4{animation-delay:.28s}
   @keyframes rise{to{opacity:1;transform:none}}
   .tiles .tile{opacity:0;transform:translateY(16px);animation:rise .6s ease forwards}
   @media (prefers-reduced-motion:reduce){*{animation:none!important}.rise,.tiles .tile{opacity:1;transform:none}}
-  @media (max-width:560px){.meta{display:none}}
+  @media (max-width:880px){.tiles{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:560px){.tiles{grid-template-columns:1fr}.meta{display:none}}
 </style>
 </head>
 <body>
@@ -84,25 +149,34 @@
   </svg>
 
   <div class="wrap">
+    <nav class="hotlinks rise d1" aria-label="Quick links">
+      <a href="#">Home</a><a href="#">Assets</a><a href="#">Training</a>
+      <a href="#">Rooms</a><a href="#">Call AI</a><a href="#">Analytics</a>
+      <button id="themeToggle" class="themetoggle" type="button"></button>
+    </nav>
     <div class="top rise d1">
       <div class="brand">
-        <!-- production: swap for the official Qlik logo in assets/images/logos/ -->
-        <svg class="qmark" viewBox="0 0 40 40" aria-hidden="true">
-          <circle cx="20" cy="20" r="15" fill="none" stroke="#10CFC9" stroke-width="3.2"
-            stroke-dasharray="78 16" transform="rotate(28 20 20)"/>
-          <circle cx="31" cy="29" r="3.2" fill="#00A651"/>
-        </svg>
+        <!-- production: swap for the official Qlik Sales Enablement logo in assets/images/logos/ -->
         <div><b>Qlik</b> <span>Sales Enablement</span></div>
       </div>
-      <div class="meta" aria-hidden="true"><div id="greet">Welcome</div><div id="clock">—</div></div>
+      <div class="meta">
+        <div class="metatime"><span id="greet">Welcome</span><span id="clock">—</span></div>
+        <div class="quote"><span id="qtext">&nbsp;</span><span id="qby"></span></div>
+      </div>
     </div>
 
     <div class="lead">
-      <div class="eyebrow rise d2">Sales enablement home</div>
+      <div class="eyebrow rise d2">Enablement Command Home</div>
       <h1 class="rise d3">Accelerate your pipeline with <span class="ac">AI</span>.</h1>
       <p class="sub rise d4">Find what you need, jump straight in, and let the connected workflow carry the deal forward — everything that helps you win, in one place.</p>
     </div>
 
+    <div class="pulse rise d4" aria-label="Market pulse">
+      <div class="pulse-h"><span class="live" id="liveDot"></span>Market Pulse</div>
+      <div class="chips" id="chips"></div>
+    </div>
+
+    <div class="divider rise d4" aria-hidden="true"></div>
     <nav class="tiles" id="tiles" aria-label="Enablement destinations"></nav>
   </div>
 
@@ -137,12 +211,112 @@ DESTINATIONS.forEach((d,i)=>{
   tiles.appendChild(a);
 });
 
+const TOD = {
+  morning:  '<svg viewBox="0 0 24 24"><path d="M3 19h18"/><path d="M7 19a5 5 0 0110 0"/><path d="M12 6v2.4M5.6 10.6l1.7 1.4M18.4 10.6l-1.7 1.4"/></svg>',
+  afternoon:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.3M12 19.1v2.3M2.6 12h2.3M19.1 12h2.3M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>',
+  evening:  '<svg viewBox="0 0 24 24"><path d="M20.5 13.5A8 8 0 1110.5 3.5a6.3 6.3 0 0010 10z"/></svg>'   /* crescent moon */
+};
 function tick(){
-  const h=new Date().getHours();
-  document.getElementById('greet').textContent = h<12?'Good morning':h<18?'Good afternoon':'Good evening';
+  const h = new Date().getHours();
+  const key   = h<12 ? 'morning'      : h<18 ? 'afternoon'      : 'evening';
+  const label = h<12 ? 'Good morning' : h<18 ? 'Good afternoon' : 'Good evening';
+  document.getElementById('greet').innerHTML = label + ' <span class="tod">' + TOD[key] + '</span>';
   document.getElementById('clock').textContent = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
 }
 tick(); setInterval(tick,30000);
+
+/* rolling inspirational quotes — curated + editable. Add/remove freely. */
+const QUOTES = [
+  ["Approach each customer with the idea of helping solve a problem.","Brian Tracy"],
+  ["Success is the sum of small efforts, repeated day in and day out.","Robert Collier"],
+  ["The best way to predict the future is to create it.","Peter Drucker"],
+  ["Opportunities don't happen. You create them.","Chris Grosser"],
+  ["Don't watch the clock; do what it does. Keep going.","Sam Levenson"],
+  ["Quality means doing it right when no one is looking.","Henry Ford"],
+];
+const qt = document.getElementById('qtext'), qb = document.getElementById('qby');
+const GLYPHS = '!<>-_\\/[]{}=+*^?#01';
+const REDUCE = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+let qi = 0, raf;
+
+function scramble(text, done){
+  if(REDUCE){ qt.textContent = text; if(done) done(); return; }
+  const q = [];
+  for(let i=0;i<text.length;i++){
+    const start = Math.floor(Math.random()*18);
+    const end = start + 14 + Math.floor(Math.random()*18);
+    q.push({c:text[i], start, end, s:''});
+  }
+  let frame = 0;
+  cancelAnimationFrame(raf);
+  (function run(){
+    let out = '', settled = 0;
+    for(const it of q){
+      if(frame >= it.end){ settled++; out += it.c; }
+      else if(frame >= it.start){
+        if(!it.s || Math.random()<0.3) it.s = GLYPHS[Math.floor(Math.random()*GLYPHS.length)];
+        out += '<span class="scr">'+it.s+'</span>';
+      }
+    }
+    qt.innerHTML = out;
+    if(settled === q.length){ if(done) done(); }
+    else { frame++; raf = requestAnimationFrame(run); }
+  })();
+}
+
+function showQuote(){
+  qb.style.opacity = 0;
+  scramble('\u201C'+QUOTES[qi][0]+'\u201D', ()=>{
+    qb.textContent = '\u2014 '+QUOTES[qi][1];
+    qb.style.opacity = 1;
+  });
+}
+showQuote();
+setInterval(()=>{ qi=(qi+1)%QUOTES.length; showQuote(); }, 13000);
+
+/* ---- light / dark toggle (always starts dark) ---- */
+const SUN_ICON='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.3M12 19.1v2.3M2.6 12h2.3M19.1 12h2.3M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>';
+const MOON_ICON='<svg viewBox="0 0 24 24"><path d="M20.5 13.5A8 8 0 1110.5 3.5a6.3 6.3 0 0010 10z"/></svg>';
+const tBtn = document.getElementById('themeToggle');
+let theme = 'dark';
+function setTheme(m){
+  if(m==='light') document.documentElement.setAttribute('data-theme','light');
+  else document.documentElement.removeAttribute('data-theme');
+  tBtn.innerHTML = (m==='light') ? MOON_ICON : SUN_ICON;
+  tBtn.setAttribute('aria-label', (m==='light') ? 'Switch to dark mode' : 'Switch to light mode');
+}
+setTheme(theme);
+tBtn.addEventListener('click', ()=>{ theme = (theme==='dark') ? 'light' : 'dark'; setTheme(theme); });
+
+/* ---- market pulse (live via the Vercel proxy) ---- */
+const MARKET_ENDPOINT = 'REPLACE_WITH_YOUR_VERCEL_URL/api/market';   /* e.g. https://qlikmt-main.vercel.app/api/market */
+const SAMPLE = [   /* placeholder shown until the live endpoint answers — no LIVE badge until it does */
+  {label:'S&P 500',   price:5894.20, pct:0.42},
+  {label:'Nasdaq 100', price:21340.70, pct:0.61},
+  {label:'Microsoft',  price:478.90,  pct:-0.18},
+  {label:'Salesforce', price:312.40,  pct:0.27},
+  {label:'Snowflake',  price:198.60,  pct:1.12},
+  {label:'Palantir',   price:142.30,  pct:-0.54},
+];
+const chips = document.getElementById('chips'), liveDot = document.getElementById('liveDot');
+function renderChips(list, live){
+  chips.innerHTML = list.map(q=>{
+    const up = (q.pct||0) >= 0;
+    const arrow = up ? '\u25B2' : '\u25BC';
+    const pct = (q.pct==null) ? '' : (up?'+':'') + Number(q.pct).toFixed(2) + '%';
+    const price = (q.price==null) ? '\u2014'
+      : Number(q.price).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+    return '<span class="chip"><span class="c-l">'+q.label+'</span>'+
+           '<span class="c-p">'+price+'</span>'+
+           '<span class="c-d '+(up?'up':'down')+'">'+arrow+' '+pct+'</span></span>';
+  }).join('');
+  liveDot.classList.toggle('on', !!live);
+}
+renderChips(SAMPLE, false);
+fetch(MARKET_ENDPOINT)
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(d => { if(d && d.quotes && d.quotes.length) renderChips(d.quotes, true); })
+  .catch(()=>{ /* endpoint not live yet — keep sample, leave LIVE off */ });
 </script>
 </body>
 </html>
