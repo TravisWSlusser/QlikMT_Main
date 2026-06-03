@@ -26,7 +26,15 @@
     transition:background .35s ease, color .35s ease;
   }
   /* one quiet brand contrail, no motion */
-  .mark{position:absolute;top:1.5%;right:0;width:60%;max-width:860px;opacity:.65;pointer-events:none}
+  .contrail{position:absolute;pointer-events:none;z-index:0}
+  .contrail svg{display:block;width:100%;height:auto;overflow:visible}
+  .contrail path{fill:none;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+  .contrail.draw path{animation:draw 11s cubic-bezier(.33,0,.2,1) forwards}
+  .contrail.draw path:nth-child(2){animation-delay:1.4s}
+  .contrail.draw path:nth-child(3){animation-delay:2.8s}
+  .contrail.draw path:nth-child(4){animation-delay:4.2s}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .c-top{top:-1%;right:-2%;width:62%;max-width:900px;opacity:.22}
 
   .wrap{position:relative;z-index:2;max-width:1160px;margin:0 auto;
     padding:clamp(22px,3.6vw,46px) clamp(20px,4vw,52px)}
@@ -100,7 +108,7 @@
   [data-theme="light"] body{
     background:radial-gradient(140% 120% at 88% -10%, #ffffff 0%, #eef3f9 42%, #e2eaf2 100%);
   }
-  [data-theme="light"] .mark{opacity:.4}
+  [data-theme="light"] .contrail{opacity:.18}
   [data-theme="light"] .sub{color:#42566c}
   [data-theme="light"] .quote #qby{color:#6b7f95}
   [data-theme="light"] .tile{background:#ffffff;border-color:rgba(15,40,70,.12);
@@ -141,13 +149,13 @@
   .d1{animation-delay:.04s}.d2{animation-delay:.12s}.d3{animation-delay:.2s}.d4{animation-delay:.28s}
   @keyframes rise{to{opacity:1;transform:none}}
   .tiles .tile{opacity:0;transform:translateY(16px);animation:rise .6s ease forwards}
-  @media (prefers-reduced-motion:reduce){*{animation:none!important}.rise,.tiles .tile{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}.rise,.tiles .tile{opacity:1;transform:none}.contrail path{stroke-dashoffset:0}}
   @media (max-width:880px){.tiles{grid-template-columns:repeat(2,1fr)}}
   @media (max-width:560px){.tiles{grid-template-columns:1fr}.meta{display:none}}
 </style>
 </head>
 <body>
-  <img class="mark" src="assets/images/brand_misc/Brand_Abstract_Contrails/PNGs/RGB_Brand-Contrail.png" alt="" aria-hidden="true" onerror="this.style.display='none'">
+  <div class="contrail c-top" aria-hidden="true"></div>
 
   <div class="wrap">
     <nav class="hotlinks rise d1" aria-label="Quick links">
@@ -329,6 +337,24 @@ function postHeight(){
 window.addEventListener('load', postHeight);
 window.addEventListener('resize', postHeight);
 if (window.ResizeObserver) new ResizeObserver(postHeight).observe(document.body);
+
+/* ---- hand-drawn contrails that draw themselves in as they enter view ---- */
+const CONTRAIL = '<svg viewBox="0 0 600 240">'
+  + '<path pathLength="1" d="M600 40 C 420 74, 220 34, 10 60" stroke="#10CFC9" stroke-width="2.4"/>'
+  + '<path pathLength="1" d="M600 76 C 440 106, 240 70, 30 96" stroke="#00A651" stroke-width="2"/>'
+  + '<path pathLength="1" d="M600 120 C 470 146, 290 112, 80 134" stroke="#10CFC9" stroke-width="1.4" opacity=".75"/>'
+  + '<path pathLength="1" d="M600 160 C 500 182, 320 158, 140 176" stroke="#1d9e75" stroke-width="1.1" opacity=".6"/>'
+  + '</svg>';
+const contrails = document.querySelectorAll('.contrail');
+contrails.forEach(c => { c.innerHTML = CONTRAIL; });
+if ('IntersectionObserver' in window){
+  const io = new IntersectionObserver((ents)=>{
+    ents.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('draw'); io.unobserve(e.target); } });
+  }, { threshold:0.25 });
+  contrails.forEach(c => io.observe(c));
+} else {
+  contrails.forEach(c => c.classList.add('draw'));
+}
 </script>
 </body>
 </html>
