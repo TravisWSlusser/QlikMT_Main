@@ -138,23 +138,51 @@
     stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
   /* ---------- MARKET PULSE strip ---------- */
-  .pulse{margin-top:clamp(24px,3.4vw,34px);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-  .pulse-h{display:flex;align-items:center;gap:8px;font-family:'Barlow Condensed';font-weight:500;
-    font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+  .pulse{margin-top:clamp(24px,3.4vw,34px)}
+  .pulse-h{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-family:'Barlow Condensed';
+    font-weight:500;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
   .live{width:7px;height:7px;border-radius:50%;background:#5b7088;flex:0 0 auto}
   .live.on{background:var(--green);box-shadow:0 0 0 0 rgba(0,166,81,.5);animation:livep 2.2s infinite}
   @keyframes livep{0%{box-shadow:0 0 0 0 rgba(0,166,81,.5)}70%{box-shadow:0 0 0 7px rgba(0,166,81,0)}100%{box-shadow:0 0 0 0 rgba(0,166,81,0)}}
-  .chips{display:flex;gap:9px;flex-wrap:wrap}
-  .chip{display:flex;align-items:baseline;gap:7px;padding:7px 11px;border:1px solid var(--line);
-    border-radius:10px;background:rgba(255,255,255,.03)}
-  .chip .c-l{color:var(--muted);font-size:11px;letter-spacing:.02em}
-  .chip .c-p{color:var(--ink);font-size:13px;font-weight:500;font-variant-numeric:tabular-nums}
-  .chip .c-d{font-size:11px;font-variant-numeric:tabular-nums}
-  .chip .up{color:#21c46b}
-  .chip .down{color:#ff6b6b}
+  .chips{display:grid;gap:10px;grid-template-columns:repeat(4,1fr)}
+  .chip{display:flex;align-items:center;gap:9px;padding:9px 11px;min-width:0;
+    border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.03)}
+  .c-ico{width:24px;height:24px;flex:0 0 auto;border-radius:6px;overflow:hidden;
+    background:rgba(255,255,255,.07);display:grid;place-items:center;
+    font-size:8px;font-weight:600;color:var(--muted)}
+  .c-ico img{width:100%;height:100%;object-fit:contain;background:#fff}
+  .c-main{display:flex;flex-direction:column;min-width:0;line-height:1.22}
+  .c-l{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .c-pd{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+  .c-p{font-size:14px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+  .c-d{font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .c-d.up{color:#21c46b}
+  .c-d.down{color:#ff6b6b}
   [data-theme="light"] .chip{background:#fff;border-color:rgba(15,40,70,.12)}
-  [data-theme="light"] .chip .up{color:#0a8f4d}
-  [data-theme="light"] .chip .down{color:#d23b3b}
+  [data-theme="light"] .c-ico{background:rgba(15,40,70,.06)}
+  [data-theme="light"] .c-d.up{color:#0a8f4d}
+  [data-theme="light"] .c-d.down{color:#d23b3b}
+
+  /* news ticker */
+  .ticker{display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:16px;
+    border-top:1px solid var(--line)}
+  .ticker-tag{display:flex;align-items:center;gap:7px;flex:0 0 auto;font-family:'Barlow Condensed';
+    font-weight:500;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .ticker-tag::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);
+    box-shadow:0 0 0 0 rgba(0,166,81,.5);animation:livep 2.2s infinite}
+  .ticker-win{position:relative;flex:1;overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+  .ticker-track{display:inline-flex;white-space:nowrap;will-change:transform;animation:marquee 80s linear infinite}
+  .ticker:hover .ticker-track{animation-play-state:paused}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .ticker-item{display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);
+    font-size:13px;padding:0 18px;position:relative}
+  .ticker-item::after{content:"";position:absolute;right:0;top:50%;transform:translateY(-50%);
+    width:3px;height:3px;border-radius:50%;background:var(--muted);opacity:.5}
+  .ticker-fav{width:15px;height:15px;border-radius:3px;flex:0 0 auto;background:rgba(255,255,255,.1)}
+  .ti-src{color:var(--muted);font-size:11px}
+  .ticker-item:hover .ti-title{color:var(--sky)}
 
   .rise{opacity:0;transform:translateY(14px);animation:rise .7s ease forwards}
   .d1{animation-delay:.04s}.d2{animation-delay:.12s}.d3{animation-delay:.2s}.d4{animation-delay:.28s}
@@ -162,6 +190,7 @@
   .tiles .tile{opacity:0;transform:translateY(16px);animation:rise .6s ease forwards}
   @media (prefers-reduced-motion:reduce){*{animation:none!important}.rise,.tiles .tile{opacity:1;transform:none}.contrail path{stroke-dashoffset:0}}
   @media (max-width:880px){.tiles{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:900px){.chips{grid-template-columns:repeat(2,1fr)}}
   @media (max-width:560px){.tiles{grid-template-columns:1fr}.meta{display:none}}
 </style>
 </head>
@@ -195,6 +224,11 @@
     <div class="pulse rise d4" aria-label="Market pulse">
       <div class="pulse-h"><span class="live" id="liveDot"></span>Market Pulse</div>
       <div class="chips" id="chips"></div>
+    </div>
+
+    <div class="ticker rise d4" aria-label="Industry news">
+      <span class="ticker-tag">News</span>
+      <div class="ticker-win"><div class="ticker-track" id="newsTrack"></div></div>
     </div>
 
     <div class="divider rise d4" aria-hidden="true"></div>
@@ -314,12 +348,14 @@ tBtn.addEventListener('click', ()=>{ theme = (theme==='dark') ? 'light' : 'dark'
 /* ---- market pulse (live via the Vercel proxy) ---- */
 const MARKET_ENDPOINT = '/api/market';   /* same-origin on Vercel — no domain to hardcode */
 const SAMPLE = [   /* placeholder shown until the live endpoint answers — no LIVE badge until it does */
-  {label:'S&P 500',   price:5894.20, pct:0.42},
-  {label:'Nasdaq 100', price:21340.70, pct:0.61},
-  {label:'Microsoft',  price:478.90,  pct:-0.18},
-  {label:'Salesforce', price:312.40,  pct:0.27},
-  {label:'Snowflake',  price:198.60,  pct:1.12},
-  {label:'Palantir',   price:142.30,  pct:-0.54},
+  {t:'SPY', label:'S&P 500',    price:5894.20, pct:0.42},
+  {t:'QQQ', label:'Nasdaq 100', price:21340.70, pct:0.61},
+  {t:'MSFT',label:'Microsoft',  price:478.90,  pct:-0.18},
+  {t:'CRM', label:'Salesforce', price:312.40,  pct:0.27},
+  {t:'SNOW',label:'Snowflake',  price:198.60,  pct:1.12},
+  {t:'PLTR',label:'Palantir',   price:142.30,  pct:-0.54},
+  {t:'NVDA',label:'Nvidia',     price:875.30,  pct:0.88},
+  {t:'ORCL',label:'Oracle',     price:178.40,  pct:0.33},
 ];
 const chips = document.getElementById('chips'), liveDot = document.getElementById('liveDot');
 function renderChips(list, live){
@@ -329,9 +365,14 @@ function renderChips(list, live){
     const pct = (q.pct==null) ? '' : (up?'+':'') + Number(q.pct).toFixed(2) + '%';
     const price = (q.price==null) ? '\u2014'
       : Number(q.price).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
-    return '<span class="chip"><span class="c-l">'+q.label+'</span>'+
-           '<span class="c-p">'+price+'</span>'+
-           '<span class="c-d '+(up?'up':'down')+'">'+arrow+' '+pct+'</span></span>';
+    const sym = (q.symbol || q.t || '').toString();
+    const ico = q.logo
+      ? '<span class="c-ico"><img src="'+q.logo+'" alt="" onerror="this.parentNode.textContent=\''+sym+'\'"></span>'
+      : '<span class="c-ico">'+sym+'</span>';
+    return '<span class="chip">'+ico
+      + '<span class="c-main"><span class="c-l">'+q.label+'</span>'
+      + '<span class="c-pd"><span class="c-p">'+price+'</span>'
+      + '<span class="c-d '+(up?'up':'down')+'">'+arrow+' '+pct+'</span></span></span></span>';
   }).join('');
   liveDot.classList.toggle('on', !!live);
 }
@@ -340,6 +381,34 @@ fetch(MARKET_ENDPOINT)
   .then(r => r.ok ? r.json() : Promise.reject())
   .then(d => { if(d && d.quotes && d.quotes.length) renderChips(d.quotes, true); })
   .catch(()=>{ /* endpoint not live yet — keep sample, leave LIVE off */ });
+
+/* ---- news ticker (merged GNews + MarketAux via /api/news) ---- */
+const NEWS_ENDPOINT = '/api/news';
+const SAMPLE_NEWS = [   /* placeholder until the live endpoint answers */
+  {title:'Qlik expands Open Lakehouse with real-time streaming ingestion', source:'Qlik', url:'#'},
+  {title:'Enterprises double down on trusted data for AI initiatives', source:'Industry', url:'#'},
+  {title:'Analytics buyers prioritize governance and data quality in 2026', source:'Market', url:'#'},
+  {title:'Competitive shifts among cloud data platforms continue', source:'Markets', url:'#'},
+  {title:'AI copilots reshape how sellers prep for customer calls', source:'Trends', url:'#'},
+];
+const newsTrack = document.getElementById('newsTrack');
+function esc(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function faviconFor(url){ try { return 'https://www.google.com/s2/favicons?domain=' + new URL(url).hostname + '&sz=64'; } catch(e){ return ''; } }
+function renderNews(list){
+  const html = list.map(n => {
+    const fav = faviconFor(n.url);
+    const img = fav ? '<img class="ticker-fav" src="'+fav+'" alt="" onerror="this.style.display=\'none\'">' : '';
+    const tgt = (n.url && n.url.indexOf('http')===0) ? ' target="_top"' : '';
+    return '<a class="ticker-item" href="'+esc(n.url)+'"'+tgt+'>'+img
+      + '<span class="ti-title">'+esc(n.title)+'</span> <span class="ti-src">'+esc(n.source)+'</span></a>';
+  }).join('');
+  newsTrack.innerHTML = html + html;   /* duplicate for a seamless loop */
+}
+renderNews(SAMPLE_NEWS);
+fetch(NEWS_ENDPOINT)
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(d => { if(d && d.items && d.items.length) renderNews(d.items); })
+  .catch(()=>{ /* endpoint not live yet — keep sample headlines */ });
 
 /* ---- tell the Mindtickle parent our height so the iframe can auto-fit (no internal scroll) ---- */
 function postHeight(){
