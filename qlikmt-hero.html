@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qlik Sales Enablement — Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Content lives in the DESTINATIONS array at the bottom.
+     Mindtickle deep-links go in each "href". Layout never needs editing. */
+  :root{
+    --navy-0:#0B1F33; --navy-1:#11304D; --navy-2:#19426C;
+    --green:#00A651; --sky:#10CFC9;
+    --ink:#EDF3F9; --muted:#90A6BD;
+    --line:rgba(255,255,255,.10);
+    --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Inter',system-ui,sans-serif;color:var(--ink);
+    background:
+      radial-gradient(140% 120% at 88% -10%, #1b4670 0%, var(--navy-2) 26%, var(--navy-1) 58%, var(--navy-0) 100%);
+    min-height:100vh;position:relative;overflow:hidden;
+  }
+  /* one quiet brand contrail, no motion */
+  .mark{position:absolute;top:0;right:0;width:46%;max-width:560px;opacity:.16;pointer-events:none}
+  .mark path{fill:none;stroke-linecap:round}
+
+  .wrap{position:relative;z-index:2;max-width:1160px;margin:0 auto;
+    padding:clamp(22px,3.6vw,46px) clamp(20px,4vw,52px)}
+
+  .top{display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding-bottom:clamp(28px,5vw,56px)}
+  .brand{display:flex;align-items:center;gap:11px}
+  .qmark{width:28px;height:28px;flex:0 0 auto}
+  .brand b{font-weight:500;font-size:15px;letter-spacing:.03em}
+  .brand span{color:var(--muted);font-weight:400}
+  .meta{text-align:right;color:var(--muted);font-size:13px;line-height:1.4}
+  .meta #clock{font-variant-numeric:tabular-nums}
+
+  .lead{max-width:680px}
+  .eyebrow{font-family:'Barlow Condensed';font-weight:500;font-size:14px;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--sky)}
+  h1{font-family:'Barlow Condensed';font-weight:600;line-height:1.02;
+    font-size:clamp(38px,6vw,68px);letter-spacing:-.01em;margin:.32em 0 .42em}
+  h1 .ac{color:var(--green)}
+  .sub{font-size:clamp(15px,1.5vw,17px);line-height:1.6;color:#bccfe2;max-width:520px}
+
+  .tiles{margin-top:clamp(34px,5vw,58px);display:grid;gap:12px;
+    grid-template-columns:repeat(auto-fit,minmax(212px,1fr))}
+  .tile{position:relative;display:flex;flex-direction:column;gap:11px;
+    text-decoration:none;color:inherit;
+    background:rgba(255,255,255,.035);border:1px solid var(--line);
+    border-radius:var(--radius);padding:17px 17px 15px;
+    transition:transform .25s ease, border-color .25s ease, background .25s ease}
+  .tile:hover{transform:translateY(-4px);background:rgba(255,255,255,.06);
+    border-color:rgba(16,207,201,.5)}
+  .tile:focus-visible{outline:2px solid var(--sky);outline-offset:3px}
+  .tico{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;
+    background:rgba(255,255,255,.05);border:1px solid var(--line)}
+  .tico svg{width:18px;height:18px;stroke:var(--sky);fill:none;stroke-width:1.7;
+    stroke-linecap:round;stroke-linejoin:round}
+  .tile h3{font-family:'Barlow Condensed';font-weight:600;font-size:19px;letter-spacing:.01em}
+  .tile p{font-size:12px;line-height:1.45;color:var(--muted)}
+  .tarrow{position:absolute;top:15px;right:15px;color:var(--muted);font-size:15px;
+    transition:transform .25s ease, color .25s ease}
+  .tile:hover .tarrow{transform:translate(2px,-2px);color:var(--sky)}
+
+  .rise{opacity:0;transform:translateY(14px);animation:rise .7s ease forwards}
+  .d1{animation-delay:.04s}.d2{animation-delay:.12s}.d3{animation-delay:.2s}.d4{animation-delay:.28s}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .tiles .tile{opacity:0;transform:translateY(16px);animation:rise .6s ease forwards}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}.rise,.tiles .tile{opacity:1;transform:none}}
+  @media (max-width:560px){.meta{display:none}}
+</style>
+</head>
+<body>
+  <svg class="mark" viewBox="0 0 560 300" aria-hidden="true">
+    <path d="M40 70 C 240 50, 420 80, 560 46" stroke="#10CFC9" stroke-width="2"/>
+    <path d="M70 104 C 260 86, 440 112, 560 82" stroke="#00A651" stroke-width="1.6"/>
+    <path d="M120 146 C 300 130, 470 156, 560 128" stroke="#10CFC9" stroke-width="1.1" opacity=".7"/>
+  </svg>
+
+  <div class="wrap">
+    <div class="top rise d1">
+      <div class="brand">
+        <!-- production: swap for the official Qlik logo in assets/images/logos/ -->
+        <svg class="qmark" viewBox="0 0 40 40" aria-hidden="true">
+          <circle cx="20" cy="20" r="15" fill="none" stroke="#10CFC9" stroke-width="3.2"
+            stroke-dasharray="78 16" transform="rotate(28 20 20)"/>
+          <circle cx="31" cy="29" r="3.2" fill="#00A651"/>
+        </svg>
+        <div><b>Qlik</b> <span>Sales Enablement</span></div>
+      </div>
+      <div class="meta" aria-hidden="true"><div id="greet">Welcome</div><div id="clock">—</div></div>
+    </div>
+
+    <div class="lead">
+      <div class="eyebrow rise d2">Sales enablement home</div>
+      <h1 class="rise d3">Accelerate your pipeline with <span class="ac">AI</span>.</h1>
+      <p class="sub rise d4">Find what you need, jump straight in, and let the connected workflow carry the deal forward — everything that helps you win, in one place.</p>
+    </div>
+
+    <nav class="tiles" id="tiles" aria-label="Enablement destinations"></nav>
+  </div>
+
+<script>
+/* EDIT HERE — labels, one-line descriptions, and Mindtickle deep-links. */
+const DESTINATIONS = [
+  { label:"Sales Methodology",     desc:"Frameworks, story selling, the Qlik way.",        icon:"compass", href:"#REPLACE_MT_LINK" },
+  { label:"2026 Messaging Guides", desc:"Positioning, narratives, competitive plays.",     icon:"message", href:"#REPLACE_MT_LINK" },
+  { label:"AI Selling Toolkit",    desc:"Copilot, Notetaker, Deal Guides.",                icon:"spark",   href:"#REPLACE_MT_LINK" },
+  { label:"Portfolio Explorer",    desc:"The full Qlik product story.",                    icon:"grid",    href:"#REPLACE_MT_LINK" },
+  { label:"SKO 2026 Content",      desc:"Everything from kickoff, on demand.",             icon:"play",    href:"#REPLACE_MT_LINK" },
+  { label:"Channel & Alliances",   desc:"Partner enablement and co-sell.",                 icon:"link",    href:"#REPLACE_MT_LINK" },
+];
+
+const ICONS = {
+  compass:'<circle cx="12" cy="12" r="9"/><path d="M16 8l-2 6-6 2 2-6 6-2z"/>',
+  message:'<path d="M4 5h16v11H8l-4 4V5z"/>',
+  spark:'<path d="M12 3v6M12 15v6M3 12h6M15 12h6M6 6l3 3M15 15l3 3M18 6l-3 3M9 15l-3 3"/>',
+  grid:'<path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/>',
+  play:'<circle cx="12" cy="12" r="9"/><path d="M10 9l5 3-5 3z"/>',
+  link:'<path d="M9 12a4 4 0 014-4h3a4 4 0 010 8h-3M15 12a4 4 0 01-4 4H8a4 4 0 010-8h3"/>',
+};
+
+const tiles = document.getElementById('tiles');
+DESTINATIONS.forEach((d,i)=>{
+  const a = document.createElement('a');
+  a.className='tile'; a.href=d.href; a.style.animationDelay=(0.32+i*0.07)+'s';
+  if(d.href.startsWith('http')) a.target='_top';  /* break out of the MT iframe */
+  a.innerHTML='<span class="tarrow" aria-hidden="true">&#8599;</span>'+
+    '<span class="tico"><svg viewBox="0 0 24 24">'+(ICONS[d.icon]||ICONS.grid)+'</svg></span>'+
+    '<h3>'+d.label+'</h3><p>'+d.desc+'</p>';
+  tiles.appendChild(a);
+});
+
+function tick(){
+  const h=new Date().getHours();
+  document.getElementById('greet').textContent = h<12?'Good morning':h<18?'Good afternoon':'Good evening';
+  document.getElementById('clock').textContent = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+}
+tick(); setInterval(tick,30000);
+</script>
+</body>
+</html>
