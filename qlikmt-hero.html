@@ -180,14 +180,12 @@
   /* ---- news ticker — clean scrolling strip ---- */
   .ticker{display:flex;align-items:center;gap:12px;margin-top:clamp(18px,2.6vw,24px);
     padding-top:16px;border-top:1px solid var(--line)}
-  .qnews{flex:0 0 auto;display:flex;align-items:center}
-  .qnews img{height:26px;width:auto;display:block;border-radius:5px}
-  .qn-light{display:none}
-  [data-theme="light"] .qn-dark{display:none}
-  [data-theme="light"] .qn-light{display:block}
-  .qn-fb{display:none;font-family:'Barlow Condensed';font-weight:600;font-size:12px;letter-spacing:.12em;color:var(--muted)}
-  .qnews.fb img{display:none}
-  .qnews.fb .qn-fb{display:inline-block}
+  .qnews{flex:0 0 auto;display:flex;align-items:stretch;height:28px;border-radius:6px;overflow:hidden;
+    box-shadow:0 2px 8px rgba(0,0,0,.28)}
+  .qn-mark{display:grid;place-items:center;width:28px;background:linear-gradient(135deg,#00A651,#10CFC9)}
+  .qn-mark svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round}
+  .qn-word{display:flex;align-items:center;padding:0 11px;background:#16365a;color:#fff;
+    font-family:'Barlow Condensed';font-weight:600;font-size:15px;letter-spacing:.14em}
   .ticker-win{position:relative;flex:1;overflow:hidden;
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
     mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
@@ -204,20 +202,24 @@
 
   /* ---- world clocks (analog, hands only) ---- */
   .topmeta{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:22px;width:300px;max-width:44%}
-  .clocks{margin-top:clamp(16px,2.2vw,22px);display:grid;gap:11px;grid-template-columns:repeat(4,1fr);
+  .clocks{margin-top:clamp(16px,2.2vw,22px);display:grid;gap:10px;grid-template-columns:repeat(4,1fr);
     padding-top:clamp(13px,1.8vw,16px);border-top:1px solid var(--line)}
-  .clk{display:flex;flex-direction:column;align-items:center;gap:3px;transition:opacity .5s ease}
-  .clk.night{opacity:.34}
-  .cl{width:40px;height:40px}
+  .clk{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:14px;
+    background:rgba(255,255,255,.05);border:1px solid rgba(16,207,201,.22);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    transition:opacity .5s ease, background .5s ease, border-color .5s ease}
+  .clk.closed{background:rgba(6,16,28,.5);border-color:rgba(255,255,255,.05);opacity:.42}
+  .cl{width:40px;height:40px;flex:0 0 auto}
   .cl-ring{fill:none;stroke:var(--line);stroke-width:2}
   .cl-h{stroke:var(--ink);stroke-width:3;stroke-linecap:round}
   .cl-m{stroke:var(--ink);stroke-width:2;stroke-linecap:round}
   .cl-s{stroke:var(--sky);stroke-width:1.2;stroke-linecap:round}
   .cl-hub{fill:var(--sky)}
-  .clk-country{font-family:'Barlow Condensed';font-weight:500;font-size:9px;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--muted);text-align:center;line-height:1.1}
-  .clk-city{font-family:'Barlow Condensed';font-weight:600;font-size:12px;color:var(--ink);line-height:1;text-align:center}
-  .clk-time{font-size:9.5px;color:var(--sky);font-variant-numeric:tabular-nums;text-align:center}
+  .clk-txt{min-width:0}
+  .clk-country{font-family:'Barlow Condensed';font-weight:500;font-size:9px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .clk-city{font-family:'Barlow Condensed';font-weight:600;font-size:13px;color:var(--ink);line-height:1.15;white-space:nowrap}
+  .clk-time{font-size:10px;color:var(--sky);font-variant-numeric:tabular-nums;white-space:nowrap}
 
   /* ---- key dates dialog ---- */
   .kd-modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:24px}
@@ -288,10 +290,9 @@
     <div class="clocks rise d4" id="clocks" aria-label="World clocks"></div>
 
     <div class="ticker rise d4" aria-label="Industry news">
-      <span class="qnews" id="qnews">
-        <img class="qn-dark" src="assets/images/logos/QNews/QNews_WhiteQ.png" alt="Q News" onerror="qnewsFallback()">
-        <img class="qn-light" src="assets/images/logos/QNews/QNews_BlackQ.png" alt="Q News" onerror="qnewsFallback()">
-        <span class="qn-fb">Q&middot;NEWS</span>
+      <span class="qnews" aria-label="Q News">
+        <span class="qn-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.2" cy="10.2" r="6"/><line x1="14.4" y1="14.4" x2="19.5" y2="19.5"/></svg></span>
+        <span class="qn-word">NEWS</span>
       </span>
       <div class="ticker-win"><div class="ticker-track" id="newsTrack"></div></div>
     </div>
@@ -380,6 +381,15 @@ const ZONES = [   /* EDIT HERE — country, city, IANA timezone */
   { country:'UNITED KINGDOM', city:'London',     tz:'Europe/London' },
   { country:'SINGAPORE',      city:'Singapore',  tz:'Asia/Singapore' },
 ];
+/* order so the zones furthest ahead — the ones that enter the day first — lead */
+function tzOffsetMin(tz){
+  const now = new Date();
+  const loc = new Date(now.toLocaleString('en-US',{timeZone:tz}));
+  const utc = new Date(now.toLocaleString('en-US',{timeZone:'UTC'}));
+  return Math.round((loc - utc)/60000);
+}
+ZONES.sort((a,b)=> tzOffsetMin(b.tz) - tzOffsetMin(a.tz));
+
 const clocksEl = document.getElementById('clocks');
 const CLOCK_SVG = '<svg class="cl" viewBox="0 0 100 100" aria-hidden="true">'
   + '<circle class="cl-ring" cx="50" cy="50" r="46"/>'
@@ -390,14 +400,14 @@ const CLOCK_SVG = '<svg class="cl" viewBox="0 0 100 100" aria-hidden="true">'
 const clockNodes = ZONES.map(z=>{
   const d = document.createElement('div'); d.className='clk';
   d.innerHTML = CLOCK_SVG
-    + '<div class="clk-country">'+z.country+'</div>'
+    + '<div class="clk-txt"><div class="clk-country">'+z.country+'</div>'
     + '<div class="clk-city">'+z.city+'</div>'
-    + '<div class="clk-time"></div>';
+    + '<div class="clk-time"></div></div>';
   clocksEl.appendChild(d);
   return { z, el:d, h:d.querySelector('.cl-h'), m:d.querySelector('.cl-m'), s:d.querySelector('.cl-s'), t:d.querySelector('.clk-time') };
 });
 function zoneParts(tz){
-  const p = new Intl.DateTimeFormat('en-US',{timeZone:tz,hourCycle:'h23',hour:'2-digit',minute:'2-digit',second:'2-digit'}).formatToParts(new Date());
+  const p = new Intl.DateTimeFormat('en-US',{timeZone:tz,hourCycle:'h23',hour:'2-digit',minute:'2-digit',second:'2-digit',weekday:'short'}).formatToParts(new Date());
   const o={}; p.forEach(x=>{ o[x.type]=x.value; }); return o;
 }
 function zoneTime(tz){
@@ -411,7 +421,8 @@ function tickClocks(){
     n.m.setAttribute('transform','rotate('+(M*6 + S*0.1)+' 50 50)');
     n.h.setAttribute('transform','rotate('+((H%12)*30 + M*0.5)+' 50 50)');
     n.t.textContent = zoneTime(n.z.tz);
-    n.el.classList.toggle('night', (H<6 || H>=19));
+    const weekend = (o.weekday==='Sat' || o.weekday==='Sun');
+    n.el.classList.toggle('closed', weekend || H<9 || H>=18);   /* dark when out of business hours where they are */
   });
 }
 tickClocks(); setInterval(tickClocks, 1000);
