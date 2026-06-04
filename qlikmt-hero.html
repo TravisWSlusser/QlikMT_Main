@@ -6,7 +6,7 @@
 <title>Qlik Sales Enablement — Home</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,900;1,900&family=Inter:wght@400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,900;1,900&family=Inter:wght@400;500;600&family=Share+Tech+Mono&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   /* Content lives in the DESTINATIONS array at the bottom.
      Mindtickle deep-links go in each "href". Layout never needs editing. */
@@ -152,10 +152,10 @@
 
   /* ---------- MARKET PULSE strip ---------- */
   /* ---- market ribbon (bottom band of the lower-third) ---- */
-  .pulse{display:flex;align-items:center;height:28px;border-top:1px solid rgba(16,207,201,.32);
-    background:#091a2c;box-shadow:inset 0 2px 7px rgba(0,0,0,.35)}
+  .pulse{display:flex;align-items:center;height:25px;border-top:1px solid rgba(16,207,201,.32);
+    background:var(--navy-0);box-shadow:inset 0 2px 7px rgba(0,0,0,.35)}
   .mk-bug{flex:0 0 auto;align-self:stretch;display:flex;align-items:center;justify-content:center;padding:0 14px;
-    background:#081626;color:#aebfd4;font-family:'Share Tech Mono',monospace;font-weight:400;font-size:11.5px;letter-spacing:.12em}
+    background:#08182b;color:var(--muted);font-family:'Share Tech Mono',monospace;font-weight:400;font-size:11.5px;letter-spacing:.12em}
   .mtape-win{position:relative;flex:1;display:flex;align-items:center;height:100%;overflow:hidden;padding-left:6px;
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);
     mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)}
@@ -175,24 +175,29 @@
 
   /* ---- news ticker — clean scrolling strip ---- */
   /* ---- broadcast lower-third: news crawl (top) + market ribbon (bottom) fused ---- */
-  .lowerthird{margin-top:clamp(18px,2.6vw,24px);border:1px solid #1d4673;border-radius:12px;
-    overflow:hidden;background:#0d2640;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
-  .lowerthird .ti-title,.lowerthird .c-sym,.lowerthird .c-p{color:#e9eef6}
-  .lowerthird .ti-src{color:#7f96b1}
-  .lowerthird .chip::after,.lowerthird .ticker-item::after{background:rgba(255,255,255,.16)}
+  .lowerthird{margin-top:clamp(18px,2.6vw,24px);border:1px solid var(--line);border-radius:12px;
+    overflow:hidden;background:var(--navy-1);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+  .lowerthird .ti-title,.lowerthird .c-sym,.lowerthird .c-p{color:var(--ink)}
+  .lowerthird .ti-src{color:var(--muted)}
+  .lowerthird .chip::after,.lowerthird .ticker-item::after{background:var(--line)}
   [data-theme="light"] .lowerthird{background:#eef2f7;border-color:#cfdae6;box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
-  [data-theme="light"] .lowerthird .ti-title,[data-theme="light"] .lowerthird .c-sym,[data-theme="light"] .lowerthird .c-p{color:#13314f}
-  [data-theme="light"] .lowerthird .ti-src{color:#6a7e95}
-  [data-theme="light"] .lowerthird .chip::after,[data-theme="light"] .lowerthird .ticker-item::after{background:rgba(15,40,70,.18)}
   [data-theme="light"] .pulse{background:#dde5ee;border-top-color:rgba(16,207,201,.55);box-shadow:inset 0 2px 6px rgba(15,40,70,.12)}
   [data-theme="light"] .c-ico{background:rgba(15,40,70,.08)}
   [data-theme="light"] .ticker-fav{background:rgba(15,40,70,.08)}
-  [data-theme="light"] .qn-word{background:#ffffff;color:#16365a;box-shadow:inset -1px 0 0 rgba(15,40,70,.12)}
+  [data-theme="light"] .qnews{background:#ffffff;box-shadow:inset -1px 0 0 rgba(15,40,70,.12)}
+  [data-theme="light"] .qnews::before{background:repeating-linear-gradient(45deg,transparent 0 5px,rgba(15,40,70,.05) 5px 6px)}
   [data-theme="light"] .mk-bug{background:#e8edf4;color:#41566d;box-shadow:inset -1px 0 0 rgba(15,40,70,.1)}
-  .ticker{display:flex;align-items:center;height:44px}
-  .qnews{flex:0 0 auto;align-self:stretch;display:flex}
-  .qn-word{display:flex;align-items:center;justify-content:center;padding:0 14px;background:#16365a;color:#fff;
-    font-family:'Barlow Condensed';font-weight:900;font-style:italic;font-size:24px;letter-spacing:.02em}
+  .ticker{display:flex;align-items:center;height:34px}
+  .qnews{position:relative;flex:0 0 auto;align-self:stretch;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:1px;padding:0 18px;background:var(--navy-2);overflow:hidden}
+  .qnews::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(45deg,transparent 0 5px,rgba(255,255,255,.045) 5px 6px)}
+  .qn-kicker{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:6px;
+    font-family:'Inter',sans-serif;font-weight:600;font-size:7px;letter-spacing:.26em;text-indent:.26em;
+    text-transform:uppercase;color:var(--sky);line-height:1}
+  .qn-kicker::before,.qn-kicker::after{content:"";width:9px;height:1px;background:currentColor;opacity:.5;flex:0 0 auto}
+  .qn-word{position:relative;z-index:1;font-family:'Playfair Display',serif;font-weight:400;font-size:18px;color:var(--ink);
+    line-height:1;letter-spacing:.03em}
   .ticker-win{position:relative;flex:1;display:flex;align-items:center;height:100%;overflow:hidden;padding-left:8px;
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
     mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
@@ -200,11 +205,11 @@
   .ticker:hover .ticker-track{animation-play-state:paused}
   @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   .ticker-item{display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);
-    font-size:13px;padding:0 18px;position:relative}
+    font-size:12px;padding:0 18px;position:relative}
   .ticker-item::after{content:"";position:absolute;right:0;top:50%;transform:translateY(-50%);
     width:3px;height:3px;border-radius:50%;background:var(--muted);opacity:.5}
-  .ticker-fav{width:15px;height:15px;border-radius:3px;flex:0 0 auto;background:rgba(255,255,255,.1)}
-  .ti-src{color:var(--muted);font-size:11px}
+  .ticker-fav{width:14px;height:14px;border-radius:3px;flex:0 0 auto;background:rgba(255,255,255,.1)}
+  .ti-src{color:var(--muted);font-size:10.5px}
   .ticker-item:hover .ti-title{color:var(--sky)}
 
   /* ---- world clocks (analog, hands only) ---- */
@@ -297,7 +302,7 @@
 
     <div class="lowerthird rise d4">
       <div class="ticker" aria-label="Industry news">
-        <span class="qnews" aria-label="News"><span class="qn-word">NEWS</span></span>
+        <span class="qnews" aria-label="Current News"><span class="qn-kicker">CURRENT</span><span class="qn-word">NEWS</span></span>
         <div class="ticker-win"><div class="ticker-track" id="newsTrack"></div></div>
       </div>
       <div class="pulse" aria-label="Market pulse">
@@ -505,7 +510,7 @@ tBtn.addEventListener('click', ()=>{ theme = (theme==='dark') ? 'light' : 'dark'
 
 /* keep the NEWS + MARKETS tabs the same width so their shapes line up */
 function alignTabs(){
-  const a=document.querySelector('.qn-word'), b=document.querySelector('.mk-bug');
+  const a=document.querySelector('.qnews'), b=document.querySelector('.mk-bug');
   if(!a||!b) return;
   a.style.width=b.style.width='';
   const w=Math.ceil(Math.max(a.offsetWidth,b.offsetWidth));
