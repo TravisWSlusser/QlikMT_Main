@@ -6,7 +6,7 @@
 <title>Qlik Sales Enablement — Home</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,900;1,900&family=Inter:wght@400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
   /* Content lives in the DESTINATIONS array at the bottom.
      Mindtickle deep-links go in each "href". Layout never needs editing. */
@@ -52,7 +52,7 @@
   .hotlinks a{color:var(--muted);text-decoration:none;letter-spacing:.02em;transition:color .2s}
   .hotlinks a:hover{color:var(--sky)}
   .herorow{display:flex;align-items:flex-start;justify-content:space-between;gap:34px;
-    padding-bottom:clamp(26px,4.5vw,48px)}
+    padding-bottom:clamp(12px,2vw,20px)}
   .brand{display:flex;align-items:center;gap:11px;padding:clamp(20px,3vw,30px) 0 clamp(16px,2.2vw,24px)}
   .brand .logo{height:30px;width:auto;display:block}
   .brand .logo-light{display:none}
@@ -95,12 +95,12 @@
   h1 .ac{color:var(--green)}
   .sub{font-size:clamp(15px,1.5vw,17px);line-height:1.6;color:#bccfe2;max-width:520px}
 
-  .divider{margin-top:clamp(30px,4.5vw,50px);height:1px;background:var(--line);position:relative}
+  .divider{margin-top:clamp(14px,2.2vw,22px);height:1px;background:var(--line);position:relative}
   .divider::before{content:"";position:absolute;left:0;top:0;height:1px;width:46px;background:var(--green)}
   .qaz-h{font-family:'Barlow Condensed';font-weight:500;font-size:12px;letter-spacing:.18em;
-    text-transform:uppercase;color:var(--muted);margin:clamp(16px,2.4vw,22px) 0 12px}
-  .tiles{display:grid;gap:11px;grid-template-columns:repeat(3,1fr)}
-  .tile{position:relative;display:flex;align-items:center;gap:13px;
+    text-transform:uppercase;color:var(--muted);margin:clamp(10px,1.6vw,14px) 0 12px}
+  .tiles{display:grid;gap:11px;grid-template-columns:repeat(3,minmax(0,1fr))}
+  .tile{position:relative;display:flex;align-items:center;gap:13px;min-width:0;
     text-decoration:none;color:inherit;
     background:rgba(255,255,255,.045);border:1px solid var(--line);
     border-radius:var(--radius);padding:13px 15px;
@@ -151,44 +151,51 @@
     stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
   /* ---------- MARKET PULSE strip ---------- */
-  .pulse{margin-top:clamp(16px,2.2vw,20px);padding-top:clamp(15px,2vw,18px);border-top:1px solid var(--line)}
-  .pulse-h{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-family:'Barlow Condensed';
-    font-weight:500;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-  .live{width:7px;height:7px;border-radius:50%;background:#5b7088;flex:0 0 auto}
-  .live.on{background:var(--green);box-shadow:0 0 0 0 rgba(0,166,81,.5);animation:livep 2.2s infinite}
-  @keyframes livep{0%{box-shadow:0 0 0 0 rgba(0,166,81,.5)}70%{box-shadow:0 0 0 7px rgba(0,166,81,0)}100%{box-shadow:0 0 0 0 rgba(0,166,81,0)}}
-  .chips{display:grid;gap:10px;grid-template-columns:repeat(4,1fr)}
-  .chip{display:flex;align-items:center;gap:8px;padding:7px 10px;min-width:0;
-    border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.03)}
-  .c-ico{width:22px;height:22px;flex:0 0 auto;border-radius:6px;overflow:hidden;
-    background:rgba(255,255,255,.07);display:grid;place-items:center;
-    font-size:8px;font-weight:600;color:var(--muted)}
+  /* ---- market ribbon (bottom band of the lower-third) ---- */
+  .pulse{display:flex;align-items:center;height:28px;border-top:1px solid rgba(16,207,201,.32);
+    background:#091a2c;box-shadow:inset 0 2px 7px rgba(0,0,0,.35)}
+  .mk-bug{flex:0 0 auto;align-self:stretch;display:flex;align-items:center;justify-content:center;padding:0 14px;
+    background:#081626;color:#aebfd4;font-family:'Share Tech Mono',monospace;font-weight:400;font-size:11.5px;letter-spacing:.12em}
+  .mtape-win{position:relative;flex:1;display:flex;align-items:center;height:100%;overflow:hidden;padding-left:6px;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)}
+  .mtape-track{display:inline-flex;white-space:nowrap;will-change:transform;animation:marquee 95s linear infinite}
+  .pulse:hover .mtape-track{animation-play-state:paused}
+  .chip{display:inline-flex;align-items:center;gap:7px;padding:0 15px;position:relative}
+  .chip::after{content:"";position:absolute;right:0;top:50%;transform:translateY(-50%);
+    width:1px;height:12px;background:var(--line)}
+  .c-ico{width:13px;height:13px;flex:0 0 auto;border-radius:3px;overflow:hidden;
+    background:rgba(255,255,255,.07);display:grid;place-items:center;font-size:6px;font-weight:600;color:var(--muted)}
   .c-ico img{width:100%;height:100%;object-fit:contain;background:#fff}
-  .c-main{display:flex;flex-direction:column;min-width:0;line-height:1.22}
-  .c-l{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .c-pd{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
-  .c-p{font-size:13.5px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
-  .c-d{font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .c-sym{font-family:'Barlow Condensed';font-weight:600;font-size:10.5px;letter-spacing:.04em;color:var(--ink)}
+  .c-p{font-size:10.5px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+  .c-d{font-size:10px;font-variant-numeric:tabular-nums;white-space:nowrap}
   .c-d.up{color:#21c46b}
   .c-d.down{color:#ff6b6b}
-  [data-theme="light"] .chip{background:#fff;border-color:rgba(15,40,70,.12)}
-  [data-theme="light"] .c-ico{background:rgba(15,40,70,.06)}
-  [data-theme="light"] .c-d.up{color:#0a8f4d}
-  [data-theme="light"] .c-d.down{color:#d23b3b}
 
-  /* ---- news ticker — retro Times Square LED board ---- */
   /* ---- news ticker — clean scrolling strip ---- */
-  .ticker{display:flex;align-items:center;gap:12px;margin-top:clamp(18px,2.6vw,24px);
-    padding-top:16px;border-top:1px solid var(--line)}
-  .qnews{flex:0 0 auto;display:flex;align-items:stretch;height:28px;border-radius:6px;overflow:hidden;
-    box-shadow:0 2px 8px rgba(0,0,0,.28)}
-  .qn-mark{display:grid;place-items:center;width:28px;background:linear-gradient(135deg,#00A651,#10CFC9)}
-  .qn-mark svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round}
-  .qn-word{display:flex;align-items:center;padding:0 11px;background:#16365a;color:#fff;
-    font-family:'Barlow Condensed';font-weight:600;font-size:15px;letter-spacing:.14em}
-  .ticker-win{position:relative;flex:1;overflow:hidden;
-    -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
-    mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+  /* ---- broadcast lower-third: news crawl (top) + market ribbon (bottom) fused ---- */
+  .lowerthird{margin-top:clamp(18px,2.6vw,24px);border:1px solid #1d4673;border-radius:12px;
+    overflow:hidden;background:#0d2640;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+  .lowerthird .ti-title,.lowerthird .c-sym,.lowerthird .c-p{color:#e9eef6}
+  .lowerthird .ti-src{color:#7f96b1}
+  .lowerthird .chip::after,.lowerthird .ticker-item::after{background:rgba(255,255,255,.16)}
+  [data-theme="light"] .lowerthird{background:#eef2f7;border-color:#cfdae6;box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+  [data-theme="light"] .lowerthird .ti-title,[data-theme="light"] .lowerthird .c-sym,[data-theme="light"] .lowerthird .c-p{color:#13314f}
+  [data-theme="light"] .lowerthird .ti-src{color:#6a7e95}
+  [data-theme="light"] .lowerthird .chip::after,[data-theme="light"] .lowerthird .ticker-item::after{background:rgba(15,40,70,.18)}
+  [data-theme="light"] .pulse{background:#dde5ee;border-top-color:rgba(16,207,201,.55);box-shadow:inset 0 2px 6px rgba(15,40,70,.12)}
+  [data-theme="light"] .c-ico{background:rgba(15,40,70,.08)}
+  [data-theme="light"] .ticker-fav{background:rgba(15,40,70,.08)}
+  [data-theme="light"] .qn-word{background:#ffffff;color:#16365a;box-shadow:inset -1px 0 0 rgba(15,40,70,.12)}
+  [data-theme="light"] .mk-bug{background:#e8edf4;color:#41566d;box-shadow:inset -1px 0 0 rgba(15,40,70,.1)}
+  .ticker{display:flex;align-items:center;height:44px}
+  .qnews{flex:0 0 auto;align-self:stretch;display:flex}
+  .qn-word{display:flex;align-items:center;justify-content:center;padding:0 14px;background:#16365a;color:#fff;
+    font-family:'Barlow Condensed';font-weight:900;font-style:italic;font-size:24px;letter-spacing:.02em}
+  .ticker-win{position:relative;flex:1;display:flex;align-items:center;height:100%;overflow:hidden;padding-left:8px;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
   .ticker-track{display:inline-flex;white-space:nowrap;will-change:transform;animation:marquee 80s linear infinite}
   .ticker:hover .ticker-track{animation-play-state:paused}
   @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -240,12 +247,11 @@
   @keyframes rise{to{opacity:1;transform:none}}
   .tiles .tile{opacity:0;transform:translateY(16px);animation:rise .6s ease forwards}
   @media (prefers-reduced-motion:reduce){*{animation:none!important}.rise,.tiles .tile{opacity:1;transform:none}.contrail path{stroke-dashoffset:0}}
-  @media (max-width:880px){.tiles{grid-template-columns:repeat(2,1fr)}}
-  @media (max-width:900px){.chips{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:880px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media (max-width:760px){.herorow{flex-direction:column}
-    .topmeta{width:100%;max-width:none;align-items:flex-start;gap:18px}
+    .topmeta{width:100%;max-width:none;align-items:flex-start;gap:18px;order:-1}
     .timecard,.kd-h{text-align:left}.kd-row{justify-content:flex-start}
-    .quote{border-right:none;border-left:2px solid var(--green);padding-right:0;padding-left:13px}}
+    .quote{border-right:none;border-left:2px solid var(--green);padding-right:0;padding-left:13px;max-width:300px}}
   @media (max-width:620px){.clocks{grid-template-columns:repeat(2,1fr)}}
   @media (max-width:560px){.tiles{grid-template-columns:1fr}}
 </style>
@@ -289,16 +295,15 @@
 
     <div class="clocks rise d4" id="clocks" aria-label="World clocks"></div>
 
-    <div class="ticker rise d4" aria-label="Industry news">
-      <span class="qnews" aria-label="Q News">
-        <span class="qn-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.2" cy="10.2" r="6"/><line x1="14.4" y1="14.4" x2="19.5" y2="19.5"/></svg></span>
-        <span class="qn-word">NEWS</span>
-      </span>
-      <div class="ticker-win"><div class="ticker-track" id="newsTrack"></div></div>
-    </div>
-
-    <div class="pulse rise d4" aria-label="Market pulse">
-      <div class="chips" id="chips"></div>
+    <div class="lowerthird rise d4">
+      <div class="ticker" aria-label="Industry news">
+        <span class="qnews" aria-label="News"><span class="qn-word">NEWS</span></span>
+        <div class="ticker-win"><div class="ticker-track" id="newsTrack"></div></div>
+      </div>
+      <div class="pulse" aria-label="Market pulse">
+        <span class="mk-bug">MARKETS</span>
+        <div class="mtape-win"><div class="mtape-track" id="chips"></div></div>
+      </div>
     </div>
   </div>
 
@@ -498,6 +503,18 @@ function setTheme(m){
 setTheme(theme);
 tBtn.addEventListener('click', ()=>{ theme = (theme==='dark') ? 'light' : 'dark'; setTheme(theme); });
 
+/* keep the NEWS + MARKETS tabs the same width so their shapes line up */
+function alignTabs(){
+  const a=document.querySelector('.qn-word'), b=document.querySelector('.mk-bug');
+  if(!a||!b) return;
+  a.style.width=b.style.width='';
+  const w=Math.ceil(Math.max(a.offsetWidth,b.offsetWidth));
+  a.style.width=b.style.width=w+'px';
+}
+alignTabs();
+if(document.fonts && document.fonts.ready){ document.fonts.ready.then(alignTabs); }
+window.addEventListener('resize', alignTabs);
+
 /* ---- market pulse (live via the Vercel proxy) ---- */
 const MARKET_ENDPOINT = '/api/market';   /* same-origin on Vercel — no domain to hardcode */
 const SAMPLE = [   /* placeholder shown until the live endpoint answers — no LIVE badge until it does */
@@ -512,7 +529,7 @@ const SAMPLE = [   /* placeholder shown until the live endpoint answers — no L
 ];
 const chips = document.getElementById('chips'), liveDot = document.getElementById('liveDot');
 function renderChips(list, live){
-  chips.innerHTML = list.map(q=>{
+  const html = list.map(q=>{
     const up = (q.pct||0) >= 0;
     const arrow = up ? '\u25B2' : '\u25BC';
     const pct = (q.pct==null) ? '' : (up?'+':'') + Number(q.pct).toFixed(2) + '%';
@@ -523,10 +540,11 @@ function renderChips(list, live){
       ? '<span class="c-ico"><img src="'+q.logo+'" alt="" onerror="this.parentNode.textContent=\''+sym+'\'"></span>'
       : '<span class="c-ico">'+sym+'</span>';
     return '<span class="chip">'+ico
-      + '<span class="c-main"><span class="c-l">'+q.label+'</span>'
-      + '<span class="c-pd"><span class="c-p">'+price+'</span>'
-      + '<span class="c-d '+(up?'up':'down')+'">'+arrow+' '+pct+'</span></span></span></span>';
+      + '<span class="c-sym">'+sym+'</span>'
+      + '<span class="c-p">'+price+'</span>'
+      + '<span class="c-d '+(up?'up':'down')+'">'+arrow+' '+pct+'</span></span>';
   }).join('');
+  chips.innerHTML = html + html;   /* duplicate for a seamless loop */
   if(liveDot) liveDot.classList.toggle('on', !!live);
 }
 renderChips(SAMPLE, false);
