@@ -51,9 +51,18 @@
     padding-bottom:14px;border-bottom:1px solid var(--line)}
   .hotlinks a{color:var(--muted);text-decoration:none;letter-spacing:.02em;transition:color .2s}
   .hotlinks a:hover{color:var(--sky)}
-  .herorow{display:flex;align-items:flex-start;justify-content:space-between;gap:34px;
-    padding-bottom:clamp(12px,2vw,20px)}
-  .brand{display:flex;align-items:center;gap:11px;padding:clamp(20px,3vw,30px) 0 clamp(16px,2.2vw,24px)}
+  .herorow{display:grid;grid-template-columns:minmax(0,1fr) clamp(260px,32%,360px);column-gap:34px;
+    row-gap:clamp(6px,0.9vw,12px);align-items:baseline;
+    padding:clamp(18px,2.6vw,28px) 0 clamp(12px,2vw,20px)}
+  .hr-brandline{grid-column:1;grid-row:1;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .hr-brandline .eyebrow{border-left:1px solid var(--line);padding-left:12px}
+  .hr-greet{grid-column:2;grid-row:1;text-align:right}
+  .hr-bodyL{grid-column:1;grid-row:2;min-width:0}
+  .hr-bodyR{grid-column:2;grid-row:2;text-align:right}
+  .hr-title{margin:0;max-width:680px}
+  .hr-bodyL .sub{margin-top:clamp(12px,1.6vw,20px)}
+  .hr-bodyR .quote{margin-top:clamp(14px,1.8vw,20px)}
+  .brand{display:inline-flex;align-items:baseline;gap:11px;padding:0}
   .brand .logo{height:14px;width:auto;display:block}
   .brand .logo-light{display:none}
   [data-theme="light"] .brand .logo-dark{display:none}
@@ -62,26 +71,35 @@
   .logo-fallback b{color:var(--ink);font-weight:500}
   .brand.fb .logo{display:none}
   .brand.fb .logo-fallback{display:inline}
-  .keydates{flex:0 0 auto;max-width:360px}
+  .keystrip{display:flex;flex-direction:column;align-items:center;gap:11px;margin-top:clamp(16px,2.4vw,26px);
+    padding:clamp(12px,1.6vw,16px) clamp(14px,2vw,20px);border:1px solid var(--line);border-radius:12px;
+    background:rgba(255,255,255,.03);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
   .kd-h{font-family:'Barlow Condensed';font-weight:500;font-size:12px;letter-spacing:.16em;
-    text-transform:uppercase;color:var(--muted);text-align:right;margin-bottom:10px}
+    text-transform:uppercase;color:var(--muted);text-align:center;margin:0}
   .kd-h span{color:var(--sky)}
-  .kd-row{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
-  .kd-card{min-width:60px;padding:8px 11px 9px;border:1px solid var(--line);border-radius:12px;
-    background:rgba(255,255,255,.03);cursor:pointer;text-align:center;font:inherit;color:inherit;
+  .kd-nav{display:flex;align-items:center;justify-content:center;gap:10px;width:100%}
+  .kd-row{flex:1 1 auto;display:grid;grid-template-columns:repeat(6,1fr);gap:8px;min-width:0}
+  .kd-arrow{flex:0 0 auto;width:28px;height:28px;border:1px solid var(--line);border-radius:8px;
+    background:rgba(255,255,255,.04);color:var(--muted);cursor:pointer;font-size:18px;line-height:1;
+    display:grid;place-items:center;transition:color .2s ease,border-color .2s ease,background .2s ease}
+  .kd-arrow:hover:not(:disabled){color:var(--sky);border-color:rgba(16,207,201,.5);background:rgba(255,255,255,.08)}
+  .kd-arrow:disabled{opacity:.35;cursor:default}
+  .kd-card{display:flex;align-items:baseline;justify-content:center;gap:7px;padding:6px 12px;border:1px solid var(--line);border-radius:9px;
+    background:rgba(255,255,255,.05);cursor:pointer;font:inherit;color:inherit;white-space:nowrap;
     transition:transform .2s ease, border-color .2s ease, background .2s ease}
-  .kd-card:hover{transform:translateY(-3px);border-color:rgba(16,207,201,.5);background:rgba(255,255,255,.06)}
+  .kd-card:hover{transform:translateY(-2px);border-color:rgba(16,207,201,.5);background:rgba(255,255,255,.09)}
   .kd-card:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
-  .kd-m{display:block;font-family:'Barlow Condensed';font-weight:500;font-size:11px;letter-spacing:.14em;
+  .kd-empty{border:1px solid rgba(255,255,255,.05);border-radius:9px;background:rgba(0,0,0,.12)}
+  .kd-m{font-family:'Barlow Condensed';font-weight:500;font-size:10px;letter-spacing:.12em;
     text-transform:uppercase;color:var(--sky)}
-  .kd-d{display:block;font-family:'Barlow Condensed';font-weight:600;font-size:24px;line-height:1.05;color:var(--ink)}
+  .kd-d{font-family:'Barlow Condensed';font-weight:600;font-size:18px;line-height:1;color:var(--ink)}
   .timecard{text-align:right}
-  .metatime #greet{display:block;font-family:'Barlow Condensed';font-weight:500;font-size:13px;
+  #greet{display:block;font-family:'Barlow Condensed';font-weight:500;font-size:13px;
     letter-spacing:.22em;text-transform:uppercase;color:var(--sky)}
-  .metatime .tod svg{width:15px;height:15px;vertical-align:-2px;margin-left:4px;
+  #greet .tod svg{width:15px;height:15px;vertical-align:-2px;margin-left:4px;
     fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-  .metatime #clock{display:block;font-family:'Barlow Condensed';font-weight:600;
-    font-size:clamp(34px,4vw,44px);line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;margin-top:3px}
+  #clock{display:block;font-family:'Barlow Condensed';font-weight:600;
+    font-size:clamp(34px,4vw,44px);line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;margin-top:0}
   .quote{margin-top:15px;border-right:2px solid var(--green);padding-right:13px;height:66px;overflow:hidden}
   .quote #qtext{display:block;font-size:13px;line-height:1.42;color:var(--muted);min-height:38px;text-wrap:balance}
   .quote #qby{display:block;font-size:11px;color:#7d93aa;margin-top:5px;letter-spacing:.04em;transition:opacity .45s}
@@ -98,8 +116,10 @@
   .divider{margin-top:clamp(14px,2.2vw,22px);height:1px;background:var(--line);position:relative}
   .divider::before{content:"";position:absolute;left:0;top:0;height:1px;width:46px;background:var(--green)}
   .qaz-h{font-family:'Barlow Condensed';font-weight:500;font-size:12px;letter-spacing:.18em;
-    text-transform:uppercase;color:var(--muted);margin:clamp(10px,1.6vw,14px) 0 12px}
-  .tiles{display:grid;gap:11px;grid-template-columns:repeat(3,minmax(0,1fr))}
+    text-transform:uppercase;color:var(--muted);margin:clamp(10px,1.6vw,14px) 0 12px;
+    display:inline-flex;align-items:center;gap:7px}
+  .qaz-h .qh-ic{width:14px;height:14px;flex:0 0 auto;fill:none;stroke:var(--sky);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .tiles{display:grid;gap:11px;grid-template-columns:repeat(4,minmax(0,1fr))}
   .tile{position:relative;display:flex;align-items:center;gap:13px;min-width:0;
     text-decoration:none;color:inherit;
     background:rgba(255,255,255,.045);border:1px solid var(--line);
@@ -133,6 +153,8 @@
   [data-theme="light"] .contrail{opacity:.2}
   [data-theme="light"] .sub{color:#42566c}
   [data-theme="light"] .kd-card{background:#fff;border-color:rgba(15,40,70,.12)}
+  [data-theme="light"] .keystrip{background:rgba(15,40,70,.035);border-color:#d7e0ea;box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+  [data-theme="light"] .kd-empty{background:rgba(15,40,70,.06);border-color:rgba(15,40,70,.1)}
   [data-theme="light"] .kd-panel{background:#fff}
   [data-theme="light"] .quote #qby{color:#6b7f95}
   [data-theme="light"] .tile{background:#ffffff;border-color:rgba(15,40,70,.12);
@@ -153,9 +175,9 @@
   /* ---------- MARKET PULSE strip ---------- */
   /* ---- market ribbon (bottom band of the lower-third) ---- */
   .pulse{display:flex;align-items:center;height:25px;border-top:1px solid rgba(16,207,201,.32);
-    background:var(--navy-0);box-shadow:inset 0 2px 7px rgba(0,0,0,.35)}
+    background:rgba(255,255,255,.02)}
   .mk-bug{flex:0 0 auto;align-self:stretch;display:flex;align-items:center;justify-content:center;padding:0 14px;
-    background:#08182b;color:var(--muted);font-family:'Share Tech Mono',monospace;font-weight:400;font-size:11.5px;letter-spacing:.12em}
+    background:rgba(255,255,255,.05);box-shadow:inset -1px 0 0 var(--line);color:var(--muted);font-family:'Share Tech Mono',monospace;font-weight:400;font-size:11.5px;letter-spacing:.12em}
   .mtape-win{position:relative;flex:1;display:flex;align-items:center;height:100%;overflow:hidden;padding-left:6px;
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);
     mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)}
@@ -176,7 +198,7 @@
   /* ---- news ticker — clean scrolling strip ---- */
   /* ---- broadcast lower-third: news crawl (top) + market ribbon (bottom) fused ---- */
   .lowerthird{margin-top:clamp(18px,2.6vw,24px);border:1px solid var(--line);border-radius:12px;
-    overflow:hidden;background:var(--navy-1);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+    overflow:hidden;background:rgba(255,255,255,.03);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
   .lowerthird .ti-title,.lowerthird .c-sym,.lowerthird .c-p{color:var(--ink)}
   .lowerthird .ti-src{color:var(--muted)}
   .lowerthird .chip::after,.lowerthird .ticker-item::after{background:var(--line)}
@@ -189,7 +211,7 @@
   [data-theme="light"] .mk-bug{background:#e8edf4;color:#41566d;box-shadow:inset -1px 0 0 rgba(15,40,70,.1)}
   .ticker{display:flex;align-items:center;height:34px}
   .qnews{position:relative;flex:0 0 auto;align-self:stretch;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:1px;padding:0 18px;background:var(--navy-2);overflow:hidden}
+    gap:1px;padding:0 18px;background:rgba(255,255,255,.05);box-shadow:inset -1px 0 0 var(--line);overflow:hidden}
   .qnews::before{content:"";position:absolute;inset:0;pointer-events:none;
     background:repeating-linear-gradient(45deg,transparent 0 5px,rgba(255,255,255,.045) 5px 6px)}
   .qn-kicker{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:6px;
@@ -253,11 +275,15 @@
   .tiles .tile{opacity:0;transform:translateY(16px);animation:rise .6s ease forwards}
   @media (prefers-reduced-motion:reduce){*{animation:none!important}.rise,.tiles .tile{opacity:1;transform:none}.contrail path{stroke-dashoffset:0}}
   @media (max-width:880px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media (max-width:760px){.herorow{flex-direction:column}
-    .topmeta{width:100%;max-width:none;align-items:flex-start;gap:18px;order:-1}
-    .timecard,.kd-h{text-align:left}.kd-row{justify-content:flex-start}
+  @media (max-width:760px){
+    .herorow{grid-template-columns:1fr;row-gap:14px}
+    .hr-brandline,.hr-greet,.hr-bodyL,.hr-bodyR{grid-column:1}
+    .hr-brandline{grid-row:1}.hr-greet{grid-row:2}.hr-bodyR{grid-row:3}.hr-bodyL{grid-row:4}
+    .hr-greet,.hr-bodyR{text-align:left}
+    .kd-h{text-align:center}.kd-nav,.kd-row{justify-content:center}
+    .keystrip{flex-wrap:wrap;gap:10px}
     .quote{border-right:none;border-left:2px solid var(--green);padding-right:0;padding-left:13px;max-width:300px}}
-  @media (max-width:620px){.clocks{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:620px){.clocks{grid-template-columns:repeat(2,1fr)}.kd-row{grid-template-columns:repeat(3,1fr)}}
   @media (max-width:560px){.tiles{grid-template-columns:1fr}}
 </style>
 </head>
@@ -266,41 +292,17 @@
 
   <div class="wrap">
     <nav class="hotlinks rise d1" aria-label="Quick links">
-      <a href="#">Home</a><a href="#">Assets</a><a href="#">Training</a>
-      <a href="#">Rooms</a><a href="#">Call AI</a><a href="#">Analytics</a>
+      <!-- Top-level Mindtickle destinations. target="_top" breaks out of the embedded widget iframe. Rooms = internal REC Room, link TBD. -->
+      <a href="https://qlik.mindtickle.com/new/ui/learner/home" target="_top">Home</a>
+      <a href="https://qlik.mindtickle.com/new/ui/learner/assets" target="_top">Assets</a>
+      <a href="https://qlik.mindtickle.com/new/ui/learner/training/programs" target="_top">Training</a>
+      <a href="#">Rooms</a>
+      <a href="https://qlik.mindtickle.com/new/ui/callai/recordings" target="_top">Call AI</a>
+      <a href="https://qlik.mindtickle.com/new/ui/callai/my-analytics" target="_top">Analytics</a>
       <button id="themeToggle" class="themetoggle" type="button"></button>
     </nav>
-    <div class="brand rise d1" id="brand">
-      <img class="logo logo-dark" src="assets/images/logos/Sales_Enablement_Logos/Typemark_Qlik-Sales-Enablement_2cReverse.svg" alt="Qlik Sales Enablement" onerror="brandFallback()">
-      <img class="logo logo-light" src="assets/images/logos/Sales_Enablement_Logos/Typemark_Qlik-Sales-Enablement_Color.svg" alt="Qlik Sales Enablement" onerror="brandFallback()">
-      <span class="logo-fallback"><b>Qlik</b> Sales Enablement</span>
-    </div>
 
-    <div class="herorow">
-      <div class="lead">
-        <div class="eyebrow rise d2">Enablement Command Center</div>
-        <h1 class="rise d3">Accelerate your pipeline with <span class="ac">AI</span>.</h1>
-        <p class="sub rise d4">Find what you need, jump straight in, and let the connected workflow carry the deal forward — everything that helps you win, in one place.</p>
-      </div>
-      <div class="topmeta rise d2">
-        <div class="timecard">
-          <div class="metatime"><span id="greet">Welcome</span><span id="clock">&mdash;</span></div>
-          <div class="quote"><span id="qtext">&nbsp;</span><span id="qby"></span></div>
-        </div>
-        <div class="keydates">
-          <div class="kd-h">Key Dates <span>[at a glance]</span></div>
-          <div class="kd-row" id="kdRow"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="divider rise d4" aria-hidden="true"></div>
-    <div class="qaz-h rise d4">Quick Action Zone</div>
-    <nav class="tiles" id="tiles" aria-label="Quick action zone"></nav>
-
-    <div class="clocks rise d4" id="clocks" aria-label="World clocks"></div>
-
-    <div class="lowerthird rise d4">
+    <div class="lowerthird rise d2">
       <div class="ticker" aria-label="Industry news">
         <span class="qnews" aria-label="Current News"><span class="qn-kicker">CURRENT</span><span class="qn-word">NEWS</span></span>
         <div class="ticker-win"><div class="ticker-track" id="newsTrack"></div></div>
@@ -310,6 +312,42 @@
         <div class="mtape-win"><div class="mtape-track" id="chips"></div></div>
       </div>
     </div>
+
+    <div class="herorow">
+      <div class="hr-brandline rise d1">
+        <span class="brand" id="brand">
+          <img class="logo logo-dark" src="assets/images/logos/Sales_Enablement_Logos/Typemark_Qlik-Sales-Enablement_2cReverse.svg" alt="Qlik Sales Enablement" onerror="brandFallback()">
+          <img class="logo logo-light" src="assets/images/logos/Sales_Enablement_Logos/Typemark_Qlik-Sales-Enablement_Color.svg" alt="Qlik Sales Enablement" onerror="brandFallback()">
+          <span class="logo-fallback"><b>Qlik</b> Sales Enablement</span>
+        </span>
+        <span class="eyebrow">Command Center</span>
+      </div>
+      <div class="hr-greet rise d1"><span id="greet">Welcome</span></div>
+
+      <div class="hr-bodyL rise d3">
+        <h1 class="hr-title">Accelerate your pipeline with <span class="ac">AI</span>.</h1>
+        <p class="sub">Find what you need, jump straight in, and let the connected workflow carry the deal forward — everything that helps you win, in one place.</p>
+      </div>
+      <div class="hr-bodyR rise d3">
+        <span id="clock">&mdash;</span>
+        <div class="quote"><span id="qtext">&nbsp;</span><span id="qby"></span></div>
+      </div>
+    </div>
+
+    <div class="keystrip rise d4">
+      <div class="kd-h">Key Dates <span>[at a glance]</span></div>
+      <div class="kd-nav">
+        <button class="kd-arrow" id="kdPrev" type="button" aria-label="Previous dates">&lsaquo;</button>
+        <div class="kd-row" id="kdRow"></div>
+        <button class="kd-arrow" id="kdNext" type="button" aria-label="Next dates">&rsaquo;</button>
+      </div>
+    </div>
+
+    <div class="divider rise d4" aria-hidden="true"></div>
+    <div class="qaz-h rise d4"><svg class="qh-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 17a2.5 2.5 0 0 0 2.5-2.5c0-1.5-.7-2.6-1.7-3.5a4.5 4.5 0 0 1 1.6-3c.5 1.6 1.7 2.7 3.1 4 1.4 1.3 2.5 3 2.5 4.7a6 6 0 1 1-12 0c0-2 .8-3.4 1.5-4.7"/></svg><span>Hot Hubs</span></div>
+    <nav class="tiles" id="tiles" aria-label="Quick action zone"></nav>
+
+    <div class="clocks rise d4" id="clocks" aria-label="World clocks"></div>
   </div>
 
   <div class="kd-modal" id="kdModal" role="dialog" aria-modal="true" aria-hidden="true">
@@ -327,12 +365,10 @@ function brandFallback(){ var b=document.getElementById('brand'); if(b) b.classL
 
 /* EDIT HERE — labels, one-line descriptions, and Mindtickle deep-links. */
 const DESTINATIONS = [
-  { label:"Sales Methodology",     desc:"Frameworks, story selling, the Qlik way.",        icon:"compass", href:"#REPLACE_MT_LINK" },
-  { label:"2026 Messaging Guides", desc:"Positioning, narratives, competitive plays.",     icon:"message", href:"#REPLACE_MT_LINK" },
-  { label:"AI Selling Toolkit",    desc:"Copilot, Notetaker, Deal Guides.",                icon:"spark",   href:"#REPLACE_MT_LINK" },
-  { label:"Portfolio Explorer",    desc:"The full Qlik product story.",                    icon:"grid",    href:"#REPLACE_MT_LINK" },
-  { label:"SKO 2026 Content",      desc:"Everything from kickoff, on demand.",             icon:"play",    href:"#REPLACE_MT_LINK" },
-  { label:"Channel & Alliances",   desc:"Partner enablement and co-sell.",                 icon:"link",    href:"#REPLACE_MT_LINK" },
+  { label:"Sales Methodology Hub", desc:"Frameworks, story selling, the Qlik way.",     icon:"compass", href:"https://qlik.mindtickle.com/new/ui/learner/assets/hub/490326426994658761" },
+  { label:"2026 Messaging Guides", desc:"Positioning, narratives, competitive plays.",  icon:"message", href:"https://qlik.mindtickle.com/new/ui/learner/assets/hub/607887748707146619" },
+  { label:"SKO 2026 Content Hub",  desc:"Everything from kickoff, on demand.",          icon:"play",    href:"https://qlik.mindtickle.com/new/ui/learner/assets/hub/601983358397894427" },
+  { label:"Channel & Alliances",   desc:"Partner enablement and co-sell.",              icon:"link",    href:"https://qlikinternal.us.qlikcloud.com/sense/app/2073f421-72fd-4150-bc4c-9d1bfefc5ea3", target:"_blank" }
 ];
 
 const ICONS = {
@@ -348,7 +384,8 @@ const tiles = document.getElementById('tiles');
 DESTINATIONS.forEach((d,i)=>{
   const a = document.createElement('a');
   a.className='tile'; a.href=d.href; a.style.animationDelay=(0.32+i*0.07)+'s';
-  if(d.href.startsWith('http')) a.target='_top';  /* break out of the MT iframe */
+  if(d.target){ a.target=d.target; if(d.target==='_blank') a.rel='noopener'; }
+  else if(d.href.startsWith('http')) a.target='_top';  /* break out of the MT iframe */
   a.innerHTML='<span class="tico"><svg viewBox="0 0 24 24">'+(ICONS[d.icon]||ICONS.grid)+'</svg></span>'+
     '<span class="tbody"><h3>'+d.label+'</h3><p>'+d.desc+'</p></span>'+
     '<span class="tarrow" aria-hidden="true">&#8599;</span>';
@@ -371,13 +408,34 @@ function openKd(d){
   kdModal.classList.add('open'); kdModal.setAttribute('aria-hidden','false');
 }
 function closeKd(){ kdModal.classList.remove('open'); kdModal.setAttribute('aria-hidden','true'); }
-KEY_DATES.forEach(d=>{
-  const c = document.createElement('button');
-  c.type='button'; c.className='kd-card';
-  c.innerHTML = '<span class="kd-m">'+d.month+'</span><span class="kd-d">'+d.day+'</span>';
-  c.addEventListener('click', ()=>openKd(d));
-  kdRow.appendChild(c);
-});
+/* ---- date chips paginate in groups of six ---- */
+const KD_PAGE_SIZE = 6;
+let kdPage = 0;
+const kdPrev = document.getElementById('kdPrev');
+const kdNext = document.getElementById('kdNext');
+function renderKd(){
+  kdRow.innerHTML = '';
+  const start = kdPage * KD_PAGE_SIZE;
+  const slice = KEY_DATES.slice(start, start + KD_PAGE_SIZE);
+  const blanks = KD_PAGE_SIZE - slice.length;
+  const leftPad = Math.floor(blanks / 2);   /* dates fill from the center out; empties flank both edges */
+  function addEmpty(){ var e = document.createElement('div'); e.className = 'kd-empty'; e.setAttribute('aria-hidden','true'); kdRow.appendChild(e); }
+  for(var l = 0; l < leftPad; l++) addEmpty();
+  slice.forEach(d=>{
+    const c = document.createElement('button');
+    c.type='button'; c.className='kd-card';
+    c.innerHTML = '<span class="kd-m">'+d.month+'</span><span class="kd-d">'+d.day+'</span>';
+    c.addEventListener('click', ()=>openKd(d));
+    kdRow.appendChild(c);
+  });
+  for(var r = leftPad + slice.length; r < KD_PAGE_SIZE; r++) addEmpty();
+  /* back arrow shows only after paging forward; next shows only when more dates remain (i.e. more than six) */
+  kdPrev.style.display = (kdPage > 0) ? '' : 'none';
+  kdNext.style.display = (start + KD_PAGE_SIZE < KEY_DATES.length) ? '' : 'none';
+}
+kdPrev.addEventListener('click', ()=>{ if(kdPage>0){ kdPage--; renderKd(); } });
+kdNext.addEventListener('click', ()=>{ if((kdPage+1)*KD_PAGE_SIZE < KEY_DATES.length){ kdPage++; renderKd(); } });
+renderKd();
 kdModal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeKd));
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeKd(); });
 
