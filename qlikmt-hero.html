@@ -13,6 +13,7 @@
   :root{
     --navy-0:#0B1F33; --navy-1:#11304D; --navy-2:#19426C;
     --green:#00A651; --sky:#10CFC9;
+    --cat-review:#FF6B35; --cat-training:#10CFC9; --cat-deadline:#FF6B6B; --cat-event:#00A651; --cat-content:#9B59FF;
     --ink:#EDF3F9; --muted:#90A6BD;
     --line:rgba(255,255,255,.10);
     --radius:14px;
@@ -256,6 +257,62 @@
   .clk-time{font-size:10px;color:var(--sky);font-variant-numeric:tabular-nums;white-space:nowrap}
 
   /* ---- key dates dialog ---- */
+  /* ---------- key dates calendar (bottom of page) ---------- */
+  .calsec{margin-top:clamp(20px,3vw,30px);padding-top:clamp(16px,2.4vw,22px);border-top:1px solid var(--line)}
+  .cal-head{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+  .cal-title{font-family:'Barlow Condensed';font-weight:500;font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--muted);display:inline-flex;align-items:center;gap:8px}
+  .cal-title svg{width:15px;height:15px;flex:0 0 auto;fill:none;stroke:var(--sky);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .cal-nav{display:flex;align-items:center;gap:9px}
+  .cal-month{font-family:'Barlow Condensed';font-weight:600;font-size:19px;min-width:148px;text-align:center;letter-spacing:.02em}
+  .cal-btn{width:32px;height:32px;flex:0 0 auto;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.04);
+    color:var(--muted);cursor:pointer;display:grid;place-items:center;transition:color .2s,border-color .2s,background .2s}
+  .cal-btn:hover{color:var(--sky);border-color:rgba(16,207,201,.5);background:rgba(255,255,255,.07)}
+  .cal-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .cal-tbtn{height:32px;padding:0 13px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.04);color:var(--ink);
+    font-family:'Barlow Condensed';font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;
+    transition:color .2s,border-color .2s,background .2s}
+  .cal-tbtn:hover{color:var(--sky);border-color:rgba(16,207,201,.5);background:rgba(255,255,255,.07)}
+  .cal-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px}
+  .cal-dow span{font-family:'Barlow Condensed';font-weight:600;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);text-align:center;padding:3px 0}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);grid-auto-rows:1fr;gap:6px}
+  .cal-cell{position:relative;min-height:58px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.022);
+    padding:5px;display:flex;flex-direction:column;gap:3px;overflow:hidden;transition:border-color .2s,background .2s}
+  .cal-cell:hover{border-color:rgba(16,207,201,.3);background:rgba(255,255,255,.04)}
+  .cal-cell.dim{opacity:.38}
+  .cal-num{align-self:flex-end;font-family:'Barlow Condensed';font-weight:600;font-size:12px;color:var(--muted);
+    line-height:1;width:19px;height:19px;display:grid;place-items:center;border-radius:50%}
+  .cal-cell.today{border-color:rgba(16,207,201,.5)}
+  .cal-cell.today .cal-num{background:var(--sky);color:#04222b}
+  .cal-pill{display:flex;align-items:center;gap:6px;width:100%;text-align:left;border:0;cursor:pointer;background:transparent;
+    font:inherit;color:var(--ink);padding:2px 5px;border-radius:6px;font-size:11px;line-height:1.2;overflow:hidden;transition:background .15s}
+  .cal-pill:hover{background:rgba(255,255,255,.08)}
+  .cal-pill .cdot{width:7px;height:7px;border-radius:50%;flex:0 0 auto}
+  .cal-pill .ct{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cal-more{font-size:10px;color:var(--muted);font-family:'Barlow Condensed';font-weight:600;letter-spacing:.04em;
+    border:0;background:transparent;text-align:left;padding:0 5px}
+  .cal-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:13px}
+  .cal-legend .lg{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;color:var(--muted)}
+  .cal-legend .lg .cdot{width:8px;height:8px;border-radius:50%}
+  .cal-body{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:clamp(16px,2.2vw,24px);align-items:start}
+  .cal-main{min-width:0}
+  .cal-listwrap{border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.03);
+    padding:14px 14px 8px;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+  .cal-listwrap h2{font-family:'Barlow Condensed';font-weight:500;font-size:12px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .cal-li{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;border:0;background:transparent;
+    cursor:pointer;font:inherit;color:var(--ink);padding:9px 6px;border-radius:8px;transition:background .15s}
+  .cal-li:hover{background:rgba(255,255,255,.05)}
+  .cal-li+.cal-li{border-top:1px solid var(--line)}
+  .cal-li .cdot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;margin-top:5px}
+  .cal-li-body{flex:1;min-width:0}
+  .cal-li-t{display:block;font-size:13.5px;font-weight:600;line-height:1.3}
+  .cal-li-s{display:block;font-size:11px;color:var(--muted);margin-top:2px;letter-spacing:.02em}
+  .cal-empty{font-size:12px;color:var(--muted);padding:10px 6px}
+  @media (max-width:880px){.cal-body{grid-template-columns:1fr}}
+  @media (max-width:620px){.cal-cell{min-height:62px}.cal-pill .ct{display:none}}
+
   .kd-modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:24px}
   .kd-modal.open{display:flex}
   .kd-back{position:absolute;inset:0;background:rgba(6,16,28,.66);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
@@ -348,6 +405,29 @@
     <nav class="tiles" id="tiles" aria-label="Quick action zone"></nav>
 
     <div class="clocks rise d4" id="clocks" aria-label="World clocks"></div>
+
+    <section class="calsec rise d4" aria-label="Key dates calendar">
+      <div class="cal-head">
+        <div class="cal-title"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></svg>Calendar</div>
+        <div class="cal-nav">
+          <button class="cal-btn" id="calPrev" type="button" aria-label="Previous month"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <span class="cal-month" id="calMonth">&mdash;</span>
+          <button class="cal-btn" id="calNext" type="button" aria-label="Next month"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+          <button class="cal-tbtn" id="calToday" type="button">Today</button>
+        </div>
+      </div>
+      <div class="cal-body">
+        <div class="cal-main">
+          <div class="cal-dow"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+          <div class="cal-grid" id="calGrid"></div>
+          <div class="cal-legend" id="calLegend"></div>
+        </div>
+        <aside class="cal-listwrap">
+          <h2>This Month</h2>
+          <div class="cal-list" id="calList"></div>
+        </aside>
+      </div>
+    </section>
   </div>
 
   <div class="kd-modal" id="kdModal" role="dialog" aria-modal="true" aria-hidden="true">
@@ -393,11 +473,17 @@ DESTINATIONS.forEach((d,i)=>{
 });
 
 /* ---- key dates [at a glance] → click opens a details dialog ---- */
-const KEY_DATES = [   /* EDIT HERE — these will sync to the calendar we build */
-  { month:'JUN', day:'13', year:'2026', title:'Q2 Business Review', detail:'Regional pipeline review and Q2 commit walk-through. Materials drop in the Assets hub the day before.' },
-  { month:'JUN', day:'17', year:'2026', title:'Story Selling Office Hours', detail:'Live coaching on Act 1/2/3 structure with the enablement team. Bring a live deal to work through.' },
-  { month:'JUN', day:'23', year:'2026', title:'AI Toolkit Launch', detail:'Walkthrough of the latest Copilot and Notetaker workflows, plus the refreshed Deal Guides.' },
-  { month:'JUN', day:'30', year:'2026', title:'Quarter Close', detail:'End-of-quarter deadlines, deal-desk cutoffs, and the submission checklist.' },
+const KEY_DATES = [   /* EDIT HERE (sample) — editing app + Neon getEvents will replace this. date=YYYY-MM-DD; category must exist in CATEGORIES. */
+  { date:'2026-06-05', category:'event',    month:'JUN', day:'5',  year:'2026', title:'Enablement Office Hours', detail:'Open Q&A with the Enablement team — drop in with questions on tools, content, or live deals.' },
+  { date:'2026-06-10', category:'training', month:'JUN', day:'10', year:'2026', title:'Copilot Deep Dive', detail:'Hands-on session on using Copilot across the selling motion. Recording posts to the Assets hub after.' },
+  { date:'2026-06-13', category:'review',   month:'JUN', day:'13', year:'2026', title:'Q2 Business Review', detail:'Regional pipeline review and Q2 commit walk-through. Materials drop in the Assets hub the day before.' },
+  { date:'2026-06-17', category:'training', month:'JUN', day:'17', year:'2026', title:'Story Selling Office Hours', detail:'Live coaching on Act 1/2/3 structure with the enablement team. Bring a live deal to work through.' },
+  { date:'2026-06-18', category:'content',  month:'JUN', day:'18', year:'2026', title:'Messaging Guides v2', detail:'Refreshed positioning, narratives, and competitive plays publish to the 2026 Messaging Guides hub.' },
+  { date:'2026-06-23', category:'training', month:'JUN', day:'23', year:'2026', title:'AI Toolkit Launch', detail:'Walkthrough of the latest Copilot and Notetaker workflows, plus the refreshed Deal Guides.' },
+  { date:'2026-06-25', category:'event',    month:'JUN', day:'25', year:'2026', title:'Partner Co-Sell Webinar', detail:'Channel & Alliances session on co-selling motions and partner enablement.' },
+  { date:'2026-06-30', category:'deadline', month:'JUN', day:'30', year:'2026', title:'Quarter Close', detail:'End-of-quarter deadlines, deal-desk cutoffs, and the submission checklist.' },
+  { date:'2026-07-08', category:'event',    month:'JUL', day:'8',  year:'2026', title:'SKO 2026 Recap Live', detail:'Live recap of SKO themes with the on-demand content links.' },
+  { date:'2026-07-15', category:'content',  month:'JUL', day:'15', year:'2026', title:'New Deal Guides Drop', detail:'Updated Deal Guides land in the AI Selling Toolkit hub.' },
 ];
 const kdRow = document.getElementById('kdRow');
 const kdModal = document.getElementById('kdModal');
@@ -438,6 +524,74 @@ kdNext.addEventListener('click', ()=>{ if((kdPage+1)*KD_PAGE_SIZE < KEY_DATES.le
 renderKd();
 kdModal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeKd));
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeKd(); });
+
+/* ---- key dates calendar (bottom): plots the same KEY_DATES, reuses the openKd modal ---- */
+const CATEGORIES = {
+  review:   { label:'Business Review', color:'var(--cat-review)' },
+  training: { label:'Training',        color:'var(--cat-training)' },
+  deadline: { label:'Deadline',        color:'var(--cat-deadline)' },
+  event:    { label:'Live Event',      color:'var(--cat-event)' },
+  content:  { label:'Content Drop',     color:'var(--cat-content)' }
+};
+const CAL_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+function calIso(d){ var m=d.getMonth()+1, day=d.getDate(); return d.getFullYear()+'-'+(m<10?'0'+m:m)+'-'+(day<10?'0'+day:day); }
+function calCatColor(k){ return (CATEGORIES[k]||{}).color || 'var(--muted)'; }
+var calNow = new Date(), calY = calNow.getFullYear(), calM = calNow.getMonth();
+var calGrid = document.getElementById('calGrid'), calMonthEl = document.getElementById('calMonth');
+var calByDate = {};
+KEY_DATES.forEach(function(e){ if(e.date){ (calByDate[e.date] = calByDate[e.date] || []).push(e); } });
+function renderCal(){
+  calMonthEl.textContent = CAL_MONTHS[calM] + ' ' + calY;
+  calGrid.innerHTML = '';
+  var first = new Date(calY, calM, 1);
+  var start = new Date(calY, calM, 1 - first.getDay());
+  var t = calIso(new Date());
+  for(var i=0;i<42;i++){
+    var d = new Date(start.getFullYear(), start.getMonth(), start.getDate()+i);
+    var ds = calIso(d);
+    var cell = document.createElement('div');
+    cell.className = 'cal-cell' + (d.getMonth()!==calM ? ' dim':'') + (ds===t ? ' today':'');
+    var num = document.createElement('span'); num.className='cal-num'; num.textContent = d.getDate(); cell.appendChild(num);
+    var evs = calByDate[ds] || [];
+    evs.slice(0,3).forEach(function(ev){
+      var p = document.createElement('button'); p.type='button'; p.className='cal-pill';
+      p.innerHTML = '<span class="cdot" style="background:'+calCatColor(ev.category)+'"></span><span class="ct">'+ev.title+'</span>';
+      p.addEventListener('click', function(){ openKd(ev); });
+      cell.appendChild(p);
+    });
+    if(evs.length>3){ var m=document.createElement('span'); m.className='cal-more'; m.textContent='+'+(evs.length-3)+' more'; cell.appendChild(m); }
+    calGrid.appendChild(cell);
+  }
+  renderCalList();
+}
+function renderCalList(){
+  var box = document.getElementById('calList'); box.innerHTML = '';
+  var pre = calY + '-' + (calM+1<10?'0'+(calM+1):(calM+1));
+  var evs = KEY_DATES.filter(function(e){ return e.date && e.date.indexOf(pre)===0; })
+                     .sort(function(a,b){ return a.date<b.date?-1:a.date>b.date?1:0; });
+  if(!evs.length){ box.innerHTML = '<div class="cal-empty">No events this month.</div>'; return; }
+  evs.forEach(function(ev){
+    var p = ev.date.split('-');
+    var row = document.createElement('button'); row.type='button'; row.className='cal-li';
+    row.innerHTML = '<span class="cdot" style="background:'+calCatColor(ev.category)+'"></span>'+
+      '<span class="cal-li-body"><span class="cal-li-t">'+ev.title+'</span>'+
+      '<span class="cal-li-s">'+CAL_MONTHS[calM].slice(0,3)+' '+parseInt(p[2],10)+' &middot; '+((CATEGORIES[ev.category]||{}).label||'')+'</span></span>';
+    row.addEventListener('click', function(){ openKd(ev); });
+    box.appendChild(row);
+  });
+}
+(function(){
+  var lg = document.getElementById('calLegend');
+  Object.keys(CATEGORIES).forEach(function(k){
+    var el = document.createElement('span'); el.className='lg';
+    el.innerHTML = '<span class="cdot" style="background:'+CATEGORIES[k].color+'"></span>'+CATEGORIES[k].label;
+    lg.appendChild(el);
+  });
+})();
+document.getElementById('calPrev').addEventListener('click', function(){ calM--; if(calM<0){calM=11;calY--;} renderCal(); });
+document.getElementById('calNext').addEventListener('click', function(){ calM++; if(calM>11){calM=0;calY++;} renderCal(); });
+document.getElementById('calToday').addEventListener('click', function(){ var n=new Date(); calY=n.getFullYear(); calM=n.getMonth(); renderCal(); });
+renderCal();
 
 /* ---- QNews channel icon fallback (until the PNG is in the repo) ---- */
 function qnewsFallback(){ var e=document.getElementById('qnews'); if(e) e.classList.add('fb'); }
