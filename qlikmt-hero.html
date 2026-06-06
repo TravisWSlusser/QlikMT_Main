@@ -929,7 +929,7 @@ function renderToday(){
   var fe = document.getElementById('calTodayFact'); if(!fe) return;
   var f = otdPick(otdList);
   var sep = '<span class="otd-sep" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2 L13.8 10.2 L22 12 L13.8 13.8 L12 22 L10.2 13.8 L2 12 L10.2 10.2 Z"/></svg></span>';
-  var html = f ? '<span class="otd-dyk">Did You Know?</span> <b>'+f.year+'</b> &mdash; '+otdEscape(f.text) : '';
+  var html = f ? '<span class="otd-dyk">THIS DAY IN HISTORY</span> <b>'+f.year+'</b> &mdash; '+otdEscape(f.text) : '';
   fe.innerHTML = '<div class="cal-otd-track" id="calOtdTrack"><span class="seg">'+html+sep+'</span></div>';
   setupOtdMarquee();
 }
