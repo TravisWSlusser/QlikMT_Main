@@ -57,9 +57,9 @@
     padding:clamp(18px,2.6vw,28px) 0 clamp(12px,2vw,20px)}
   .hr-brandline{grid-column:1;grid-row:1;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
   .hr-brandline .eyebrow{border-left:1px solid var(--line);padding-left:12px}
-  .hr-greet{grid-column:2;grid-row:1;text-align:right}
-  .hr-bodyL{grid-column:1;grid-row:2;min-width:0}
-  .hr-bodyR{grid-column:2;grid-row:2;text-align:right}
+  .hr-greet{grid-column:2;grid-row:1;text-align:right;position:relative;top:3px}
+  .hr-bodyL{grid-column:1;grid-row:2;min-width:0;display:flex;flex-direction:column;align-self:stretch}
+  .hr-bodyR{grid-column:2;grid-row:2;text-align:right;display:flex;flex-direction:column;align-self:stretch;gap:clamp(10px,1.4vw,14px)}
   .hr-title{margin:0;max-width:680px}
   .hr-bodyL .sub{margin-top:clamp(12px,1.6vw,20px)}
   .hr-bodyR .quote{margin-top:clamp(14px,1.8vw,20px)}
@@ -471,6 +471,129 @@
     .quote{border-right:none;border-left:2px solid var(--green);padding-right:0;padding-left:13px;max-width:300px}}
   @media (max-width:620px){.clocks{grid-template-columns:repeat(2,1fr)}.kd-row{grid-template-columns:repeat(3,1fr)}}
   @media (max-width:560px){.tiles{grid-template-columns:1fr}}
+
+  /* ===== ON YOUR RADAR ===== */
+  .oyr-panel{width:100%;margin-top:auto;border:1px solid var(--line);border-radius:14px;
+    background:rgba(255,255,255,.03);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);padding:clamp(10px,1.4vw,14px)}
+  .oyr-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:8px}
+  .oyr-title{font-family:'Barlow Condensed';font-weight:600;font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--muted);margin:0;display:flex;align-items:center;gap:9px}
+  .oyr-title .dot{width:7px;height:7px;border-radius:50%;background:var(--sky);animation:oyrpulse 2.4s ease-out infinite}
+  @keyframes oyrpulse{0%{box-shadow:0 0 0 0 rgba(16,207,201,.45)}70%{box-shadow:0 0 0 7px rgba(16,207,201,0)}100%{box-shadow:0 0 0 0 rgba(16,207,201,0)}}
+  .oyr-count{font-family:'Barlow Condensed';font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--sky)}
+  .oyr-field{position:relative;width:100%;height:clamp(88px,10.5vw,104px);border-radius:14px;overflow:hidden;isolation:isolate;
+    background:radial-gradient(120% 120% at 50% 50%, var(--navy-1), var(--navy-0) 72%);border:1px solid var(--line)}
+  .oyr-scope{position:absolute;inset:0;pointer-events:none;z-index:1}
+  .oyr-ring{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(16,207,201,.10)}
+  .oyr-cross{position:absolute;left:50%;top:50%;background:rgba(16,207,201,.10)}
+  .oyr-cross.h{width:108%;height:1px;transform:translate(-50%,-50%)}
+  .oyr-cross.v{height:108%;width:1px;transform:translate(-50%,-50%)}
+  .oyr-hub{position:absolute;left:50%;top:50%;width:6px;height:6px;border-radius:50%;transform:translate(-50%,-50%);
+    background:var(--sky);box-shadow:0 0 10px var(--sky);z-index:3}
+  .oyr-sweep{position:absolute;left:50%;top:50%;width:220%;aspect-ratio:1;transform:translate(-50%,-50%) rotate(0deg);
+    transform-origin:50% 50%;pointer-events:none;z-index:2;will-change:transform;
+    background:conic-gradient(from 0deg, rgba(16,207,201,.42) 0deg, rgba(16,207,201,.18) 20deg, rgba(16,207,201,.05) 52deg, rgba(16,207,201,0) 88deg, rgba(16,207,201,0) 360deg)}
+  .oyr-arm{position:absolute;left:50%;top:50%;width:1px;height:clamp(180px,40vw,420px);transform-origin:50% 100%;transform:translate(-50%,-100%) rotate(0deg);
+    background:linear-gradient(to top, rgba(16,207,201,.9), rgba(16,207,201,0));z-index:2;pointer-events:none;will-change:transform}
+  .oyr-field::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;opacity:.5;
+    background:repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0 1px, transparent 1px 3px);mix-blend-mode:overlay}
+  .oyr-blips{position:absolute;inset:0;z-index:5;display:grid;grid-template-columns:repeat(3,1fr);
+    gap:clamp(7px,1.1vw,11px);padding:clamp(8px,1.2vw,12px);align-content:center;align-items:center}
+  .oyr-blip{--glow:0;position:relative;border:1px solid var(--line);border-radius:12px;background:rgba(11,31,51,.55);
+    backdrop-filter:blur(2px);color:var(--ink);cursor:pointer;font:inherit;padding:5px 8px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:0;min-height:0;overflow:hidden;
+    transition:transform .18s ease, border-color .25s ease, background .25s ease;
+    border-color:color-mix(in srgb, var(--cat) calc(var(--glow)*70%), var(--line));
+    box-shadow:0 0 calc(14px * var(--glow)) calc(2px * var(--glow)) var(--cat), inset 0 0 calc(20px * var(--glow)) -6px var(--cat)}
+  .oyr-blip:hover{transform:translateY(-2px);border-color:rgba(16,207,201,.45)}
+  .oyr-blip:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+  .oyr-blip .tk{position:absolute;top:0;left:0;right:0;height:3px;background:var(--cat);opacity:.85}
+  .oyr-blip .m{font-family:'Barlow Condensed';font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--sky)}
+  .oyr-blip .d{font-family:'Barlow Condensed';font-weight:600;font-size:16px;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+  .oyr-blip .cd{font-family:'Barlow Condensed';font-weight:500;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:1px}
+  .oyr-blip .info{position:absolute;inset:0;padding:3px 8px;display:flex;flex-direction:column;gap:0;
+    background:rgba(7,18,30,.92);opacity:0;transform:translateY(4px);pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;text-align:left;justify-content:center}
+  .oyr-blip .info .ic{font-family:'Barlow Condensed';font-weight:500;font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--cat)}
+  .oyr-blip .info .it{font-family:'Barlow Condensed';font-weight:600;font-size:11.5px;line-height:1.08;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .oyr-blip .info .ip{font-size:9px;line-height:1.2;letter-spacing:.06em;text-transform:uppercase;color:var(--sky);white-space:nowrap;overflow:hidden}
+  .oyr-blip .fc{display:flex;flex-direction:row;align-items:baseline;justify-content:center;gap:5px;transition:opacity .2s ease}
+  .oyr-blip.open{filter:grayscale(.55) brightness(.82);border-color:var(--line)}
+  .oyr-blip.open .info{opacity:1;transform:none}
+  .oyr-blip.open .fc{opacity:.18}
+  .oyr-blip.empty{cursor:default;background:rgba(0,0,0,.18);border-style:dashed;border-color:rgba(255,255,255,.06);box-shadow:none}
+  .oyr-blip.empty:hover{transform:none}
+  .oyr-dots{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px;min-height:9px}
+  .oyr-dots button{width:8px;height:8px;border-radius:50%;border:0;padding:0;cursor:pointer;background:rgba(255,255,255,.18);transition:background .2s ease, transform .2s ease}
+  .oyr-dots button:hover{background:rgba(16,207,201,.5)}
+  .oyr-dots button[aria-current="true"]{background:var(--sky);transform:scale(1.25)}
+  .oyr-legend{display:flex;flex-wrap:wrap;gap:8px 15px;justify-content:center;margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
+  .oyr-legend span{display:inline-flex;align-items:center;gap:6px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-family:'Barlow Condensed';font-weight:500}
+  .oyr-legend i{width:9px;height:9px;border-radius:3px;background:var(--c)}
+
+  /* ===== VIDEO STATION — retro CRT channel tuner ===== */
+  .vs-infobox{text-align:right;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);padding:clamp(12px,1.6vw,18px)}
+  .vs-station{margin-top:auto;text-align:left;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);padding:clamp(10px,1.4vw,14px)}
+  .vs-tv{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;isolation:isolate;
+    background:radial-gradient(120% 120% at 50% 40%, var(--navy-2), var(--navy-0) 80%);border:1px solid var(--line);
+    box-shadow:0 0 0 1px rgba(16,207,201,.12), inset 0 0 60px -18px rgba(0,0,0,.9), 0 18px 40px -28px rgba(0,0,0,.7)}
+  .vs-video,.vs-noise{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#06101c}
+  .vs-video{z-index:1}
+  .vs-noise{z-index:2;opacity:0;transition:opacity .1s linear;pointer-events:none}
+  .vs-tv.tuning .vs-noise{opacity:1}
+  .vs-glass{position:absolute;inset:0;z-index:3;pointer-events:none;mix-blend-mode:multiply;
+    background:repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px),
+      radial-gradient(130% 130% at 50% 50%, transparent 56%, rgba(0,0,0,.6) 100%);
+    animation:vsFlicker 5s steps(60) infinite}
+  .vs-glass::after{content:"";position:absolute;left:0;right:0;height:14%;top:-14%;
+    background:linear-gradient(to bottom, transparent, rgba(16,207,201,.10), transparent);animation:vsScan 7s linear infinite}
+  @keyframes vsScan{0%{top:-14%}100%{top:100%}}
+  @keyframes vsFlicker{0%,100%{opacity:1}48%{opacity:.97}50%{opacity:.92}52%{opacity:.98}}
+  .vs-osd{position:absolute;top:9px;left:10px;z-index:4;display:flex;flex-direction:column;gap:1px;pointer-events:none;
+    font-family:'Barlow Condensed';text-shadow:0 0 8px rgba(16,207,201,.55);transition:opacity .25s ease}
+  .vs-osd-ch{font-weight:600;font-size:12px;letter-spacing:.16em;color:var(--sky)}
+  .vs-osd-name{font-weight:500;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#cfe8ff;opacity:.9}
+  .vs-noSignal{position:absolute;inset:0;z-index:3;display:none;place-items:center;font-family:'Barlow Condensed';
+    font-weight:600;font-size:15px;letter-spacing:.32em;color:rgba(207,232,255,.6);text-shadow:0 0 10px rgba(16,207,201,.4)}
+  .vs-tv.nosignal .vs-noSignal{display:grid}
+  .vs-crtoff{position:absolute;inset:0;z-index:5;background:#050c15;opacity:0;pointer-events:none;transition:opacity .18s ease}
+  .vs-tv.off .vs-video,.vs-tv.off .vs-noise,.vs-tv.off .vs-osd,.vs-tv.off .vs-noSignal,.vs-tv.off .vs-glass{opacity:0}
+  .vs-tv.off .vs-crtoff{opacity:1}
+  .vs-crtline{position:absolute;left:0;right:0;top:50%;height:2px;z-index:6;background:rgba(207,232,255,.95);
+    box-shadow:0 0 16px 3px rgba(207,232,255,.7);transform:scaleX(0);opacity:0}
+  .vs-tv.powering .vs-crtline{animation:vsLine .5s ease}
+  @keyframes vsLine{0%{transform:scaleX(0);opacity:1}30%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1);opacity:0}}
+  .vs-deck{display:flex;align-items:stretch;gap:6px;margin-top:9px}
+  .vs-chans{display:flex;gap:6px;flex:1 1 auto;min-width:0}
+  .vs-chan{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+    padding:6px 4px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.04);color:var(--muted);
+    cursor:pointer;font:inherit;transition:border-color .2s ease,background .2s ease,color .2s ease}
+  .vs-chan:hover{border-color:rgba(16,207,201,.5);color:var(--ink)}
+  .vs-chan .n{font-family:'Barlow Condensed';font-weight:600;font-size:13px;line-height:1;letter-spacing:.04em}
+  .vs-chan .l{font-family:'Barlow Condensed';font-weight:500;font-size:8.5px;letter-spacing:.07em;text-transform:uppercase;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .vs-chan[aria-current="true"]{color:var(--ink);border-color:var(--sky);
+    background:linear-gradient(180deg, rgba(16,207,201,.18), rgba(16,207,201,.06));
+    box-shadow:0 0 12px -2px rgba(16,207,201,.5), inset 0 0 0 1px rgba(16,207,201,.3)}
+  .vs-ctl{flex:0 0 auto;width:33px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.04);
+    color:var(--muted);cursor:pointer;display:grid;place-items:center;transition:border-color .2s ease,color .2s ease,background .2s ease}
+  .vs-ctl:hover{border-color:rgba(16,207,201,.5);color:var(--ink)}
+  .vs-ctl svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .vs-ctl.on{color:var(--green);border-color:rgba(0,166,81,.5)}
+  .vs-ctl.muted{color:#FF6B6B;border-color:rgba(255,107,107,.45)}
+  [data-theme="light"] .vs-infobox{background:rgba(255,255,255,.42);border-color:rgba(15,40,70,.12)}
+  [data-theme="light"] .vs-station{background:rgba(255,255,255,.42);border-color:rgba(15,40,70,.12)}
+  [data-theme="light"] .vs-chan,[data-theme="light"] .vs-ctl{background:#fff;border-color:rgba(15,40,70,.12)}
+
+  /* ON YOUR RADAR — light mode: field + pills go light like the rest of the page */
+  [data-theme="light"] .oyr-field{background:radial-gradient(120% 120% at 50% 50%, #f5f8fc, #e7eef6 74%);border-color:rgba(15,40,70,.12)}
+  [data-theme="light"] .oyr-ring{border-color:rgba(14,138,132,.16)}
+  [data-theme="light"] .oyr-cross{background:rgba(14,138,132,.14)}
+  [data-theme="light"] .oyr-sweep{background:conic-gradient(from 0deg, rgba(14,138,132,.28) 0deg, rgba(14,138,132,.13) 20deg, rgba(14,138,132,.04) 52deg, rgba(14,138,132,0) 88deg, rgba(14,138,132,0) 360deg)}
+  [data-theme="light"] .oyr-arm{background:linear-gradient(to top, rgba(14,138,132,.65), rgba(14,138,132,0))}
+  [data-theme="light"] .oyr-blip{background:#ffffff}
+  [data-theme="light"] .oyr-blip.empty{background:rgba(15,40,70,.05);border-color:rgba(15,40,70,.1)}
+  [data-theme="light"] .oyr-blip .info{background:rgba(255,255,255,.96)}
 </style>
 </head>
 <body>
@@ -508,24 +631,49 @@
         </span>
         <span class="eyebrow">Command Center</span>
       </div>
-      <div class="hr-greet rise d1"><span id="greet">Welcome</span></div>
 
       <div class="hr-bodyL rise d3">
         <h1 class="hr-title">Accelerate your pipeline with <span class="ac">AI</span>.</h1>
         <p class="sub">Find what you need, jump straight in, and let the connected workflow carry the deal forward — everything that helps you win, in one place.</p>
+        <div class="oyr-panel rise d3">
+          <div class="oyr-head">
+            <h2 class="oyr-title"><span class="dot"></span>On Your Radar</h2>
+            <span class="oyr-count" id="oyrCount">&mdash;</span>
+          </div>
+          <div class="oyr-field" id="oyrField">
+            <div class="oyr-scope" id="oyrScope">
+              <span class="oyr-cross h"></span><span class="oyr-cross v"></span>
+              <span class="oyr-hub"></span>
+            </div>
+            <div class="oyr-sweep" id="oyrSweep"></div>
+            <div class="oyr-arm" id="oyrArm"></div>
+            <div class="oyr-blips" id="oyrBlips"></div>
+          </div>
+          <div class="oyr-dots" id="oyrDots"></div>
+        </div>
       </div>
       <div class="hr-bodyR rise d3">
-        <span id="clock">&mdash;</span>
+        <div class="vs-infobox">
+          <span id="greet">Welcome</span>
+          <span id="clock">&mdash;</span>
         <div class="quote"><span id="qtext">&nbsp;</span><span id="qby"></span></div>
-      </div>
-    </div>
-
-    <div class="keystrip rise d4">
-      <div class="kd-h">Key Dates <span>[at a glance]</span></div>
-      <div class="kd-nav">
-        <button class="kd-arrow" id="kdPrev" type="button" aria-label="Previous dates">&lsaquo;</button>
-        <div class="kd-row" id="kdRow"></div>
-        <button class="kd-arrow" id="kdNext" type="button" aria-label="Next dates">&rsaquo;</button>
+        </div>
+                <div class="vs-station" id="vsStation">
+          <div class="vs-tv" id="vsTv">
+            <video class="vs-video" id="vsVideo" muted playsinline preload="metadata"></video>
+            <video class="vs-noise" id="vsNoise" muted loop playsinline preload="auto"></video>
+            <div class="vs-glass" aria-hidden="true"></div>
+            <div class="vs-osd"><span class="vs-osd-ch" id="vsOsdCh">CH 01</span><span class="vs-osd-name" id="vsOsdName">Qlik Official TV</span></div>
+            <div class="vs-noSignal" id="vsNoSignal">NO SIGNAL</div>
+            <div class="vs-crtoff" aria-hidden="true"></div>
+            <div class="vs-crtline" aria-hidden="true"></div>
+          </div>
+          <div class="vs-deck">
+            <div class="vs-chans" id="vsChans" role="group" aria-label="Channels"></div>
+            <button class="vs-ctl" id="vsPower" type="button" aria-label="Power" title="Power"><svg viewBox="0 0 24 24"><path d="M12 3v9"/><path d="M7.5 6.5a7 7 0 1 0 9 0"/></svg></button>
+            <button class="vs-ctl" id="vsMute" type="button" aria-label="Mute" title="Mute"></button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -650,7 +798,6 @@ const KEY_DATES = [   /* EDIT HERE (sample) — editing app + Neon getEvents wil
   { date:'2026-07-08', category:'event',    month:'JUL', day:'8',  year:'2026', title:'SKO 2026 Recap Live', detail:'Live recap of SKO themes with the on-demand content links.' },
   { date:'2026-07-15', category:'content',  month:'JUL', day:'15', year:'2026', title:'New Deal Guides Drop', detail:'Updated Deal Guides land in the AI Selling Toolkit hub.' },
 ];
-const kdRow = document.getElementById('kdRow');
 const kdModal = document.getElementById('kdModal');
 function openKd(d){
   document.getElementById('kdmDate').textContent = d.month+' '+d.day+(d.year? ', '+d.year : '');
@@ -659,34 +806,83 @@ function openKd(d){
   kdModal.classList.add('open'); kdModal.setAttribute('aria-hidden','false');
 }
 function closeKd(){ kdModal.classList.remove('open'); kdModal.setAttribute('aria-hidden','true'); }
-/* ---- date chips paginate in groups of six ---- */
-const KD_PAGE_SIZE = 6;
-let kdPage = 0;
-const kdPrev = document.getElementById('kdPrev');
-const kdNext = document.getElementById('kdNext');
-function renderKd(){
-  kdRow.innerHTML = '';
-  const start = kdPage * KD_PAGE_SIZE;
-  const slice = KEY_DATES.slice(start, start + KD_PAGE_SIZE);
-  const blanks = KD_PAGE_SIZE - slice.length;
-  const leftPad = Math.floor(blanks / 2);   /* dates fill from the center out; empties flank both edges */
-  function addEmpty(){ var e = document.createElement('div'); e.className = 'kd-empty'; e.setAttribute('aria-hidden','true'); kdRow.appendChild(e); }
-  for(var l = 0; l < leftPad; l++) addEmpty();
-  slice.forEach(d=>{
-    const c = document.createElement('button');
-    c.type='button'; c.className='kd-card';
-    c.innerHTML = '<span class="kd-m">'+d.month+'</span><span class="kd-d">'+d.day+'</span>';
-    c.addEventListener('click', ()=>openKd(d));
-    kdRow.appendChild(c);
-  });
-  for(var r = leftPad + slice.length; r < KD_PAGE_SIZE; r++) addEmpty();
-  /* back arrow shows only after paging forward; next shows only when more dates remain (i.e. more than six) */
-  kdPrev.style.display = (kdPage > 0) ? '' : 'none';
-  kdNext.style.display = (start + KD_PAGE_SIZE < KEY_DATES.length) ? '' : 'none';
+/* ---- ON YOUR RADAR — reads KEY_DATES, sweep-paints blips, click-to-reveal ---- */
+const OYR_CATS = {
+  review:{label:'Business Review',color:'var(--cat-review)'},
+  training:{label:'Training',color:'var(--cat-training)'},
+  deadline:{label:'Deadline',color:'var(--cat-deadline)'},
+  event:{label:'Live Event',color:'var(--cat-event)'},
+  content:{label:'Content Drop',color:'var(--cat-content)'}
+};
+const OYR_SWEEP_PERIOD = 6;     /* seconds per rotation (dial) */
+const OYR_PING_DECAY   = 1500;  /* ms glow persistence after the sweep crosses a blip (dial) */
+const OYR_PAGE_SIZE    = 6;     /* blips per page; dots appear beyond this (dial) */
+let OYR_EVENTS = KEY_DATES.slice().sort((a,b)=>a.date.localeCompare(b.date));
+let oyrPage=0, oyrBlipData=[], oyrPrevAngle=0, oyrStarted=0;
+const oyrField=document.getElementById('oyrField'), oyrBlipsEl=document.getElementById('oyrBlips'),
+      oyrSweep=document.getElementById('oyrSweep'), oyrArm=document.getElementById('oyrArm'),
+      oyrDotsEl=document.getElementById('oyrDots'), oyrScope=document.getElementById('oyrScope');
+function oyrDays(ds){ const t=new Date(); t.setHours(0,0,0,0); return Math.round((new Date(ds+'T00:00:00')-t)/86400000); }
+function oyrCountdown(ds){ const n=oyrDays(ds); return n<0?'Past':n===0?'Today':n===1?'Tomorrow':'In '+n+' days'; }
+function oyrBearing(dx,dy){ return (Math.atan2(dx,-dy)*180/Math.PI+360)%360; }
+function oyrBuildRings(){
+  oyrScope.querySelectorAll('.oyr-ring').forEach(r=>r.remove());
+  const base=Math.min(oyrField.clientWidth,oyrField.clientHeight);
+  [0.34,0.62,0.9].forEach(sc=>{ const r=document.createElement('span'); r.className='oyr-ring';
+    r.style.width=(base*sc)+'px'; r.style.height=(base*sc)+'px'; oyrScope.appendChild(r); });
 }
-kdPrev.addEventListener('click', ()=>{ if(kdPage>0){ kdPage--; renderKd(); } });
-kdNext.addEventListener('click', ()=>{ if((kdPage+1)*KD_PAGE_SIZE < KEY_DATES.length){ kdPage++; renderKd(); } });
-renderKd();
+function oyrRenderPage(){
+  oyrBlipsEl.innerHTML=''; oyrBlipData=[];
+  const start=oyrPage*OYR_PAGE_SIZE, slice=OYR_EVENTS.slice(start,start+OYR_PAGE_SIZE);
+  slice.forEach(e=>{
+    const cat=OYR_CATS[e.category]||OYR_CATS.event;
+    const b=document.createElement('button'); b.type='button'; b.className='oyr-blip';
+    b.style.setProperty('--cat',cat.color);
+    b.innerHTML='<span class="tk"></span><span class="fc"><span class="m">'+e.month+'</span><span class="d">'+e.day+'</span></span>'+
+      '<span class="info"><span class="it">'+e.title+'</span><span class="ip">'+oyrCountdown(e.date)+'</span></span>';
+    b.addEventListener('click',()=>{ const open=b.classList.contains('open');
+      oyrBlipsEl.querySelectorAll('.oyr-blip.open').forEach(x=>x.classList.remove('open'));
+      if(!open) b.classList.add('open'); });
+    oyrBlipsEl.appendChild(b);
+    oyrBlipData.push({el:b,bearing:0,lastPing:-99999});
+  });
+  for(let i=slice.length;i<OYR_PAGE_SIZE;i++){ const e=document.createElement('div'); e.className='oyr-blip empty'; e.setAttribute('aria-hidden','true'); oyrBlipsEl.appendChild(e); }
+  requestAnimationFrame(oyrMeasure);
+  oyrRenderDots();
+  document.getElementById('oyrCount').textContent=OYR_EVENTS.length+' tracked';
+}
+function oyrMeasure(){
+  const fr=oyrField.getBoundingClientRect(), cx=fr.left+fr.width/2, cy=fr.top+fr.height/2;
+  oyrBlipData.forEach(bd=>{ const r=bd.el.getBoundingClientRect();
+    bd.bearing=oyrBearing(r.left+r.width/2-cx, r.top+r.height/2-cy); });
+}
+function oyrRenderDots(){
+  oyrDotsEl.innerHTML=''; const pages=Math.ceil(OYR_EVENTS.length/OYR_PAGE_SIZE); if(pages<=1) return;
+  for(let p=0;p<pages;p++){ const d=document.createElement('button'); d.type='button'; d.setAttribute('aria-label','Radar page '+(p+1));
+    if(p===oyrPage) d.setAttribute('aria-current','true');
+    d.addEventListener('click',()=>{ oyrPage=p; oyrRenderPage(); }); oyrDotsEl.appendChild(d); }
+}
+function oyrLoop(ts){
+  if(!oyrStarted) oyrStarted=ts;
+  const angle=((ts-oyrStarted)/1000/OYR_SWEEP_PERIOD*360)%360;
+  oyrSweep.style.transform='translate(-50%,-50%) rotate('+angle+'deg)';
+  oyrArm.style.transform='translate(-50%,-100%) rotate('+angle+'deg)';
+  const wrapped=angle<oyrPrevAngle;
+  oyrBlipData.forEach(bd=>{ const B=bd.bearing;
+    const crossed=wrapped?(B>oyrPrevAngle||B<=angle):(B>oyrPrevAngle&&B<=angle);
+    if(crossed) bd.lastPing=ts;
+    const since=ts-bd.lastPing, glow=since<OYR_PING_DECAY?(1-since/OYR_PING_DECAY):0;
+    bd.el.style.setProperty('--glow',glow.toFixed(3)); });
+  oyrPrevAngle=angle; requestAnimationFrame(oyrLoop);
+}
+function oyrLoad(){
+  fetch('/api/getEvents').then(r=>r.ok?r.json():null).then(j=>{
+    const list=Array.isArray(j)?j:(j&&j.events);
+    if(list&&list.length){ OYR_EVENTS=list.slice().sort((a,b)=>a.date.localeCompare(b.date)); oyrPage=0; oyrRenderPage(); }
+  }).catch(()=>{});
+}
+oyrBuildRings(); oyrRenderPage(); requestAnimationFrame(oyrLoop); oyrLoad();
+window.addEventListener('resize',()=>{ oyrBuildRings(); oyrMeasure(); });
 kdModal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeKd));
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeKd(); });
 
@@ -1058,6 +1254,70 @@ function showQuote(){
 }
 showQuote();
 setInterval(()=>{ qi=(qi+1)%QUOTES.length; showQuote(); }, 13000);
+
+/* ---- VIDEO STATION — retro CRT channel tuner (random playout per channel) ---- */
+/* Each channel is a folder of clips; tuning picks one at random and rolls to the next
+   when it ends, so a channel feels like an always-on broadcast. Drop files in
+   /assets/video/<ch>/ and list them here, or serve them from /api/getChannels. */
+const VS_CHANNELS = [
+  { name:'Qlik Official TV', videos:[] },  /* official Qlik videos */
+  { name:'Sparks Replays',   videos:[] },  /* monthly Sparks call replays */
+  { name:'Coach Kent TV',    videos:[] }   /* weekly Coach Kent win interviews */
+];
+const VS_NOISE_SRC = 'assets/video/tv-static.webm';  /* analog static (you'll provide) */
+const VS_TUNE_MS = 600;  /* how long the static plays on a channel change (dial) */
+const vsTv=document.getElementById('vsTv'), vsVideo=document.getElementById('vsVideo'),
+      vsNoise=document.getElementById('vsNoise'), vsChans=document.getElementById('vsChans'),
+      vsOsdCh=document.getElementById('vsOsdCh'), vsOsdName=document.getElementById('vsOsdName'),
+      vsPower=document.getElementById('vsPower'), vsMute=document.getElementById('vsMute');
+let vsCh=0, vsOn=true, vsMuted=true, vsTuneTimer=null;
+const VS_SPK_ON='<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a4 4 0 0 1 0 7M18.6 6a7 7 0 0 1 0 12"/></svg>';
+const VS_SPK_OFF='<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>';
+vsNoise.src=VS_NOISE_SRC; vsNoise.onerror=function(){ vsNoise.removeAttribute('src'); };
+function vsPick(ch){ const v=VS_CHANNELS[ch]&&VS_CHANNELS[ch].videos; return (v&&v.length)?v[Math.floor(Math.random()*v.length)]:''; }
+function vsOSD(){ vsOsdCh.textContent='CH '+String(vsCh+1).padStart(2,'0'); vsOsdName.textContent=VS_CHANNELS[vsCh].name; }
+function vsRenderChans(){
+  vsChans.innerHTML='';
+  VS_CHANNELS.forEach(function(c,i){
+    const b=document.createElement('button'); b.type='button'; b.className='vs-chan';
+    if(i===vsCh && vsOn) b.setAttribute('aria-current','true');
+    b.innerHTML='<span class="n">'+(i+1)+'</span><span class="l">'+c.name+'</span>';
+    b.addEventListener('click',function(){ if(!vsOn){ vsCh=i; vsSetPower(true); } else { vsTune(i); } });
+    vsChans.appendChild(b);
+  });
+}
+function vsTune(ch){
+  vsCh=(ch+VS_CHANNELS.length)%VS_CHANNELS.length; vsOSD(); vsRenderChans();
+  if(!vsOn) return;
+  vsTv.classList.add('tuning'); try{ vsNoise.play().catch(function(){}); }catch(e){}
+  clearTimeout(vsTuneTimer);
+  vsTuneTimer=setTimeout(function(){
+    vsTv.classList.remove('tuning');
+    const src=vsPick(vsCh);
+    if(src){ vsTv.classList.remove('nosignal'); vsVideo.src=src; vsVideo.muted=vsMuted;
+      vsVideo.play().then(function(){ try{ vsVideo.currentTime=Math.random()*Math.max(0,(vsVideo.duration||0)*0.6); }catch(e){} }).catch(function(){}); }
+    else { vsVideo.removeAttribute('src'); vsTv.classList.add('nosignal'); }
+  }, VS_TUNE_MS);
+}
+function vsSetPower(on){
+  vsOn=on;
+  vsTv.classList.add('powering'); setTimeout(function(){ vsTv.classList.remove('powering'); },500);
+  if(on){ vsTv.classList.remove('off'); vsPower.classList.add('on'); vsTune(vsCh); }
+  else { clearTimeout(vsTuneTimer); vsTv.classList.remove('tuning','nosignal'); vsTv.classList.add('off');
+    vsPower.classList.remove('on'); try{ vsVideo.pause(); }catch(e){} try{ vsNoise.pause(); }catch(e){} vsRenderChans(); }
+}
+function vsSetMute(m){ vsMuted=m; vsVideo.muted=m; vsMute.innerHTML=m?VS_SPK_OFF:VS_SPK_ON; vsMute.classList.toggle('muted',m); }
+vsVideo.addEventListener('ended',function(){ if(vsOn){ const x=vsPick(vsCh); if(x){ vsVideo.src=x; vsVideo.play().catch(function(){}); } } });
+vsPower.addEventListener('click',function(){ vsSetPower(!vsOn); });
+vsMute.addEventListener('click',function(){ vsSetMute(!vsMuted); });
+function vsLoadChannels(){
+  fetch('/api/getChannels').then(function(r){ return r.ok?r.json():null; }).then(function(j){
+    const list=Array.isArray(j)?j:(j&&j.channels);
+    if(list&&list.length){ for(let i=0;i<VS_CHANNELS.length&&i<list.length;i++){ if(list[i].name) VS_CHANNELS[i].name=list[i].name; if(list[i].videos) VS_CHANNELS[i].videos=list[i].videos; }
+      vsRenderChans(); if(vsOn) vsTune(vsCh); }
+  }).catch(function(){});
+}
+vsSetMute(true); vsPower.classList.add('on'); vsRenderChans(); vsTune(0); vsLoadChannels();
 
 /* ---- light / dark toggle (always starts dark) ---- */
 const SUN_ICON='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.3M12 19.1v2.3M2.6 12h2.3M19.1 12h2.3M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>';
