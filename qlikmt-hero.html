@@ -115,35 +115,36 @@
   .sub{font-size:clamp(15px,1.5vw,17px);line-height:1.6;color:#bccfe2;max-width:520px}
 
   .divider{margin-top:clamp(14px,2.2vw,22px);height:1px;background:var(--line);position:relative}
-  .divider::before{content:"";position:absolute;left:0;top:0;height:1px;width:46px;background:var(--green)}
+  
   .qaz-h{font-family:'Barlow Condensed';font-weight:500;font-size:12px;letter-spacing:.18em;
     text-transform:uppercase;color:var(--muted);margin:clamp(10px,1.6vw,14px) 0 12px;
     display:inline-flex;align-items:center;gap:7px}
   .qaz-h .qh-ic{width:14px;height:14px;flex:0 0 auto;fill:none;stroke:var(--sky);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-  .tiles{display:flex;flex-direction:column;gap:14px}
-  .hub-grid{display:grid;gap:11px;grid-template-columns:repeat(3,minmax(0,1fr));height:250px;overflow:hidden;align-content:start}
-  .hub-tabs{display:flex;gap:6px}
-  .hub-tab{flex:1 1 0;min-width:0;text-align:center;font-family:'Barlow Condensed';font-weight:500;font-size:12px;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--muted);background:rgba(255,255,255,.04);
-    border:1px solid var(--line);border-radius:8px;padding:7px 14px;cursor:pointer;
-    transition:color .2s ease,border-color .2s ease,background .2s ease}
-  .hub-tab:hover{color:var(--ink);border-color:rgba(16,207,201,.4)}
-  .hub-tab.active{color:var(--sky);border-color:var(--sky);background:rgba(16,207,201,.1);
-    box-shadow:0 0 12px -3px rgba(16,207,201,.4)}
-  .hub-tab-count{font-weight:400;font-size:10px;opacity:.6;margin-left:3px}
-  [data-theme="light"] .hub-tab{background:#fff;border-color:rgba(15,40,70,.12)}
-  [data-theme="light"] .hub-tab.active{color:#0E8A84;border-color:#0E8A84;background:rgba(14,138,132,.08)}
-  .tile{position:relative;display:flex;align-items:center;gap:13px;min-width:0;
+  .tiles{display:grid;grid-template-columns:auto 1fr;gap:0 16px}
+  .hub-panels{display:grid;padding:10px 0}
+  .hub-panel{grid-row:1;grid-column:1;display:grid;gap:8px;grid-template-columns:repeat(3,minmax(0,1fr));align-content:start;transition:opacity .15s ease}
+  .hub-panel:not(.active){visibility:hidden;opacity:0;pointer-events:none}
+  .hub-tabs{display:flex;flex-direction:column;gap:0;border-right:1px solid var(--line);padding:10px 0}
+  .hub-tab{min-width:0;text-align:left;font-family:'Barlow Condensed';font-weight:600;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--muted);background:transparent;
+    border:none;border-right:2px solid transparent;border-radius:0;padding:8px 14px 8px 4px;white-space:nowrap;cursor:pointer;
+    transition:color .2s ease,border-right-color .2s ease}
+  .hub-tab:hover{color:var(--ink);border-right-color:rgba(16,207,201,.35)}
+  .hub-tab.active{color:var(--sky);border-right-color:var(--sky);
+    box-shadow:none}
+  [data-theme="light"] .hub-tab{background:transparent}
+  [data-theme="light"] .hub-tab.active{color:#0E8A84;border-right-color:#0E8A84}
+  .tile{position:relative;display:flex;align-items:center;gap:11px;min-width:0;
     text-decoration:none;color:inherit;
     background:rgba(255,255,255,.045);border:1px solid var(--line);
-    border-radius:var(--radius);padding:13px 15px;
+    border-radius:var(--radius);padding:5px 11px;
     transition:transform .25s ease, border-color .25s ease, background .25s ease}
   .tile:hover{transform:translateY(-3px);background:rgba(255,255,255,.08);
     border-color:rgba(16,207,201,.55)}
   .tile:focus-visible{outline:2px solid var(--sky);outline-offset:3px}
-  .tico{width:38px;height:38px;flex:0 0 auto;border-radius:10px;display:grid;place-items:center;
+  .tico{width:30px;height:30px;flex:0 0 auto;border-radius:8px;display:grid;place-items:center;
     background:rgba(16,207,201,.1);border:1px solid rgba(16,207,201,.22)}
-  .tico svg{width:19px;height:19px;stroke:var(--sky);fill:none;stroke-width:1.7;
+  .tico svg{width:15px;height:15px;stroke:var(--sky);fill:none;stroke-width:1.7;
     stroke-linecap:round;stroke-linejoin:round}
   .tbody{flex:1;min-width:0}
   .tile h3{font-family:'Barlow Condensed';font-weight:600;font-size:17px;letter-spacing:.01em;line-height:1.1}
@@ -472,9 +473,14 @@
   @keyframes rise{to{opacity:1;transform:none}}
   .tiles .tile{opacity:0;transform:translateY(16px);animation:rise .6s ease forwards}
   @media (prefers-reduced-motion:reduce){*{animation:none!important}.rise,.tiles .tile{opacity:1;transform:none}.contrail path{stroke-dashoffset:0}}
-  @media (max-width:880px){.hub-grid{grid-template-columns:repeat(2,minmax(0,1fr));height:auto;overflow:visible}}
+  @media (max-width:880px){.hub-panel{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:600px){.tiles{grid-template-columns:1fr}
+  .hub-tabs{flex-direction:row;border-right:none;border-bottom:1px solid var(--line);padding-right:0}
+  .hub-tab{text-align:center;flex:1 1 0;border-right:none;border-bottom:2px solid transparent;padding:9px 10px 7px}
+  .hub-tab.active{border-right-color:transparent;border-bottom-color:var(--sky)}
+  .hub-tab:hover{border-right-color:transparent;border-bottom-color:rgba(16,207,201,.35)}}
   @media (max-width:620px){.clocks{grid-template-columns:repeat(2,1fr)}.kd-row{grid-template-columns:repeat(3,1fr)}}
-  @media (max-width:560px){.hub-grid{grid-template-columns:1fr}}
+  @media (max-width:560px){.hub-panel{grid-template-columns:1fr}}
 
 
   .vs-infobox{grid-column:2;grid-row:2;align-self:start;text-align:right;
@@ -539,7 +545,7 @@
     </div>
 
     <div class="divider rise d4" aria-hidden="true"></div>
-    <div class="qaz-h rise d4"><svg class="qh-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 17a2.5 2.5 0 0 0 2.5-2.5c0-1.5-.7-2.6-1.7-3.5a4.5 4.5 0 0 1 1.6-3c.5 1.6 1.7 2.7 3.1 4 1.4 1.3 2.5 3 2.5 4.7a6 6 0 1 1-12 0c0-2 .8-3.4 1.5-4.7"/></svg><span>Content Hubs</span></div>
+
     <nav class="tiles" id="tiles" aria-label="Quick action zone"></nav>
 
     <div class="clocks rise d4" id="clocks" aria-label="World clocks"></div>
@@ -680,12 +686,18 @@ function makeTile(h, delay){
 var tiles = document.getElementById('tiles');
 var tabBar = document.createElement('div');
 tabBar.className='hub-tabs'; tabBar.setAttribute('role','tablist');
-var hubGrid = document.createElement('div');
-hubGrid.className='hub-grid'; hubGrid.setAttribute('role','tabpanel');
+var hubPanels = document.createElement('div');
+hubPanels.className='hub-panels';
+HUB_CATS.forEach(function(cat,ci){
+  var grid=document.createElement('div');
+  grid.className='hub-panel'+(ci===0?' active':'');
+  grid.setAttribute('role','tabpanel');
+  cat.hubs.forEach(function(h,i){ grid.appendChild(makeTile(h,i)); });
+  hubPanels.appendChild(grid);
+});
 
 function showCat(idx){
-  hubGrid.innerHTML='';
-  HUB_CATS[idx].hubs.forEach(function(h,i){ hubGrid.appendChild(makeTile(h,i)); });
+  hubPanels.querySelectorAll('.hub-panel').forEach(function(p,i){ p.classList.toggle('active',i===idx); });
   tabBar.querySelectorAll('.hub-tab').forEach(function(t,i){
     t.classList.toggle('active',i===idx);
     t.setAttribute('aria-selected',i===idx);
@@ -696,13 +708,13 @@ HUB_CATS.forEach(function(cat,idx){
   var tab=document.createElement('button');
   tab.type='button'; tab.className='hub-tab'+(idx===0?' active':'');
   tab.setAttribute('role','tab'); tab.setAttribute('aria-selected',idx===0);
-  tab.innerHTML=cat.label+' <span class="hub-tab-count">'+cat.hubs.length+'</span>';
+  tab.textContent=cat.label;
   tab.addEventListener('click',function(){ showCat(idx); });
   tabBar.appendChild(tab);
 });
 
 tiles.appendChild(tabBar);
-tiles.appendChild(hubGrid);
+tiles.appendChild(hubPanels);
 showCat(0);
 
 /* ---- key dates [at a glance] → click opens a details dialog ---- */
