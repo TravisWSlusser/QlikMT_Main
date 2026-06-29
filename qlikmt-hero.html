@@ -120,7 +120,7 @@
     text-transform:uppercase;color:var(--muted);margin:clamp(10px,1.6vw,14px) 0 12px;
     display:inline-flex;align-items:center;gap:7px}
   .qaz-h .qh-ic{width:14px;height:14px;flex:0 0 auto;fill:none;stroke:var(--sky);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-  .tiles{display:grid;grid-template-columns:auto 1fr;gap:0 16px;margin-top:16px}
+  .tiles{display:grid;grid-template-columns:auto 1fr;gap:0 16px;margin-top:16px;padding-bottom:clamp(6px,1vw,12px)}
   .hub-panels{display:grid;padding:10px 0}
   .hub-panel{grid-row:1;grid-column:1;display:grid;gap:8px;grid-template-columns:repeat(3,minmax(0,1fr));align-content:start;transition:opacity .15s ease}
   .hub-panel:not(.active){visibility:hidden;opacity:0;pointer-events:none}
@@ -250,14 +250,13 @@
 
   /* ---- world clocks (analog, hands only) ---- */
   .topmeta{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:22px;width:300px;max-width:44%}
-  .clocks{margin-top:clamp(16px,2.2vw,22px);display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    padding-top:clamp(13px,1.8vw,16px);border-top:1px solid var(--line)}
-  .clk{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:14px;
+  .clocks{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  .clk{display:flex;align-items:center;gap:8px;padding:6px 9px;border-radius:12px;
     background:rgba(255,255,255,.05);border:1px solid rgba(16,207,201,.22);
     -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
     transition:opacity .5s ease, background .5s ease, border-color .5s ease}
   .clk.closed{background:rgba(6,16,28,.5);border-color:rgba(255,255,255,.05);opacity:.42}
-  .cl{width:40px;height:40px;flex:0 0 auto}
+  .cl{width:28px;height:28px;flex:0 0 auto}
   .cl-ring{fill:none;stroke:var(--line);stroke-width:2}
   .cl-h{stroke:var(--ink);stroke-width:3;stroke-linecap:round}
   .cl-m{stroke:var(--ink);stroke-width:2;stroke-linecap:round}
@@ -479,11 +478,10 @@
   .hub-tab{text-align:center;flex:1 1 0;border-right:none;border-bottom:2px solid transparent;padding:9px 10px 7px}
   .hub-tab.active{border-right-color:transparent;border-bottom-color:var(--sky)}
   .hub-tab:hover{border-right-color:transparent;border-bottom-color:rgba(16,207,201,.35)}}
-  @media (max-width:620px){.clocks{grid-template-columns:repeat(2,1fr)}.kd-row{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:620px){.kd-row{grid-template-columns:repeat(3,1fr)}}
   @media (max-width:560px){.hub-panel{grid-template-columns:1fr}}
 
-
-  .vs-infobox{grid-column:2;grid-row:2;align-self:start;text-align:right;
+  .vs-infobox{text-align:right;
     border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03);
     box-shadow:inset 0 1px 0 rgba(255,255,255,.05);padding:clamp(12px,1.6vw,18px)}
   [data-theme="light"] .vs-infobox{background:rgba(255,255,255,.42);border-color:rgba(15,40,70,.12)}
@@ -491,7 +489,7 @@
     .herorow{grid-template-columns:1fr clamp(180px,38%,240px);row-gap:12px;column-gap:clamp(12px,2vw,20px)}
     .hr-brandline{grid-column:1/-1}
     .hr-bodyL{grid-column:1;grid-row:2}
-    .vs-infobox{grid-column:2;grid-row:2}
+    .clocks{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -536,11 +534,14 @@
         <p class="sub">Find what you need, jump straight in, and let the connected workflow carry the deal forward — everything that helps you win, in one place.</p>
       </div>
 
-      <div class="vs-infobox rise d3">
+      <div class="hr-bodyR rise d3">
+        <div class="vs-infobox">
           <span id="greet">Welcome</span>
           <span id="clock">&mdash;</span>
-        <div class="quote"><span id="qtext">&nbsp;</span><span id="qby"></span></div>
+          <div class="quote"><span id="qtext">&nbsp;</span><span id="qby"></span></div>
         </div>
+        <div class="clocks" id="clocks" aria-label="World clocks"></div>
+      </div>
 
     </div>
 
@@ -548,75 +549,6 @@
 
     <nav class="tiles" id="tiles" aria-label="Quick action zone"></nav>
 
-    <div class="clocks rise d4" id="clocks" aria-label="World clocks"></div>
-
-    <section class="calsec rise d4" aria-label="Key dates calendar">
-      <div class="cal-body">
-        <div class="cal-main">
-          <div class="cal-bar">
-            <div class="cal-bar-nav">
-              <svg class="cal-bar-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></svg>
-              <button class="cal-btn" id="calPrev" type="button" aria-label="Previous month"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
-              <div class="cal-monthsel">
-                <button class="cal-month" id="calMonthBtn" type="button" aria-haspopup="true" aria-expanded="false">
-                  <span id="calMonth">&mdash;</span>
-                  <svg class="cal-caret" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                </button>
-                <div class="cal-pop" id="calPop" hidden>
-                  <div class="cal-pop-yr">
-                    <button class="cal-btn" id="calYrPrev" type="button" aria-label="Previous year"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
-                    <span id="calYrLabel">2026</span>
-                    <button class="cal-btn" id="calYrNext" type="button" aria-label="Next year"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
-                  </div>
-                  <div class="cal-pop-months" id="calPopMonths"></div>
-                </div>
-              </div>
-              <button class="cal-btn" id="calNext" type="button" aria-label="Next month"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
-            </div>
-            <div class="cal-otd" id="calTodayFact"></div>
-            <button class="cal-datebtn" id="calToday" type="button" title="Jump to today"><span id="calTodayDate">&mdash;</span></button>
-          </div>
-          <div class="cal-dow"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
-          <div class="cal-grid" id="calGrid"></div>
-          <div class="cal-legend" id="calLegend"></div>
-        </div>
-        <div class="cal-side">
-          <div class="cal-bb" id="calBB"></div>
-          <aside class="cal-listwrap">
-            <h2>This Month</h2>
-            <div class="cal-list-vp"><div class="cal-list-track" id="calListTrack"></div></div>
-            <div class="cal-list-pager" id="calListPager"></div>
-          </aside>
-        </div>
-      </div>
-      <div class="cal-modal" id="calModal" role="dialog" aria-modal="true" aria-hidden="true">
-        <div class="cal-modal-back" data-cm-close></div>
-        <div class="cal-modal-panel">
-          <button class="cal-modal-close" type="button" data-cm-close aria-label="Close">&times;</button>
-          <div class="cm-cat" id="cmCat"></div>
-          <div class="cm-date" id="cmDate"></div>
-          <h4 class="cm-title" id="cmTitle"></h4>
-          <p class="cm-desc" id="cmDesc"></p>
-          <a class="cm-link" id="cmLink" target="_top" rel="noopener" hidden>Open &#8599;</a>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <footer class="sitefoot">
-    <div class="sf-cred"><span class="sf-u sf-brand">A <img class="sf-logo sf-logo-dark" src="assets/images/logos/Sales_Enablement_Logos/Typemark_Qlik-Sales-Enablement_2cReverse.svg" alt="Qlik Sales Enablement" onerror="sfBrandFallback(this)"><img class="sf-logo sf-logo-light" src="assets/images/logos/Sales_Enablement_Logos/Typemark_Qlik-Sales-Enablement_Color.svg" alt="Qlik Sales Enablement" onerror="sfBrandFallback(this)"><span class="sf-logo-fallback">Qlik Sales Enablement</span> initiative&nbsp;&middot;</span> <span class="sf-u">Designed &amp; developed by <strong>Travis Slusser</strong>,</span> <span class="sf-u">Senior Learning Strategist&nbsp;&middot;</span> <span class="sf-u"><a href="mailto:Travis.Slusser@Qlik.com">Travis.Slusser@Qlik.com</a></span></div>
-    <div class="sf-tools">Built on Vercel &amp; embedded in Mindtickle<span class="sf-sep">&middot;</span>Market data by Finnhub<span class="sf-sep">&middot;</span>News via GNews<span class="sf-sep">&middot;</span>On-this-day facts via Wikipedia</div>
-    <div class="sf-legal">&copy; 2026 Qlik. All rights reserved. For internal Qlik use only. Provided for informational and enablement purposes and does not constitute financial, investment, or legal advice. Third-party market and news data are supplied &ldquo;as is,&rdquo; may be delayed, and are not guaranteed for accuracy or completeness. All trademarks are the property of their respective owners.</div>
-  </footer>
-
-  <div class="kd-modal" id="kdModal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="kd-back" data-close></div>
-    <div class="kd-panel">
-      <button class="kd-close" type="button" data-close aria-label="Close">&times;</button>
-      <div class="pm" id="kdmDate"></div>
-      <h4 id="kdmTitle"></h4>
-      <p id="kdmDetail"></p>
-    </div>
   </div>
 
 <script>
@@ -716,286 +648,6 @@ HUB_CATS.forEach(function(cat,idx){
 tiles.appendChild(tabBar);
 tiles.appendChild(hubPanels);
 showCat(0);
-
-/* ---- key dates [at a glance] → click opens a details dialog ---- */
-const KEY_DATES = [   /* EDIT HERE (sample) — editing app + Neon getEvents will replace this. date=YYYY-MM-DD; category must exist in CATEGORIES. */
-  { date:'2026-06-05', category:'event',    month:'JUN', day:'5',  year:'2026', title:'Enablement Office Hours', detail:'Open Q&A with the Enablement team — drop in with questions on tools, content, or live deals.' },
-  { date:'2026-06-10', category:'training', month:'JUN', day:'10', year:'2026', title:'Copilot Deep Dive', detail:'Hands-on session on using Copilot across the selling motion. Recording posts to the Assets hub after.' },
-  { date:'2026-06-13', category:'review',   month:'JUN', day:'13', year:'2026', title:'Q2 Business Review', detail:'Regional pipeline review and Q2 commit walk-through. Materials drop in the Assets hub the day before.' },
-  { date:'2026-06-17', category:'training', month:'JUN', day:'17', year:'2026', title:'Story Selling Office Hours', detail:'Live coaching on Act 1/2/3 structure with the enablement team. Bring a live deal to work through.' },
-  { date:'2026-06-18', category:'content',  month:'JUN', day:'18', year:'2026', title:'Messaging Guides v2', detail:'Refreshed positioning, narratives, and competitive plays publish to the 2026 Messaging Guides hub.' },
-  { date:'2026-06-23', category:'training', month:'JUN', day:'23', year:'2026', title:'AI Toolkit Launch', detail:'Walkthrough of the latest Copilot and Notetaker workflows, plus the refreshed Deal Guides.' },
-  { date:'2026-06-25', category:'event',    month:'JUN', day:'25', year:'2026', title:'Partner Co-Sell Webinar', detail:'Channel & Alliances session on co-selling motions and partner enablement.' },
-  { date:'2026-06-30', category:'deadline', month:'JUN', day:'30', year:'2026', title:'Quarter Close', detail:'End-of-quarter deadlines, deal-desk cutoffs, and the submission checklist.' },
-  { date:'2026-07-08', category:'event',    month:'JUL', day:'8',  year:'2026', title:'SKO 2026 Recap Live', detail:'Live recap of SKO themes with the on-demand content links.' },
-  { date:'2026-07-15', category:'content',  month:'JUL', day:'15', year:'2026', title:'New Deal Guides Drop', detail:'Updated Deal Guides land in the AI Selling Toolkit hub.' },
-];
-const kdModal = document.getElementById('kdModal');
-function openKd(d){
-  document.getElementById('kdmDate').textContent = d.month+' '+d.day+(d.year? ', '+d.year : '');
-  document.getElementById('kdmTitle').textContent = d.title;
-  document.getElementById('kdmDetail').textContent = d.detail;
-  kdModal.classList.add('open'); kdModal.setAttribute('aria-hidden','false');
-}
-function closeKd(){ kdModal.classList.remove('open'); kdModal.setAttribute('aria-hidden','true'); }
-kdModal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeKd));
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeKd(); });
-
-/* ---- key dates calendar (bottom): plots the same KEY_DATES, reuses the openKd modal ---- */
-const CATEGORIES = {
-  review:   { label:'Business Review', color:'var(--cat-review)' },
-  training: { label:'Training',        color:'var(--cat-training)' },
-  deadline: { label:'Deadline',        color:'var(--cat-deadline)' },
-  event:    { label:'Live Event',      color:'var(--cat-event)' },
-  content:  { label:'Content Drop',     color:'var(--cat-content)' }
-};
-const CAL_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-function calIso(d){ var m=d.getMonth()+1, day=d.getDate(); return d.getFullYear()+'-'+(m<10?'0'+m:m)+'-'+(day<10?'0'+day:day); }
-function calCatColor(k){ return (CATEGORIES[k]||{}).color || 'var(--muted)'; }
-var calNow = new Date(), calY = calNow.getFullYear(), calM = calNow.getMonth();
-var calGrid = document.getElementById('calGrid'), calMonthEl = document.getElementById('calMonth');
-var calByDate = {};
-KEY_DATES.forEach(function(e){ if(e.date){ (calByDate[e.date] = calByDate[e.date] || []).push(e); } });
-function renderCal(){
-  calMonthEl.textContent = CAL_MONTHS[calM] + ' ' + calY;
-  calGrid.innerHTML = '';
-  var first = new Date(calY, calM, 1);
-  var start = new Date(calY, calM, 1 - first.getDay());
-  var t = calIso(new Date());
-  for(var i=0;i<42;i++){
-    var d = new Date(start.getFullYear(), start.getMonth(), start.getDate()+i);
-    var ds = calIso(d);
-    var cell = document.createElement('div');
-    cell.className = 'cal-cell' + (d.getMonth()!==calM ? ' dim':'') + (ds===t ? ' today':'');
-    cell.setAttribute('data-date', ds);
-    var num = document.createElement('span'); num.className='cal-num'; num.textContent = d.getDate(); cell.appendChild(num);
-    var evs = calByDate[ds] || [];
-    evs.slice(0,3).forEach(function(ev){
-      var p = document.createElement('button'); p.type='button'; p.className='cal-pill';
-      p.innerHTML = '<span class="cdot" style="background:'+calCatColor(ev.category)+'"></span><span class="ct">'+ev.title+'</span>';
-      p.addEventListener('click', function(){ openCalModal(ev); });
-      cell.appendChild(p);
-    });
-    if(evs.length>3){ var m=document.createElement('span'); m.className='cal-more'; m.textContent='+'+(evs.length-3)+' more'; cell.appendChild(m); }
-    calGrid.appendChild(cell);
-  }
-  renderCalList();
-  buildBB();
-}
-var LIST_PER_PAGE = 3, calListPage = 0;
-function calMonthEvents(){
-  var pre = calY + '-' + (calM+1<10?'0'+(calM+1):(calM+1));
-  return KEY_DATES.filter(function(e){ return e.date && e.date.indexOf(pre)===0; })
-                  .sort(function(a,b){ return a.date<b.date?-1:a.date>b.date?1:0; });
-}
-function calLiHTML(ev){
-  var p = ev.date.split('-');
-  return '<span class="cdot" style="background:'+calCatColor(ev.category)+'"></span>'+
-    '<span class="cal-li-body"><span class="cal-li-t">'+ev.title+'</span>'+
-    '<span class="cal-li-s">'+CAL_MONTHS[calM].slice(0,3)+' '+parseInt(p[2],10)+' &middot; '+((CATEGORIES[ev.category]||{}).label||'')+'</span></span>';
-}
-function renderCalList(){
-  var track = document.getElementById('calListTrack');
-  var pager = document.getElementById('calListPager');
-  track.innerHTML = ''; pager.innerHTML = '';
-  var evs = calMonthEvents();
-  if(!evs.length){
-    track.style.transform = 'translateX(0)'; calListPage = 0;
-    track.innerHTML = '<div class="cal-list-page"><div class="cal-empty">No events this month.</div></div>';
-    return;
-  }
-  var pages = Math.ceil(evs.length / LIST_PER_PAGE);
-  if(calListPage >= pages) calListPage = 0;
-  for(var pg=0; pg<pages; pg++){
-    var page = document.createElement('div'); page.className = 'cal-list-page';
-    evs.slice(pg*LIST_PER_PAGE, pg*LIST_PER_PAGE+LIST_PER_PAGE).forEach(function(ev){
-      var row = document.createElement('button'); row.type='button'; row.className='cal-li';
-      row.innerHTML = calLiHTML(ev);
-      row.addEventListener('click', function(){ openCalModal(ev); });
-      page.appendChild(row);
-    });
-    track.appendChild(page);
-  }
-  function move(){ track.style.transform = 'translateX(-'+(calListPage*100)+'%)';
-    pager.querySelectorAll('.cal-pgdot').forEach(function(d,i){ d.classList.toggle('on', i===calListPage); });
-  }
-  if(pages>1){
-    for(var i=0;i<pages;i++){ (function(idx){ var dot=document.createElement('button'); dot.type='button';
-      dot.className='cal-pgdot'+(idx===calListPage?' on':''); dot.setAttribute('aria-label','Page '+(idx+1)); dot.addEventListener('click', function(){ calListPage=idx; move(); });
-      pager.appendChild(dot); })(i); }
-  }
-  move();
-}
-
-/* ---- rotating billboard: random cycle through the month's events ---- */
-var bbEvents = [], bbIndex = 0, bbTimer = null, BB_INTERVAL = 5000, bbHover = false, calModalOpen = false;
-function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
-function buildBB(){
-  var bb = document.getElementById('calBB'); stopBB();
-  var evs = calMonthEvents();
-  if(!evs.length){ bb.innerHTML = '<div class="cal-bb-empty">No events to spotlight this month.</div>'; bb.onclick = null; return; }
-  bbEvents = shuffle(evs); bbIndex = 0;
-  bb.innerHTML =
-    '<div class="cal-bb-eyebrow"><span class="pulse-dot"></span>Spotlight</div>'+
-    '<div class="cal-bb-fade" id="calBBFade">'+
-      '<div class="cal-bb-media" id="calBBMedia"><span class="cal-bb-cat" id="calBBCat"></span></div>'+
-      '<div class="cal-bb-body"><div class="cal-bb-date" id="calBBDate"></div><div class="cal-bb-title" id="calBBTitle"></div><div class="cal-bb-desc" id="calBBDesc"></div></div>'+
-    '</div>'+
-    '<div class="cal-bb-dots" id="calBBDots"></div>';
-  fillBB();
-  bb.onclick = function(){ if(bb.classList.contains('cal-bb--exp')) openCalModal(bbEvents[bbIndex]); };
-  startBB();
-}
-function fillBB(){
-  var ev = bbEvents[bbIndex]; if(!ev) return;
-  var p = ev.date.split('-');
-  document.getElementById('calBBMedia').style.backgroundImage = ev.image ? 'url("'+ev.image+'")' : 'linear-gradient(135deg, '+calCatColor(ev.category)+', rgba(11,31,51,.92))';
-  document.getElementById('calBBCat').innerHTML = '<span class="cdot" style="background:'+calCatColor(ev.category)+'"></span>'+((CATEGORIES[ev.category]||{}).label||'');
-  document.getElementById('calBBDate').textContent = CAL_MONTHS[calM]+' '+parseInt(p[2],10);
-  document.getElementById('calBBTitle').textContent = ev.title;
-  document.getElementById('calBBDesc').textContent = ev.detail||'';
-  var dots = document.getElementById('calBBDots');
-  dots.innerHTML = bbEvents.map(function(ev,i){ var p=ev.date.split('-'); return '<button type="button" class="d'+(i===bbIndex?' on':'')+'" aria-label="'+CAL_MONTHS[calM].slice(0,3)+' '+parseInt(p[2],10)+' &middot; '+ev.title+'"></button>'; }).join('');
-  Array.prototype.forEach.call(dots.children, function(btn,i){ btn.addEventListener('click', function(e){ e.stopPropagation(); if(i!==bbIndex){ bbIndex=i; fillBB(); } }); });
-  var desc = document.getElementById('calBBDesc');
-  var bb = document.getElementById('calBB');
-  if(desc && bb){ bb.classList.toggle('cal-bb--exp', desc.scrollHeight > desc.clientHeight + 1); }
-  var prevSpot = document.querySelector('.cal-cell--spot');
-  if(prevSpot){ prevSpot.classList.remove('cal-cell--spot'); prevSpot.style.removeProperty('--spot'); }
-  var spotCell = document.querySelector('.cal-cell[data-date="'+ev.date+'"]');
-  if(spotCell){ spotCell.style.setProperty('--spot', calCatColor(ev.category)); spotCell.classList.add('cal-cell--spot'); }
-}
-function advanceBB(){
-  if(!bbEvents || bbEvents.length<2) return;
-  var fade = document.getElementById('calBBFade'); if(!fade) return;
-  fade.style.opacity = '0';
-  setTimeout(function(){ bbIndex = (bbIndex+1)%bbEvents.length; fillBB(); fade.style.opacity = '1'; }, 300);
-}
-function openCalModal(ev){
-  if(!ev) return;
-  var p = ev.date.split('-');
-  var cat = (CATEGORIES[ev.category]||{});
-  document.getElementById('cmCat').innerHTML = '<span class="cdot" style="background:'+calCatColor(ev.category)+'"></span>'+(cat.label||'');
-  document.getElementById('cmDate').textContent = CAL_MONTHS[parseInt(p[1],10)-1]+' '+parseInt(p[2],10)+', '+p[0];
-  document.getElementById('cmTitle').textContent = ev.title;
-  document.getElementById('cmDesc').textContent = ev.detail||'';
-  var link = document.getElementById('cmLink');
-  if(ev.link){ link.href = ev.link; link.hidden = false; } else { link.hidden = true; }
-  calModalOpen = true; stopBB();
-  var m = document.getElementById('calModal'); m.classList.add('open'); m.setAttribute('aria-hidden','false');
-}
-function closeCalModal(){
-  var m = document.getElementById('calModal'); m.classList.remove('open'); m.setAttribute('aria-hidden','true');
-  calModalOpen = false; startBB();
-}
-function startBB(){ stopBB(); if(!bbHover && !calModalOpen && bbEvents && bbEvents.length>1) bbTimer = setInterval(advanceBB, BB_INTERVAL); }
-function stopBB(){ if(bbTimer){ clearInterval(bbTimer); bbTimer = null; } }
-(function(){ var bb=document.getElementById('calBB'); if(bb){
-  bb.addEventListener('mouseenter', function(){ bbHover=true; stopBB(); });
-  bb.addEventListener('mouseleave', function(){ bbHover=false; startBB(); });
-} })();
-document.addEventListener('keydown', function(e){ if(e.key==='Escape' && calModalOpen) closeCalModal(); });
-
-/* ---- contained calendar modal: close on backdrop or close button ---- */
-(function(){ var m=document.getElementById('calModal'); if(m){ m.addEventListener('click', function(e){ if(e.target.hasAttribute('data-cm-close')) closeCalModal(); }); } })();
-(function(){
-  var lg = document.getElementById('calLegend');
-  Object.keys(CATEGORIES).forEach(function(k){
-    var el = document.createElement('span'); el.className='lg';
-    el.innerHTML = '<span class="cdot" style="background:'+CATEGORIES[k].color+'"></span>'+CATEGORIES[k].label;
-    lg.appendChild(el);
-  });
-})();
-document.getElementById('calPrev').addEventListener('click', function(){ calM--; if(calM<0){calM=11;calY--;} renderCal(); });
-document.getElementById('calNext').addEventListener('click', function(){ calM++; if(calM>11){calM=0;calY++;} renderCal(); });
-document.getElementById('calToday').addEventListener('click', function(){ var n=new Date(); calY=n.getFullYear(); calM=n.getMonth(); renderCal(); });
-
-/* ---- month/year picker dropdown (skip ahead) ---- */
-var calPop = document.getElementById('calPop');
-var calMonthBtn = document.getElementById('calMonthBtn');
-var calYrLabel = document.getElementById('calYrLabel');
-var calPopMonths = document.getElementById('calPopMonths');
-var popYr = calY;
-function renderPopMonths(){
-  calYrLabel.textContent = popYr;
-  calPopMonths.innerHTML = '';
-  for(var i=0;i<12;i++){
-    (function(idx){
-      var btn = document.createElement('button');
-      btn.type='button';
-      btn.className = 'cal-mo' + (popYr===calY && idx===calM ? ' sel':'');
-      btn.textContent = CAL_MONTHS[idx].slice(0,3);
-      btn.addEventListener('click', function(){ calY=popYr; calM=idx; closeCalPop(); renderCal(); });
-      calPopMonths.appendChild(btn);
-    })(i);
-  }
-}
-function openCalPop(){ popYr=calY; renderPopMonths(); calPop.hidden=false; calMonthBtn.setAttribute('aria-expanded','true'); }
-function closeCalPop(){ calPop.hidden=true; calMonthBtn.setAttribute('aria-expanded','false'); }
-calMonthBtn.addEventListener('click', function(e){ e.stopPropagation(); if(calPop.hidden) openCalPop(); else closeCalPop(); });
-document.getElementById('calYrPrev').addEventListener('click', function(e){ e.stopPropagation(); popYr--; renderPopMonths(); });
-document.getElementById('calYrNext').addEventListener('click', function(e){ e.stopPropagation(); popYr++; renderPopMonths(); });
-calPop.addEventListener('click', function(e){ e.stopPropagation(); });
-document.addEventListener('click', function(){ if(!calPop.hidden) closeCalPop(); });
-document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !calPop.hidden) closeCalPop(); });
-renderCal();
-
-/* ---- "Today" + on-this-day factoid (rotates 4x/day; via /api/onthisday, Wikimedia) ---- */
-var OTD_FALLBACK = [
-  { year:1969, text:'Apollo 11 lifted off, beginning the first crewed mission to land on the Moon.' },
-  { year:1876, text:'The first successful telephone call was made, opening the age of instant voice.' },
-  { year:1955, text:'The first Disneyland park opened its gates to the public in California.' },
-  { year:1990, text:'The World Wide Web project was proposed, reshaping how the world shares information.' },
-  { year:1903, text:'The first powered, controlled airplane flight got off the ground at Kitty Hawk.' },
-  { year:1928, text:'Penicillin was discovered, launching the era of modern antibiotics.' },
-  { year:1962, text:'The first commercial communications satellite relayed a live transatlantic broadcast.' },
-  { year:1492, text:'A westward voyage of exploration set sail across the Atlantic.' }
-];
-var otdList = OTD_FALLBACK.slice();
-function otdEscape(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
-function otdPick(list){
-  if(!list || !list.length) return null;
-  var slot = Math.floor(new Date().getHours()/6);      // 0..3 -> changes 4x/day
-  return list[Math.floor(slot*list.length/4) % list.length];
-}
-function otdOrd(n){ var s=['th','st','nd','rd'], v=n%100; return n + (s[(v-20)%10] || s[v] || s[0]); }
-function setupOtdMarquee(){
-  var fe = document.getElementById('calTodayFact'); var track = document.getElementById('calOtdTrack');
-  if(!fe || !track) return;
-  track.classList.remove('scroll'); track.style.animationDuration = ''; fe.classList.remove('feather');
-  while(track.children.length > 1) track.removeChild(track.lastChild);
-  var seg = track.firstElementChild; if(!seg) return;
-  var textW = seg.getBoundingClientRect().width, contW = fe.clientWidth;
-  if(textW > contW + 6){
-    track.appendChild(seg.cloneNode(true));
-    track.classList.add('scroll'); fe.classList.add('feather');
-    var segW = track.firstElementChild.getBoundingClientRect().width; // now includes the gap
-    track.style.animationDuration = (segW/18) + 's';                  // ~18px/sec, slower
-  }
-}
-function renderToday(){
-  var d = new Date();
-  var de = document.getElementById('calTodayDate');
-  if(de){ de.textContent = d.toLocaleDateString('en-US',{weekday:'long'})+', '+d.toLocaleDateString('en-US',{month:'long'})+' '+otdOrd(d.getDate())+', '+d.getFullYear(); }
-  var fe = document.getElementById('calTodayFact'); if(!fe) return;
-  var f = otdPick(otdList);
-  var sep = '<span class="otd-sep" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2 L13.8 10.2 L22 12 L13.8 13.8 L12 22 L10.2 13.8 L2 12 L10.2 10.2 Z"/></svg></span>';
-  var html = f ? '<span class="otd-dyk">THIS DAY IN HISTORY</span> <b>'+f.year+'</b> &mdash; '+otdEscape(f.text) : '';
-  fe.innerHTML = '<div class="cal-otd-track" id="calOtdTrack"><span class="seg">'+html+sep+'</span></div>';
-  setupOtdMarquee();
-}
-window.addEventListener('resize', setupOtdMarquee);
-if(document.fonts && document.fonts.ready) document.fonts.ready.then(setupOtdMarquee);
-function loadOTD(){
-  var d = new Date();
-  renderToday();
-  fetch('/api/onthisday?m='+(d.getMonth()+1)+'&d='+d.getDate())
-    .then(function(r){ return r.ok ? r.json() : null; })
-    .then(function(j){ if(j && j.events && j.events.length){ otdList = j.events; renderToday(); } })
-    .catch(function(){ /* keep fallback */ });
-}
-loadOTD();
-setInterval(renderToday, 10*60*1000);   // re-evaluate the 4x/day slot while the page is open
 
 /* ---- QNews channel icon fallback (until the PNG is in the repo) ---- */
 function qnewsFallback(){ var e=document.getElementById('qnews'); if(e) e.classList.add('fb'); }
@@ -1109,7 +761,6 @@ function showQuote(){
 }
 showQuote();
 setInterval(()=>{ qi=(qi+1)%QUOTES.length; showQuote(); }, 13000);
-
 
 /* ---- light / dark toggle (always starts dark) ---- */
 const SUN_ICON='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.3M12 19.1v2.3M2.6 12h2.3M19.1 12h2.3M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>';
