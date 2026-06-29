@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stellar-Seller HQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800;900&family=Barlow+Condensed:wght@700;800;900&family=Share+Tech+Mono&family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --green: #009845;
+    --sky: #10CFC9;
+    --deep-blue: #19426C;
+    --bg: #0D2A47;
+    --white: #ffffff;
+    --purple: #A37DF6;
+  }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  /* ── BANNER ── */
+  .banner {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  .bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://raw.githubusercontent.com/TravisWSlusser/QlikMindtickleApps/main/images/HQBackground_compressed.png');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.55);
+    transition: filter 0.5s ease;
+  }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(13,42,71,0.85) 0%, rgba(13,42,71,0.6) 50%, rgba(13,42,71,0.3) 100%);
+    transition: opacity 0.5s ease;
+  }
+
+  /* ── TOP NAV BAR ── */
+  .panel-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 42px;
+    display: flex;
+    z-index: 15;
+    background: rgba(5, 15, 30, 0.72);
+    border-bottom: 1px solid rgba(16,207,201,0.15);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .panel-nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex: 1;
+    height: 100%;
+    background: transparent;
+    border: none;
+    border-right: 1px solid rgba(255,255,255,0.07);
+    color: rgba(255,255,255,0.55);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.25s, color 0.25s, box-shadow 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .panel-nav-btn:last-child { border-right: none; }
+
+  /* shimmer sweep */
+  .panel-nav-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: 0;
+    width: 50%; height: 200%;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.12) 50%, transparent 60%);
+    transform: skewX(-15deg) translateX(-200%);
+    transition: transform 0.5s ease;
+    pointer-events: none;
+  }
+
+  .panel-nav-btn:hover::after { transform: skewX(-15deg) translateX(400%); }
+
+  /* bottom accent line on hover */
+  .panel-nav-btn::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--green);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+
+  .panel-nav-btn:hover::before { transform: scaleX(1); }
+  .panel-nav-btn:hover {
+    background: rgba(0,152,69,0.12);
+    color: #fff;
+  }
+
+  .panel-nav-btn.active-panel {
+    background: rgba(0,152,69,0.15);
+    color: var(--green);
+    box-shadow: inset 0 -2px 0 var(--green);
+  }
+
+  .panel-nav-btn.active-panel::before { transform: scaleX(1); }
+
+  .panel-nav-btn svg { flex-shrink: 0; opacity: 0.8; }
+
+  /* ── SIDE QLIK ── */
+  .side-qlik {
+    position: absolute;
+    bottom: 0;
+    right: 60px;
+    width: 220px;
+    height: auto;
+    transform: translateX(300px);
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+    z-index: 3;
+    filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.4));
+  }
+
+  .side-qlik.visible { transform: translateX(0); }
+
+  /* ── MAIN CONTENT ── */
+  .content {
+    position: absolute;
+    top: 42px;
+    left: 0;
+    right: 240px;
+    bottom: 30px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    padding: 0 48px;
+    transition: opacity 0.4s ease;
+  }
+
+  @media (max-width: 900px) {
+    .content { right: 200px; }
+    .side-qlik { width: 190px !important; right: 20px !important; }
+  }
+  @media (max-width: 700px) {
+    .content { right: 160px; }
+    .side-qlik { width: 150px !important; right: 10px !important; }
+  }
+
+  .welcome-msg {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    max-width: 100%;
+  }
+
+  .welcome-msg.active { opacity: 1; }
+
+  .welcome-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--green);
+    border-radius: 4px;
+    padding: 4px 12px;
+    margin-bottom: 14px;
+  }
+
+  .welcome-tag span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #fff;
+    text-transform: uppercase;
+  }
+
+  .welcome-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .welcome-title span { color: var(--sky); }
+
+  .welcome-body {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.6;
+    max-width: 520px;
+  }
+
+  .tip-msg {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    max-width: 100%;
+  }
+
+  .tip-msg.active { opacity: 1; }
+
+  .tip-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.5;
+    max-width: 560px;
+    margin-bottom: 10px;
+  }
+
+  .tip-category {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--sky);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  /* ── PROGRESS + DOTS ── */
+  .progress-bar {
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 3px;
+    background: var(--green);
+    width: 0%;
+    z-index: 4;
+    transition: width linear;
+  }
+
+  .dots {
+    position: absolute;
+    bottom: 16px;
+    left: 48px;
+    display: flex;
+    gap: 6px;
+    z-index: 4;
+    transition: opacity 0.4s ease;
+  }
+
+  /* nav bar z-index sits above panels so it stays clickable */
+
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    transition: background 0.3s;
+  }
+
+  .dot.active { background: var(--sky); }
+  .dot.welcome { background: var(--green); }
+
+  /* ── PANEL OVERLAY ── */
+  .panel-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background: #006580;
+    background-image: url('https://raw.githubusercontent.com/TravisWSlusser/QlikMindtickleApps/main/images/panel_bg1.png');
+    background-size: 50% auto;
+    background-position: left center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.45s ease;
+    overflow: hidden;
+  }
+
+  .panel-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* scanline texture over the panel */
+  .panel-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.06) 2px,
+      rgba(0,0,0,0.06) 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* left edge teal glow line */
+  .panel-overlay::after {
+    content: '';
+    position: absolute;
+    left: 48%;
+    top: 10%;
+    bottom: 10%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(16,207,201,0.3), transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .panel-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    width: 26px; height: 26px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 50%;
+    color: rgba(255,255,255,0.7);
+    font-size: 12px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+    z-index: 5;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .panel-close:hover {
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    transform: rotate(90deg);
+  }
+
+  .panel-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 620px;
+    padding: 24px 48px;
+    margin-left: auto; /* push toward center-right, away from dot art */
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.4s ease 0.2s, transform 0.4s ease 0.2s;
+  }
+
+  .panel-overlay.active .panel-content {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .panel-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(16,207,201,0.15);
+    border: 1px solid rgba(16,207,201,0.3);
+    border-radius: 3px;
+    padding: 3px 10px;
+    margin-bottom: 12px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    color: var(--sky);
+    text-transform: uppercase;
+  }
+
+  .panel-tag-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--sky);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%,100% { opacity: 1; } 50% { opacity: 0.3; }
+  }
+
+  .panel-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #fff;
+    line-height: 1.05;
+    margin-bottom: 10px;
+  }
+
+  .panel-title .accent { color: var(--sky); }
+
+  .panel-body {
+    font-size: 12.5px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.68);
+    line-height: 1.65;
+    margin-bottom: 18px;
+    max-width: 420px;
+  }
+
+  .panel-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+    border: none;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .action-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: 0;
+    width: 50%; height: 200%;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
+    transform: skewX(-15deg) translateX(-200%);
+    transition: transform 0.4s ease;
+    pointer-events: none;
+  }
+
+  .action-btn:hover::after { transform: skewX(-15deg) translateX(400%); }
+
+  .action-btn.primary {
+    background: linear-gradient(135deg, #A37DF6, #7c4fd4);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(163,125,246,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.25),
+                inset 0 -1px 0 rgba(0,0,0,0.3);
+  }
+
+  .action-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(163,125,246,0.7);
+  }
+
+  .action-btn.coming-soon {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.3);
+    cursor: not-allowed;
+    letter-spacing: 0.8px;
+  }
+
+  .action-btn.coming-soon:hover::after { transform: skewX(-15deg) translateX(-200%); }
+
+  /* ── MOBILE BLOCK ── */
+  @media (max-width: 480px) {
+    .mobile-block { display: flex !important; }
+  }
+
+  .mobile-icon {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .mobile-icon.visible { opacity: 1; transform: translateY(0); }
+
+  .mobile-text {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: pre-line;
+    text-align: center;
+  }
+
+  .mobile-text.visible { opacity: 1; transform: translateY(0); }
+
+  .mobile-sub {
+    opacity: 0;
+    transition: opacity 0.6s ease 0.5s;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    max-width: 240px;
+    text-align: center;
+  }
+
+  .mobile-sub.visible { opacity: 1; }
+
+
+/* ===== HQ shell — chunk-1 design language (frosted rounded wrap + inner rounded cards) ===== */
+html,body{margin:0}
+body{font-family:'Inter',system-ui,sans-serif;color:#EDF3F9;min-height:100%;overflow-x:hidden;
+  background:radial-gradient(140% 120% at 88% -10%, #1b4670 0%, #19426C 26%, #11304D 58%, #0B1F33 100%);
+  padding-inline:clamp(16px,4vw,56px)}
+.hq{position:relative;max-width:1120px;margin:clamp(16px,3vw,40px) auto;
+  padding:clamp(20px,3vw,40px) clamp(24px,4vw,46px);
+  background:rgba(255,255,255,.028);border:1px solid rgba(255,255,255,.08);
+  border-radius:clamp(22px,3vw,34px);
+  box-shadow:0 18px 50px -34px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.06);
+  backdrop-filter:blur(32px) saturate(118%);-webkit-backdrop-filter:blur(32px) saturate(118%);
+  font-family:'Barlow',sans-serif}
+/* ---- top row: brand · tabs · clock (transparent, hairline under) ---- */
+.hq-top{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.10)}
+.hq-left{display:flex;align-items:center;gap:14px}
+.hq-badge{background:linear-gradient(135deg,#009845,#007a38);border-radius:6px;padding:4px 10px;display:flex;align-items:center;gap:6px;box-shadow:0 0 12px rgba(0,152,69,.4)}
+.hq-badge .d{width:7px;height:7px;background:#fff;border-radius:50%;animation:hqpulse 2s ease-in-out infinite}
+@keyframes hqpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.hq-badge span{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;letter-spacing:1.5px;color:#fff;text-transform:uppercase}
+.hq-brand{display:flex;flex-direction:column;line-height:1}
+.hq-brand .t{font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:900;color:#fff;letter-spacing:1px;text-transform:uppercase}
+.hq-brand .t span{color:#10CFC9}
+.hq-brand .s{font-size:10px;font-weight:600;color:rgba(255,255,255,.45);letter-spacing:2px;text-transform:uppercase;margin-top:3px}
+.hq-tabs{display:flex;align-items:center;gap:4px}
+.hq-tab{appearance:none;background:transparent;border:0;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.42);padding:8px 16px 6px;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap}
+.hq-tab:hover{color:rgba(255,255,255,.75)}
+.hq-tab.active{color:#10CFC9;border-bottom-color:#10CFC9;text-shadow:0 0 14px rgba(16,207,201,.5)}
+.hq-right{display:flex;align-items:center;gap:12px}
+.hq-tz{background:rgba(16,207,201,.1);border:1px solid rgba(16,207,201,.25);border-radius:4px;padding:3px 8px;font-size:10px;font-weight:700;color:#10CFC9;letter-spacing:1px;text-transform:uppercase}
+.hq-vbar{width:1px;height:30px;background:rgba(255,255,255,.1)}
+.hq-dt{display:flex;flex-direction:column;align-items:flex-end;line-height:1}
+.hq-dt .tm{font-family:'Barlow Condensed',sans-serif;font-size:23px;font-weight:800;color:#10CFC9;letter-spacing:2px;text-shadow:0 0 20px rgba(16,207,201,.5);font-variant-numeric:tabular-nums}
+.hq-dt .dd{font-size:10px;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px}
+/* ---- panels ---- */
+.hq-stage{margin-top:clamp(16px,2.4vw,22px)}
+.hq-panel{display:none}.hq-panel.active{display:block}
+/* news ticker as a rounded inset band */
+.hqt-band{border:1px solid rgba(255,255,255,.10);border-radius:12px;overflow:hidden;background:rgba(255,255,255,.03);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.hqt{display:flex;align-items:center;height:36px}
+.hqt-q{position:relative;flex:0 0 auto;align-self:stretch;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:0 18px;background:rgba(255,255,255,.05);box-shadow:inset -1px 0 0 rgba(255,255,255,.10);overflow:hidden}
+.hqt-q::before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(45deg,transparent 0 5px,rgba(255,255,255,.045) 5px 6px)}
+.hqt-k{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:'Inter',sans-serif;font-weight:600;font-size:7px;letter-spacing:.26em;text-indent:.26em;text-transform:uppercase;color:#10CFC9;line-height:1}
+.hqt-k::before,.hqt-k::after{content:"";width:9px;height:1px;background:currentColor;opacity:.5;flex:0 0 auto}
+.hqt-w{position:relative;z-index:1;font-family:'Playfair Display',serif;font-weight:400;font-size:18px;color:#EDF3F9;line-height:1;letter-spacing:.03em}
+.hqt-win{position:relative;flex:1;display:flex;align-items:center;height:100%;overflow:hidden;padding-left:8px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.hqt-track{display:inline-flex;white-space:nowrap;will-change:transform;animation:hqtmarquee 80s linear infinite reverse}
+.hqt:hover .hqt-track{animation-play-state:paused}
+@keyframes hqtmarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.hqt-item{display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:#EDF3F9;font-size:12px;padding:0 18px;position:relative}
+.hqt-item::after{content:"";position:absolute;right:0;top:50%;transform:translateY(-50%);width:3px;height:3px;border-radius:50%;background:#90A6BD;opacity:.5}
+.hqt-fav{width:14px;height:14px;border-radius:3px;flex:0 0 auto;background:rgba(255,255,255,.1)}
+.hqt-src{color:#90A6BD;font-size:10.5px}
+.hqt-item:hover .hqt-title{color:#10CFC9}
+/* the cave banner as a rounded inset card */
+.hq-bannercard{margin-top:clamp(14px,2vw,18px);border:1px solid rgba(255,255,255,.10);border-radius:16px;overflow:hidden;position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.hq-bannercard .banner{height:340px}
+/* AI status as a rounded inset band */
+.sb-band{margin-top:clamp(14px,2vw,18px);border:1px solid rgba(255,255,255,.10);border-radius:12px;overflow:hidden;background:rgba(255,255,255,.03);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.sb-bar{height:40px;display:flex;align-items:center;justify-content:center;padding:0 20px}
+.sb-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;letter-spacing:2px;color:rgba(255,255,255,.35);text-transform:uppercase;margin-right:22px;white-space:nowrap}
+.sb-providers{display:flex;align-items:center;gap:26px}
+.sb-provider{display:flex;align-items:center;gap:8px;text-decoration:none;cursor:pointer;transition:opacity .2s}
+.sb-provider:hover{opacity:.75}
+.sb-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.sb-dot.operational{background:#009845;box-shadow:0 0 6px rgba(0,152,69,.7);animation:sb-pg 2s ease-in-out infinite}
+.sb-dot.minor{background:#8B5CF6;box-shadow:0 0 8px rgba(139,92,246,.8);animation:sb-pg 2s ease-in-out infinite}
+.sb-dot.major,.sb-dot.critical{background:#f97316;box-shadow:0 0 10px rgba(249,115,22,.9);animation:sb-fo .6s ease-in-out infinite}
+.sb-dot.unknown{background:rgba(255,255,255,.25)}
+@keyframes sb-pg{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.85)}}
+@keyframes sb-fo{0%,100%{opacity:1;transform:scale(1.1)}50%{opacity:.3;transform:scale(.8)}}
+.provider-icon{width:14px;height:14px;opacity:.85;flex-shrink:0}
+.sb-name{font-family:'Inter',sans-serif;font-size:12px;font-weight:300;letter-spacing:.5px;color:rgba(255,255,255,.85);white-space:nowrap}
+.sb-status{font-size:11px;font-weight:300;color:rgba(255,255,255,.4);white-space:nowrap;letter-spacing:.3px}
+.sb-div{width:1px;height:16px;background:rgba(255,255,255,.08)}
+.sb-updated{margin-left:22px;font-size:10px;font-weight:300;color:rgba(255,255,255,.2);letter-spacing:.5px;white-space:nowrap}
+/* REC ROOM as a rounded inset card */
+.hq-reccard{position:relative;border:1px solid rgba(255,255,255,.10);border-radius:16px;overflow:hidden;min-height:380px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05);background:radial-gradient(120% 120% at 50% 0%,#15173a 0%,#0a0a1f 60%,#070712 100%)}
+.hq-reccard::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(155,89,255,.05) 3px,rgba(155,89,255,.05) 4px)}
+.hq-recmid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;z-index:1}
+.hq-recmid .rk{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:#9B59FF}
+.hq-recmid .rt{font-family:'Barlow Condensed',sans-serif;font-size:clamp(40px,8vw,84px);font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#fff;text-shadow:0 0 24px rgba(155,89,255,.6),0 0 60px rgba(16,207,201,.25);line-height:1}
+.hq-recmid .rn{margin-top:14px;font-size:13px;font-weight:600;color:rgba(255,255,255,.5);max-width:48ch;line-height:1.55}
+@media (max-width:640px){.hq-top{flex-wrap:wrap}.hq-brand .s{display:none}.hq-dt .dd{display:none}.hq-tab{font-size:13px;padding:8px 10px 6px}}
+
+</style>
+</head>
+<body>
+<div class="hq">
+  <div class="hq-top">
+    <div class="hq-left"><div class="hq-badge"><div class="d"></div><span>Live</span></div><div class="hq-brand"><div class="t">Stellar-Seller <span>HQ</span></div><div class="s">Global Sales Enablement</div></div></div>
+    <div class="hq-tabs" role="tablist"><button class="hq-tab active" data-target="ai" role="tab">AI-HQ</button><button class="hq-tab" data-target="rec" role="tab">REC Room</button></div>
+    <div class="hq-right"><div class="hq-tz" id="hqTz">...</div><div class="hq-vbar"></div><div class="hq-dt"><div class="tm" id="hqTime">--:-- --</div><div class="dd" id="hqDate">--- --, ----</div></div></div>
+  </div>
+  <div class="hq-stage">
+    <section class="hq-panel active" id="hq-ai" role="tabpanel">
+      <div class="hqt-band"><div class="hqt"><span class="hqt-q"><span class="hqt-k">CURRENT</span><span class="hqt-w">NEWS</span></span><div class="hqt-win"><div class="hqt-track" id="hqNewsTrack"></div></div></div></div>
+      <div class="hq-bannercard">
+<div class="banner">
+  <div class="bg"></div>
+  <div class="overlay"></div>
+
+  <!-- TOP NAV -->
+  <div class="panel-nav">
+    <button class="panel-nav-btn" id="btn-comic" onclick="openPanel('comic')">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+      Comic Issues
+    </button>
+    <button class="panel-nav-btn" id="btn-academy" onclick="openPanel('academy')">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
+      Academy
+    </button>
+  </div>
+
+  <img class="side-qlik" id="sideQlik"
+    src="https://raw.githubusercontent.com/TravisWSlusser/QlikMindtickleApps/main/images/SideQlik1.png"
+    alt="Side-Qlik">
+
+  <div class="content" id="mainContent">
+    <div class="welcome-msg active" id="welcomeMsg">
+      <div class="welcome-tag"><span>Welcome Home</span></div>
+      <div class="welcome-title">Hey <span>Stellar-Seller</span></div>
+      <div class="welcome-body">
+        Thanks for stopping by. This is your one-stop-shop for all your AI tools and training needs. Have you used AI in a unique way to help you close a deal? Let us know using the form below.
+      </div>
+    </div>
+    <div id="tipsContainer"></div>
+  </div>
+
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="dots" id="dots"></div>
+
+  <!-- ── COMIC PANEL ── -->
+  <div class="panel-overlay" id="panel-comic">
+    <button class="panel-close" onclick="closePanel()" title="Close">✕</button>
+    <div class="panel-content">
+      <div class="panel-tag"><span class="panel-tag-dot"></span>Classified · Field Intelligence</div>
+      <div class="panel-title">Our Latest<br><span class="accent">Adventure</span></div>
+      <p class="panel-body">
+        D.O.R.C.S. never sleeps — and neither does the mission. The Stellar-Seller Comic Series drops you into the field alongside Side-Qlik, where every deal is a battle and every buyer is a new challenge. Each issue is built around real selling scenarios, powered by Qlik AI tools you already have access to. Part training, part mission briefing, all Qlik. Read up. The next deal depends on it.
+      </p>
+      <div class="panel-actions">
+        <a class="action-btn primary" href="https://deeplinks.mindtickle.com/8lIR3uOka3b" target="_blank" rel="noopener noreferrer">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/></svg>
+          Issue #1
+        </a>
+        <button class="action-btn coming-soon" disabled>
+          Issue #2 — Coming Soon
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ACADEMY PANEL ── -->
+  <div class="panel-overlay" id="panel-academy">
+    <button class="panel-close" onclick="closePanel()" title="Close">✕</button>
+    <div class="panel-content">
+      <div class="panel-tag"><span class="panel-tag-dot"></span>Training Grounds · Active</div>
+      <div class="panel-title">Stellar-Seller<br><span class="accent">Academy</span></div>
+      <p class="panel-body">
+        Step onto the training grounds where you'll master the latest AI trends, terminology, and how to implement Qlik's AI tools into your sales process — and become a true Stellar-Seller.
+      </p>
+      <div class="panel-actions">
+        <a class="action-btn primary" href="#" target="_blank" rel="noopener noreferrer">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+          Lesson 1 — Your AI Origin Story
+        </a>
+        <button class="action-btn coming-soon" disabled>
+          Lesson 2 — Coming Soon
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE BLOCK -->
+<div class="mobile-block" style="display:none; position:fixed; inset:0;
+  z-index:9999; align-items:center; justify-content:center;
+  flex-direction:column; gap:16px; padding:24px; text-align:center;
+  backdrop-filter: blur(12px) brightness(0.35);
+  -webkit-backdrop-filter: blur(12px) brightness(0.35);
+  background: rgba(13, 42, 71, 0.6);">
+  <img id="mobileIcon"
+    src="https://raw.githubusercontent.com/TravisWSlusser/QlikMindtickleApps/main/images/icons/BadFX2.png"
+    class="mobile-icon"
+    onerror="this.style.display='none'"
+    style="width:70px; height:70px;">
+  <p id="mobileText" class="mobile-text"></p>
+  <p id="mobileSub" class="mobile-sub">This widget is optimized<br>for larger screens.</p>
+</div>
+      </div>
+      <div class="sb-band"><div class="sb-bar"><span class="sb-label">AI Status</span><div class="sb-providers" id="sbProviders"></div><span class="sb-updated" id="sbUpdated"></span></div></div>
+    </section>
+    <section class="hq-panel" id="hq-rec" role="tabpanel">
+      <div class="hq-reccard"><div class="hq-recmid"><div class="rk">Q-Cade Arcade</div><div class="rt">REC Room</div><div class="rn">The live REC Room (leaderboard, world map, Side-Qlik Blitz) loads here as an iframe. Drop in the deployed URL to wire it up.</div></div></div>
+    </section>
+  </div>
+</div>
+<script>
+
+  const tips = [
+    { text: 'Before your next call, ask AI: "Summarize [Company]\'s recent news and identify one business disruption they may not have named yet."', category: 'AI Tip · Act 2 — Disruption' },
+    { text: 'Use AI to pressure-test your story: "I\'m selling to a CFO. Does my Act 3 resolution speak to business outcomes or just features?"', category: 'AI Tip · Act 3 — Resolution' },
+    { text: 'Ask AI to generate discovery questions specific to each Buying Influence — Economic, User, Technical, Coach — before every meeting.', category: 'AI Tip · Story Prep' },
+    { text: 'Try this prompt: "What industry trends could be disrupting [prospect\'s industry] right now?" — builds your Act 1 Situation.', category: 'AI Tip · Act 1 — Situation' },
+    { text: 'AI can\'t replace your Coach relationship — but it can help you prep what to leave behind: "Write a one-page summary of our resolution story for a [role] at [company]."', category: 'AI Tip · Coach Influence' },
+    { text: 'The competitive contrast in one sentence: "Unlike AI bolted on raw data, Qlik\'s AI runs on a governed pipeline — the answers are trustworthy and auditable."', category: 'AI Tip · Competitive Readiness' },
+    { text: 'Always validate AI output before using it in a customer conversation — governed answers start with governed prompts.', category: 'AI Tip · Best Practice' },
+    { text: 'Give AI a role: "Act as a skeptical CFO. Challenge my business case for Qlik." — sharpen your story before the room does.', category: 'AI Tip · Story Prep' }
+  ];
+
+  const WELCOME_DURATION = 16000;
+  const TIP_DURATION = 8000;
+  let currentIndex = -1;
+  let timer;
+  let panelOpen = false;
+
+  const sideQlik  = document.getElementById('sideQlik');
+  const welcomeMsg = document.getElementById('welcomeMsg');
+  const tipsContainer = document.getElementById('tipsContainer');
+  const progressBar = document.getElementById('progressBar');
+  const dotsEl = document.getElementById('dots');
+
+  tips.forEach((tip, i) => {
+    const el = document.createElement('div');
+    el.className = 'tip-msg';
+    el.id = `tip-${i}`;
+    el.innerHTML = `<div class="tip-text">${tip.text}</div><div class="tip-category">${tip.category}</div>`;
+    tipsContainer.appendChild(el);
+  });
+
+  const welcomeDot = document.createElement('div');
+  welcomeDot.className = 'dot welcome active';
+  dotsEl.appendChild(welcomeDot);
+  tips.forEach(() => { const d = document.createElement('div'); d.className = 'dot'; dotsEl.appendChild(d); });
+
+  function updateDots(index) {
+    dotsEl.querySelectorAll('.dot').forEach((d, i) => {
+      d.classList.remove('active', 'welcome');
+      if (index === -1 && i === 0) d.classList.add('welcome', 'active');
+      else if (i === index + 1) d.classList.add('active');
+    });
+  }
+
+  function animateProgress(duration) {
+    progressBar.style.transition = 'none';
+    progressBar.style.width = '0%';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      progressBar.style.transition = `width ${duration}ms linear`;
+      progressBar.style.width = '100%';
+    }));
+  }
+
+  function showWelcome() {
+    if (panelOpen) return;
+    currentIndex = -1;
+    document.querySelectorAll('.tip-msg').forEach(t => t.classList.remove('active'));
+    welcomeMsg.classList.add('active');
+    setTimeout(() => sideQlik.classList.add('visible'), 100);
+    updateDots(-1);
+    animateProgress(WELCOME_DURATION);
+    timer = setTimeout(showNextTip, WELCOME_DURATION);
+  }
+
+  function showNextTip() {
+    if (panelOpen) return;
+    currentIndex = (currentIndex + 1) % tips.length;
+    welcomeMsg.classList.remove('active');
+    document.querySelectorAll('.tip-msg').forEach(t => t.classList.remove('active'));
+    document.getElementById(`tip-${currentIndex}`).classList.add('active');
+    sideQlik.classList.remove('visible');
+    updateDots(currentIndex);
+    animateProgress(TIP_DURATION);
+    timer = currentIndex === tips.length - 1
+      ? setTimeout(showWelcome, TIP_DURATION)
+      : setTimeout(showNextTip, TIP_DURATION);
+  }
+
+  // ── PANEL CONTROLS ──
+  function openPanel(id) {
+    if (panelOpen) closePanel(false);
+    panelOpen = true;
+
+    // freeze cycling
+    clearTimeout(timer);
+    progressBar.style.transition = 'none';
+    progressBar.style.width = '0%';
+
+    // hide Side-Qlik
+    sideQlik.classList.remove('visible');
+
+    // mark active nav button
+    document.querySelectorAll('.panel-nav-btn').forEach(b => b.classList.remove('active-panel'));
+    document.getElementById('btn-' + id).classList.add('active-panel');
+
+    // open panel
+    document.getElementById('panel-' + id).classList.add('active');
+  }
+
+  function closePanel(resume) {
+    panelOpen = false;
+
+    document.querySelectorAll('.panel-overlay').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.panel-nav-btn').forEach(b => b.classList.remove('active-panel'));
+
+    // resume cycling after transition completes
+    if (resume !== false) {
+      setTimeout(showWelcome, 460);
+    }
+  }
+
+  showWelcome();
+
+  // ── MOBILE GLITCH ──
+  const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&!?><[]{}";
+  const TARGET = "BEST VIEWED ON\nDESKTOP OR TABLET";
+  const mobileText = document.getElementById('mobileText');
+  const mobileIcon = document.getElementById('mobileIcon');
+  const mobileSub  = document.getElementById('mobileSub');
+
+  function rand() { return CHARS[Math.floor(Math.random() * CHARS.length)]; }
+
+  function glitchIn(original, el, callback) {
+    let i = 0; const frames = 12;
+    const t = setInterval(function() {
+      const p = i / frames;
+      el.textContent = original.split('').map(c =>
+        c === ' ' ? ' ' : c === '\n' ? '\n' : Math.random() < (1 - p) ? rand() : c
+      ).join('');
+      i++;
+      if (i >= frames) { clearInterval(t); el.textContent = original; if (callback) callback(); }
+    }, 40);
+  }
+
+  function randomGlitch() {
+    glitchIn(TARGET, mobileText, function() {
+      const delay = (Math.random() * 10000) + 10000;
+      setTimeout(randomGlitch, delay);
+    });
+  }
+
+  function initMobileBlock() {
+    var icons = [
+      'https://raw.githubusercontent.com/TravisWSlusser/QlikMindtickleApps/main/images/icons/BadFX1.png',
+      'https://raw.githubusercontent.com/TravisWSlusser/QlikMindtickleApps/main/images/icons/BadFX2.png',
+      'https://raw.githubusercontent.com/TravisWSlusser/QlikMindtickleApps/main/images/icons/BadFX3.png'
+    ];
+    mobileIcon.src = icons[Math.floor(Math.random() * icons.length)];
+    setTimeout(function() { mobileIcon.classList.add('visible'); }, 300);
+    setTimeout(function() {
+      mobileText.classList.add('visible');
+      glitchIn(TARGET, mobileText, function() {
+        setTimeout(function() { mobileSub.classList.add('visible'); }, 200);
+        const delay = (Math.random() * 10000) + 10000;
+        setTimeout(randomGlitch, delay);
+      });
+    }, 700);
+  }
+
+  initMobileBlock();
+
+
+/* ===== tabs · clock · ticker ===== */
+(function(){
+  var tabs=document.querySelectorAll('.hq-tab');
+  var panels={ai:document.getElementById('hq-ai'),rec:document.getElementById('hq-rec')};
+  tabs.forEach(function(t){t.addEventListener('click',function(){tabs.forEach(function(x){x.classList.remove('active');});t.classList.add('active');Object.keys(panels).forEach(function(k){panels[k].classList.remove('active');});panels[t.getAttribute('data-target')].classList.add('active');});});
+  var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function clock(){var n=new Date(),h=n.getHours(),m=String(n.getMinutes()).padStart(2,'0'),ap=h>=12?'PM':'AM';h=h%12||12;document.getElementById('hqTime').textContent=h+':'+m+' '+ap;document.getElementById('hqDate').textContent=days[n.getDay()]+', '+months[n.getMonth()]+' '+n.getDate()+', '+n.getFullYear();var p=n.toLocaleTimeString('en-us',{timeZoneName:'short'}).split(' ');document.getElementById('hqTz').textContent=p[2]||'LOCAL';}
+  clock();setInterval(clock,1000);
+  var NEWS='https://qlik-mt-main.vercel.app/api/news';
+  var SAMPLE=[{title:'Qlik expands Open Lakehouse with real-time streaming ingestion',source:'Qlik',url:'#'},{title:'Enterprises double down on trusted data for AI initiatives',source:'Industry',url:'#'},{title:'Analytics buyers prioritize governance and data quality in 2026',source:'Market',url:'#'},{title:'Competitive shifts among cloud data platforms continue',source:'Markets',url:'#'},{title:'AI copilots reshape how sellers prep for customer calls',source:'Trends',url:'#'}];
+  var track=document.getElementById('hqNewsTrack');
+  function esc(x){return (x||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function fav(u){try{return 'https://www.google.com/s2/favicons?domain='+new URL(u).hostname+'&sz=64';}catch(e){return '';}}
+  function build(list){track.innerHTML='';var h=list.map(function(n){var f=fav(n.url);var img=f?'<img class="hqt-fav" src="'+f+'" alt="" onerror="this.style.display=\'none\'">':'';var tg=(n.url&&n.url.indexOf('http')===0)?' target="_top"':'';return '<a class="hqt-item" href="'+esc(n.url)+'"'+tg+'>'+img+'<span class="hqt-title">'+esc(n.title)+'</span> <span class="hqt-src">'+esc(n.source)+'</span></a>';}).join('');track.innerHTML=h+h;}
+  build(SAMPLE);
+  fetch(NEWS).then(function(r){return r.ok?r.json():Promise.reject();}).then(function(d){if(d&&d.items&&d.items.length)build(d.items);}).catch(function(){});
+})();
+
+
+/* ===== AI status bar ===== */
+(function(){
+  var API='https://qlik-mindtickle-apps.vercel.app/api/status';
+  var META={'Claude':{url:'https://status.anthropic.com',icon:'<svg class="provider-icon" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M17.3 3h-3.1L9.7 14.4H12l1.2-3.3h4.1l1.2 3.3h2.3L17.3 3zm-3.4 6.6 1.5-4.1 1.5 4.1h-3zM6.7 3H4.4L1 21h2.3l.9-4.1h4.1L9.2 21h2.3L8.1 3H6.7zm-2 11.6 1.5-7 1.5 7h-3z"/></svg>'},'ChatGPT':{url:'https://status.openai.com',icon:'<svg class="provider-icon" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M22.28 9.29a5.93 5.93 0 0 0-.51-4.87 6 6 0 0 0-6.44-2.88 5.93 5.93 0 0 0-4.47-2A6 6 0 0 0 5.14 3.2a5.93 5.93 0 0 0-4 2.88 6 6 0 0 0 .74 7 5.93 5.93 0 0 0 .51 4.87 6 6 0 0 0 6.44 2.88 5.93 5.93 0 0 0 4.47 2 6 6 0 0 0 5.72-4.16 5.93 5.93 0 0 0 4-2.88 6 6 0 0 0-.74-7.3zM13.38 21a4.44 4.44 0 0 1-2.85-1 .09.09 0 0 1 0 0l.36-.21 4.74-2.73a.77.77 0 0 0 .39-.68v-6.67l2 1.16a.07.07 0 0 1 0 .05v5.52A4.49 4.49 0 0 1 13.38 21zm-9.7-4.12a4.44 4.44 0 0 1-.53-3 .09.09 0 0 1 0 0l.36.21 4.74 2.73a.77.77 0 0 0 .78 0L14.49 14v2.32a.08.08 0 0 1 0 .06l-4.8 2.77a4.49 4.49 0 0 1-6.01-2.27zM3.08 8.09A4.44 4.44 0 0 1 5.44 6l-.01.42v5.46a.77.77 0 0 0 .39.68l5.36 3.09-2 1.16a.08.08 0 0 1-.06 0L4.32 14a4.49 4.49 0 0 1-1.24-5.91zm16.44 3.87-5.36-3.09 2-1.16a.07.07 0 0 1 .06 0l4.8 2.77a4.49 4.49 0 0 1-.7 8.1v-.42l.01-5.46a.77.77 0 0 0-.39-.67l-.01-.07zm2-3a.09.09 0 0 1 0 0l-.36-.21-4.74-2.73a.77.77 0 0 0-.78 0L9.51 9V6.68a.07.07 0 0 1 0-.06l4.8-2.77a4.49 4.49 0 0 1 6.67 4.65l-.46-.54zm-12.54 4.13-2-1.16a.08.08 0 0 1 0-.05V6.36a4.49 4.49 0 0 1 7.37-3.44l-.36.21-4.74 2.73a.77.77 0 0 0-.39.68l.12 6.66zm1.09-2.35L12 9.53l2 1.14v2.28l-2 1.14-2-1.15V10.7z"/></svg>'},'Gemini':{url:'https://status.cloud.google.com',icon:'<svg class="provider-icon" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 24A14.3 14.3 0 0 1 9.8 12 14.3 14.3 0 0 1 12 0a14.3 14.3 0 0 1 2.2 12A14.3 14.3 0 0 1 12 24zm0 0a14.3 14.3 0 0 1-12-2.2A14.3 14.3 0 0 1 12 9.8a14.3 14.3 0 0 1 12 2.2A14.3 14.3 0 0 1 12 24z"/></svg>'}};
+  function label(s){return s==='operational'?'All Clear':s==='minor'?'Potential D.O.R.C.S. Activity':(s==='major'||s==='critical')?'D.O.R.C.S. Attacking!':'Status Unknown';}
+  function build(list){var c=document.getElementById('sbProviders');if(!c)return;c.innerHTML='';list.forEach(function(p,i){if(i>0){var d=document.createElement('div');d.className='sb-div';c.appendChild(d);}var m=META[p.name]||{url:'#',icon:''};var a=document.createElement('a');a.className='sb-provider';a.href=m.url;a.target='_blank';a.rel='noopener noreferrer';a.innerHTML='<div class="sb-dot '+p.status+'"></div>'+m.icon+'<span class="sb-name">'+p.name+'</span><span class="sb-status">'+label(p.status)+'</span>';c.appendChild(a);});var n=new Date();var u=document.getElementById('sbUpdated');if(u)u.textContent='Updated '+n.toLocaleTimeString('en-us',{hour:'numeric',minute:'2-digit'});}
+  build([{name:'Claude',status:'operational'},{name:'ChatGPT',status:'operational'},{name:'Gemini',status:'operational'}]);
+  fetch(API).then(function(r){return r.ok?r.json():Promise.reject();}).then(function(d){if(Array.isArray(d)&&d.length)build(d);}).catch(function(){});
+})();
+
+</script>
+</body>
+</html>
