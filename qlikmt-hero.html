@@ -769,7 +769,9 @@ setInterval(()=>{ qi=(qi+1)%QUOTES.length; showQuote(); }, 13000);
 const SUN_ICON='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.3M12 19.1v2.3M2.6 12h2.3M19.1 12h2.3M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>';
 const MOON_ICON='<svg viewBox="0 0 24 24"><path d="M20.5 13.5A8 8 0 1110.5 3.5a6.3 6.3 0 0010 10z"/></svg>';
 const tBtn = document.getElementById('themeToggle');
+const THEME_KEY = 'qlikTheme';
 let theme = 'dark';
+try { theme = localStorage.getItem(THEME_KEY) || 'dark'; } catch(e){}
 function setTheme(m){
   if(m==='light') document.documentElement.setAttribute('data-theme','light');
   else document.documentElement.removeAttribute('data-theme');
@@ -777,7 +779,12 @@ function setTheme(m){
   tBtn.setAttribute('aria-label', (m==='light') ? 'Switch to dark mode' : 'Switch to light mode');
 }
 setTheme(theme);
-tBtn.addEventListener('click', ()=>{ theme = (theme==='dark') ? 'light' : 'dark'; setTheme(theme); });
+tBtn.addEventListener('click', ()=>{
+  theme = (theme==='dark') ? 'light' : 'dark';
+  try { localStorage.setItem(THEME_KEY, theme); } catch(e){}
+  setTheme(theme);
+});
+window.addEventListener('storage', (e)=>{ if(e.key===THEME_KEY){ theme = e.newValue || 'dark'; setTheme(theme); } });
 
 /* keep the NEWS + MARKETS tabs the same width so their shapes line up */
 function alignTabs(){

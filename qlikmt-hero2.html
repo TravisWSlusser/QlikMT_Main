@@ -1097,19 +1097,7 @@
 
 
 
-/* ===== theme toggle + light mode (HQ chrome) ===== */
-.themetoggle{position:absolute;top:16px;right:18px;z-index:60;margin-left:0;
-  width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.16);color:#EDF3F9;cursor:pointer;
-  display:inline-flex;align-items:center;justify-content:center;
-  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
-  transition:color .2s,border-color .2s,background .2s}
-.themetoggle:hover{color:#10CFC9;border-color:rgba(16,207,201,.5)}
-.themetoggle:focus-visible{outline:2px solid #10CFC9;outline-offset:2px}
-.themetoggle svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-[data-theme="light"] .themetoggle{background:rgba(255,255,255,.72);border-color:rgba(15,40,70,.14);color:#2b3a49}
-[data-theme="light"] .themetoggle:hover{color:#0E8A84;border-color:rgba(16,207,201,.6)}
-
+/* ===== light mode (HQ chrome) ===== */
 [data-theme="light"] .hq{background:rgba(255,255,255,.55);border-color:rgba(15,40,70,.10);
   box-shadow:0 26px 60px -32px rgba(15,40,70,.30), inset 0 1px 0 rgba(255,255,255,.65)}
 [data-theme="light"] .hq-top{border-bottom-color:rgba(15,40,70,.12)}
@@ -1136,7 +1124,6 @@
 </style>
 </head>
 <body>
-<button id="themeToggle" class="themetoggle" type="button"></button>
   <div class="wrap">
     <section class="calsec rise d4" aria-label="Key dates calendar">
       <div class="cal-body">
@@ -1803,23 +1790,17 @@ setInterval(renderToday, 10*60*1000);   // re-evaluate the 4x/day slot while the
 
 
 
-/* ===== theme: toggle + cross-iframe sync via localStorage ===== */
+/* ===== theme: follow the shared switch (toggle lives in chunk 1) ===== */
 (function(){
-  var SUN='<svg viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"4.2\"/><path d=\"M12 2.6v2.3M12 19.1v2.3M2.6 12h2.3M19.1 12h2.3M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6\"/></svg>';
-  var MOON='<svg viewBox=\"0 0 24 24\"><path d=\"M20.5 13.5A8 8 0 1110.5 3.5a6.3 6.3 0 0010 10z\"/></svg>';
   var KEY='qlikTheme';
-  var tBtn=document.getElementById('themeToggle');
   function apply(m){
     if(m==='light') document.documentElement.setAttribute('data-theme','light');
     else document.documentElement.removeAttribute('data-theme');
-    if(tBtn){ tBtn.innerHTML=(m==='light')?MOON:SUN;
-      tBtn.setAttribute('aria-label',(m==='light')?'Switch to dark mode':'Switch to light mode'); }
   }
   var theme='dark';
   try{ theme=localStorage.getItem(KEY)||'dark'; }catch(e){}
   apply(theme);
-  if(tBtn) tBtn.addEventListener('click',function(){ theme=(theme==='dark')?'light':'dark'; try{localStorage.setItem(KEY,theme);}catch(e){} apply(theme); });
-  window.addEventListener('storage',function(e){ if(e.key===KEY){ theme=e.newValue||'dark'; apply(theme); } });
+  window.addEventListener('storage',function(e){ if(e.key===KEY){ apply(e.newValue||'dark'); } });
 })();
 
 </script>
