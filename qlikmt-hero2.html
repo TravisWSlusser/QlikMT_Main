@@ -1034,10 +1034,14 @@
 .hq-brand .t{font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:900;color:#fff;letter-spacing:1px;text-transform:uppercase}
 .hq-brand .t span{color:#10CFC9}
 .hq-brand .s{font-size:10px;font-weight:600;color:rgba(255,255,255,.45);letter-spacing:2px;text-transform:uppercase;margin-top:3px}
-.hq-tabs{display:flex;align-items:center;gap:4px}
-.hq-tab{appearance:none;background:transparent;border:0;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.42);padding:8px 16px 6px;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap}
-.hq-tab:hover{color:rgba(255,255,255,.75)}
-.hq-tab.active{color:#10CFC9;border-bottom-color:#10CFC9;text-shadow:0 0 14px rgba(16,207,201,.5)}
+.hq-tabs{display:inline-flex;gap:5px;padding:5px;border-radius:13px;background:rgba(8,20,34,.5);border:1px solid rgba(16,207,201,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 3px 12px -5px rgba(0,0,0,.5)}
+.hq-tab{appearance:none;cursor:pointer;border:0;background:transparent;display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:9px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;letter-spacing:1.6px;text-transform:uppercase;color:rgba(255,255,255,.5);white-space:nowrap;position:relative;overflow:hidden;transition:color .25s,background .25s,box-shadow .25s}
+.hq-tab svg{width:16px;height:16px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .25s}
+.hq-tab:hover{color:rgba(255,255,255,.82)}
+.hq-tab.active{color:#04201d;background:linear-gradient(135deg,#1ee6dd,#0bbf9f);box-shadow:0 0 22px -3px rgba(16,207,201,.7),inset 0 1px 0 rgba(255,255,255,.4)}
+.hq-tab.active svg{stroke:#04201d}
+.hq-tab.active::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 40%,rgba(255,255,255,.4) 50%,transparent 60%);transform:translateX(-130%);animation:hqtab-scan 3.4s ease-in-out infinite}
+@keyframes hqtab-scan{0%,55%{transform:translateX(-130%)}78%,100%{transform:translateX(130%)}}
 .hq-right{display:flex;align-items:center;gap:12px}
 .hq-tz{background:rgba(16,207,201,.1);border:1px solid rgba(16,207,201,.25);border-radius:4px;padding:3px 8px;font-size:10px;font-weight:700;color:#10CFC9;letter-spacing:1px;text-transform:uppercase}
 .hq-vbar{width:1px;height:30px;background:rgba(255,255,255,.1)}
@@ -1045,8 +1049,25 @@
 .hq-dt .tm{font-family:'Barlow Condensed',sans-serif;font-size:23px;font-weight:800;color:#10CFC9;letter-spacing:2px;text-shadow:0 0 20px rgba(16,207,201,.5);font-variant-numeric:tabular-nums}
 .hq-dt .dd{font-size:10px;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px}
 /* ---- panels ---- */
-.hq-stage{margin-top:clamp(16px,2.4vw,22px)}
-.hq-panel{display:none}.hq-panel.active{display:block}
+/* ---- stage: tall; AI-HQ slab (banner + bedrock) slides DOWN to reveal REC ---- */
+.hq-stage{position:relative;margin-top:clamp(16px,2.4vw,22px);height:1430px;border-radius:16px;overflow:hidden}
+.hq-panel{position:absolute;inset:0}
+#hq-rec{z-index:1}
+#hq-ai{z-index:2;display:flex;flex-direction:column;background:#0a090b;transform:translateY(0);transition:transform .92s cubic-bezier(.74,0,.16,1);will-change:transform}
+.hq-stage.showing-rec #hq-ai{transform:translateY(100%)}
+#hq-ai .hq-bannercard{flex:0 0 auto;border-radius:16px 16px 0 0;border-bottom:0}
+.hq-bedrock{position:relative;flex:1 1 auto;min-height:0;border:1px solid rgba(255,255,255,.10);border-top:0;border-radius:0 0 16px 16px;background:url(https://raw.githubusercontent.com/TravisWSlusser/QlikMT_Main/main/assets/images/ai_hq/rock_bottom_web.webp) bottom center/100% auto no-repeat,linear-gradient(180deg,#0f2840 0%,#0b1d30 32%,#0a1119 60%,#0a0a0d 100%)}
+.hq-bedrock::before{content:'';position:absolute;left:0;right:0;top:0;height:90px;background:linear-gradient(180deg,rgba(6,18,30,.9),transparent);pointer-events:none}
+/* persistent footnote overlay — pinned to the stage bottom, stays through the slide */
+.hq-foot{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:34px clamp(22px,4vw,46px) 15px;background:linear-gradient(180deg,transparent,rgba(5,8,12,.5) 26%,rgba(4,6,10,.9));pointer-events:none}
+.hq-foot .sitefoot{pointer-events:auto;margin:0 auto;max-width:1040px}
+.hq-foot .sitefoot a{pointer-events:auto}
+.hq-foot .sf-cred,[data-theme="light"] .hq-foot .sf-cred{color:rgba(212,224,236,.82)}
+.hq-foot .sf-cred strong,[data-theme="light"] .hq-foot .sf-cred strong{color:#e6eef7}
+.hq-foot .sf-tools,[data-theme="light"] .hq-foot .sf-tools{color:rgba(172,190,208,.6)}
+.hq-foot .sf-legal{color:rgba(160,178,196,.5)}
+.hq-foot .sf-logo-dark{display:inline!important}.hq-foot .sf-logo-light{display:none!important}
+@media (prefers-reduced-motion:reduce){.hq-tab.active::after{animation:none}#hq-ai{transition:none}}
 /* news ticker as a rounded inset band */
 .hqt-band{margin-top:clamp(14px,2vw,18px);border:1px solid rgba(255,255,255,.10);border-radius:12px;overflow:hidden;background:rgba(255,255,255,.03);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
 .hqt{display:flex;align-items:center;height:36px}
@@ -1087,13 +1108,13 @@
 .sb-div{width:1px;height:16px;background:rgba(255,255,255,.08)}
 .sb-updated{margin-left:22px;font-size:10px;font-weight:300;color:rgba(255,255,255,.2);letter-spacing:.5px;white-space:nowrap}
 /* REC ROOM as a rounded inset card */
-.hq-reccard{position:relative;border:1px solid rgba(255,255,255,.10);border-radius:16px;overflow:hidden;min-height:380px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05);background:radial-gradient(120% 120% at 50% 0%,#15173a 0%,#0a0a1f 60%,#070712 100%)}
+.hq-reccard{position:relative;border:1px solid rgba(255,255,255,.10);border-radius:16px;overflow:hidden;height:100%;box-shadow:inset 0 1px 0 rgba(255,255,255,.05);background:radial-gradient(120% 120% at 50% 0%,#15173a 0%,#0a0a1f 60%,#070712 100%)}
 .hq-reccard::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(155,89,255,.05) 3px,rgba(155,89,255,.05) 4px)}
 .hq-recmid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;z-index:1}
 .hq-recmid .rk{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:#9B59FF}
 .hq-recmid .rt{font-family:'Barlow Condensed',sans-serif;font-size:clamp(40px,8vw,84px);font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#fff;text-shadow:0 0 24px rgba(155,89,255,.6),0 0 60px rgba(16,207,201,.25);line-height:1}
 .hq-recmid .rn{margin-top:14px;font-size:13px;font-weight:600;color:rgba(255,255,255,.5);max-width:48ch;line-height:1.55}
-@media (max-width:640px){.hq-top{flex-wrap:wrap}.hq-brand .s{display:none}.hq-dt .dd{display:none}.hq-tab{font-size:13px;padding:8px 10px 6px}}
+@media (max-width:640px){.hq-top{flex-wrap:wrap}.hq-brand .s{display:none}.hq-dt .dd{display:none}.hq-tab{font-size:13px;padding:7px 12px}.hq-tabs{padding:4px}}
 
 
 
@@ -1105,6 +1126,7 @@
 [data-theme="light"] .hq-brand .t{color:#16293c}
 [data-theme="light"] .hq-brand .s{color:rgba(15,40,70,.55)}
 [data-theme="light"] .hq-dt .dd{color:rgba(15,40,70,.6)}
+[data-theme="light"] .hq-tabs{background:rgba(15,40,70,.05);border-color:rgba(16,207,201,.32)}
 [data-theme="light"] .hq-tab{color:#5a6b7d}
 [data-theme="light"] .hqt-band,
 [data-theme="light"] .sb-band{background:#ffffff;border-color:rgba(15,40,70,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
@@ -1180,7 +1202,7 @@
 <div class="hq">
   <div class="hq-top">
     <div class="hq-left"><div class="hq-badge"><div class="d"></div><span>Live</span></div><div class="hq-brand"><div class="t">Stellar-Seller <span>HQ</span></div><div class="s">Global Sales Enablement</div></div></div>
-    <div class="hq-tabs" role="tablist"><button class="hq-tab active" data-target="ai" role="tab">AI-HQ</button><button class="hq-tab" data-target="rec" role="tab">REC Room</button></div>
+    <div class="hq-tabs" role="tablist"><button class="hq-tab active" data-target="ai" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.7 4.8 4.8 1.7-4.8 1.7L12 16l-1.7-4.8L5.5 9.5l4.8-1.7z"/><path d="M18.6 13.6l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg>AI-HQ</button><button class="hq-tab" data-target="rec" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="8.5" width="19" height="10" rx="5"/><path d="M7 11.8v3.4M5.3 13.5h3.4"/><circle cx="15.8" cy="12.6" r="1.1"/><circle cx="18.2" cy="14.8" r="1.1"/></svg>REC Room</button></div>
     <div class="hq-right"><div class="hq-tz" id="hqTz">...</div><div class="hq-vbar"></div><div class="hq-dt"><div class="tm" id="hqTime">--:-- --</div><div class="dd" id="hqDate">--- --, ----</div></div></div>
   </div>
   <div class="hqt-band"><div class="hqt"><span class="hqt-q"><span class="hqt-k">CURRENT</span><span class="hqt-w">NEWS</span></span><div class="hqt-win"><div class="hqt-track" id="hqNewsTrack"></div></div></div></div>
@@ -1293,19 +1315,18 @@
   <p id="mobileSub" class="mobile-sub">This widget is optimized<br>for larger screens.</p>
 </div>
       </div>
+      <div class="hq-bedrock" aria-hidden="true"></div>
     </section>
     <section class="hq-panel" id="hq-rec" role="tabpanel">
       <div class="hq-reccard"><div class="hq-recmid"><div class="rk">Q-Cade Arcade</div><div class="rt">REC Room</div><div class="rn">The live REC Room (leaderboard, world map, Side-Qlik Blitz) loads here as an iframe. Drop in the deployed URL to wire it up.</div></div></div>
     </section>
-  </div>
-</div>
-  <div class="wrap" style="padding:clamp(16px,2vw,24px) clamp(24px,4vw,46px)">
-  <footer class="sitefoot">
+    <div class="hq-foot">  <footer class="sitefoot">
     <div class="sf-cred"><span class="sf-u sf-brand">A <img class="sf-logo sf-logo-dark" src="assets/images/logos/Sales_Enablement_Logos/Typemark_Qlik-Sales-Enablement_2cReverse.svg" alt="Qlik Sales Enablement" onerror="sfBrandFallback(this)"><img class="sf-logo sf-logo-light" src="assets/images/logos/Sales_Enablement_Logos/Typemark_Qlik-Sales-Enablement_Color.svg" alt="Qlik Sales Enablement" onerror="sfBrandFallback(this)"><span class="sf-logo-fallback">Qlik Sales Enablement</span> initiative&nbsp;&middot;</span> <span class="sf-u">Designed &amp; developed by <strong>Travis Slusser</strong>,</span> <span class="sf-u">Senior Learning Strategist&nbsp;&middot;</span> <span class="sf-u"><a href="mailto:Travis.Slusser@Qlik.com">Travis.Slusser@Qlik.com</a></span></div>
     <div class="sf-tools">Built on Vercel &amp; embedded in Mindtickle<span class="sf-sep">&middot;</span>Market data by Finnhub<span class="sf-sep">&middot;</span>News via GNews<span class="sf-sep">&middot;</span>On-this-day facts via Wikipedia</div>
     <div class="sf-legal">&copy; 2026 Qlik. All rights reserved. For internal Qlik use only. Provided for informational and enablement purposes and does not constitute financial, investment, or legal advice. Third-party market and news data are supplied &ldquo;as is,&rdquo; may be delayed, and are not guaranteed for accuracy or completeness. All trademarks are the property of their respective owners.</div>
-  </footer>
+  </footer></div>
   </div>
+</div>
   <div class="kd-modal" id="kdModal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="kd-back" data-close></div>
     <div class="kd-panel">
@@ -1763,7 +1784,7 @@ setInterval(renderToday, 10*60*1000);   // re-evaluate the 4x/day slot while the
 (function(){
   var tabs=document.querySelectorAll('.hq-tab');
   var panels={ai:document.getElementById('hq-ai'),rec:document.getElementById('hq-rec')};
-  tabs.forEach(function(t){t.addEventListener('click',function(){tabs.forEach(function(x){x.classList.remove('active');});t.classList.add('active');Object.keys(panels).forEach(function(k){panels[k].classList.remove('active');});panels[t.getAttribute('data-target')].classList.add('active');});});
+  var stage=document.querySelector('.hq-stage');tabs.forEach(function(t){t.addEventListener('click',function(){var tgt=t.getAttribute('data-target');if(t.classList.contains('active'))return;tabs.forEach(function(x){x.classList.remove('active');x.setAttribute('aria-selected','false');});t.classList.add('active');t.setAttribute('aria-selected','true');stage.classList.toggle('showing-rec',tgt==='rec');Object.keys(panels).forEach(function(k){panels[k].classList.remove('active');});panels[tgt].classList.add('active');});});
   var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   function clock(){var n=new Date(),h=n.getHours(),m=String(n.getMinutes()).padStart(2,'0'),ap=h>=12?'PM':'AM';h=h%12||12;document.getElementById('hqTime').textContent=h+':'+m+' '+ap;document.getElementById('hqDate').textContent=days[n.getDay()]+', '+months[n.getMonth()]+' '+n.getDate()+', '+n.getFullYear();var p=n.toLocaleTimeString('en-us',{timeZoneName:'short'}).split(' ');document.getElementById('hqTz').textContent=p[2]||'LOCAL';}
   clock();setInterval(clock,1000);
