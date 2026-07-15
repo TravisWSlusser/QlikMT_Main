@@ -1789,8 +1789,9 @@ setInterval(renderToday, 10*60*1000);   // re-evaluate the 4x/day slot while the
   /* --- chain auto-height: REC Room reports up, we grow the stage, we report up to Mindtickle --- */
   var STAGE_BASE_H = 1430, recH = 0;
   function applyStageH(){
-    var showingRec = stage.classList.contains('showing-rec');
-    stage.style.height = (showingRec && recH ? Math.max(STAGE_BASE_H, recH) : STAGE_BASE_H) + 'px';
+    // ONE height for both tabs: tall enough for the REC Room.
+    // AI-HQ's bedrock (flex:1) absorbs the extra — that's its job.
+    stage.style.height = Math.max(STAGE_BASE_H, recH) + 'px';
   }
   var lastMtH = 0;
   function reportMTHeight(){
@@ -1807,6 +1808,8 @@ setInterval(renderToday, 10*60*1000);   // re-evaluate the 4x/day slot while the
   catch(e){ setInterval(reportMTHeight, 1500); }
   window.addEventListener('load', reportMTHeight);
   setTimeout(reportMTHeight, 600); setTimeout(reportMTHeight, 2000);
+  var rf0 = document.getElementById('hqRecFrame');
+  if (rf0 && !rf0.getAttribute('src')) rf0.src = rf0.getAttribute('data-src');   // eager: stage height must be known up front
   tabs.forEach(function(t){t.addEventListener('click',function(){var tgt=t.getAttribute('data-target');if(t.classList.contains('active'))return;tabs.forEach(function(x){x.classList.remove('active');x.setAttribute('aria-selected','false');});t.classList.add('active');t.setAttribute('aria-selected','true');stage.classList.toggle('showing-rec',tgt==='rec');Object.keys(panels).forEach(function(k){panels[k].classList.remove('active');});panels[tgt].classList.add('active');if(tgt==='rec'){var rf=document.getElementById('hqRecFrame');if(rf&&!rf.getAttribute('src'))rf.src=rf.getAttribute('data-src');}applyStageH();});});
   var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   function clock(){var n=new Date(),h=n.getHours(),m=String(n.getMinutes()).padStart(2,'0'),ap=h>=12?'PM':'AM';h=h%12||12;document.getElementById('hqTime').textContent=h+':'+m+' '+ap;document.getElementById('hqDate').textContent=days[n.getDay()]+', '+months[n.getMonth()]+' '+n.getDate()+', '+n.getFullYear();var p=n.toLocaleTimeString('en-us',{timeZoneName:'short'}).split(' ');document.getElementById('hqTz').textContent=p[2]||'LOCAL';}
