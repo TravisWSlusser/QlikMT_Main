@@ -1795,14 +1795,18 @@ setInterval(renderToday, 10*60*1000);   // re-evaluate the 4x/day slot while the
   }
   var lastMtH = 0;
   function reportMTHeight(){
-    var h = Math.ceil(document.documentElement.scrollHeight);
+    var hq = document.querySelector('.hq');
+    var h = Math.ceil(hq ? (hq.getBoundingClientRect().bottom + window.scrollY + 40) : document.documentElement.scrollHeight);
     if (Math.abs(h - lastMtH) > 4){ lastMtH = h; try{ parent.postMessage({ qlikmtHeight: h }, '*'); }catch(e){}
       console.log('QLIKMT-HEIGHT:', h); }
   }
   window.addEventListener('message', function(e){
     if (e.origin !== 'https://qlik-rec-room.vercel.app') return;
     var d = e.data || {};
-    if (d.type === 'REC_ROOM_HEIGHT' && d.height){ recH = Math.ceil(d.height); applyStageH(); }
+    if (d.type === 'REC_ROOM_HEIGHT' && d.height){
+      var nh = Math.ceil(d.height);
+      if (nh > 400 && nh < 4000 && Math.abs(nh - recH) > 4){ recH = nh; applyStageH(); }
+    }
   });
   try{ new ResizeObserver(function(){ reportMTHeight(); }).observe(document.documentElement); }
   catch(e){ setInterval(reportMTHeight, 1500); }
