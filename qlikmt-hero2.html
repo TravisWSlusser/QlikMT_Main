@@ -1111,6 +1111,7 @@
 .hq-reccard{position:relative;border:1px solid rgba(255,255,255,.10);border-radius:16px;overflow:hidden;height:100%;box-shadow:inset 0 1px 0 rgba(255,255,255,.05);background:radial-gradient(120% 120% at 50% 0%,#15173a 0%,#0a0a1f 60%,#070712 100%)}
 .hq-reccard::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(155,89,255,.05) 3px,rgba(155,89,255,.05) 4px)}
 .hq-recmid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;z-index:1}
+.hq-recframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:2;background:transparent;display:block}
 .hq-recmid .rk{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:#9B59FF}
 .hq-recmid .rt{font-family:'Barlow Condensed',sans-serif;font-size:clamp(40px,8vw,84px);font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#fff;text-shadow:0 0 24px rgba(155,89,255,.6),0 0 60px rgba(16,207,201,.25);line-height:1}
 .hq-recmid .rn{margin-top:14px;font-size:13px;font-weight:600;color:rgba(255,255,255,.5);max-width:48ch;line-height:1.55}
@@ -1318,7 +1319,7 @@
       <div class="hq-bedrock" aria-hidden="true"></div>
     </section>
     <section class="hq-panel" id="hq-rec" role="tabpanel">
-      <div class="hq-reccard"><div class="hq-recmid"><div class="rk">Q-Cade Arcade</div><div class="rt">REC Room</div><div class="rn">The live REC Room (leaderboard, world map, Side-Qlik Blitz) loads here as an iframe. Drop in the deployed URL to wire it up.</div></div></div>
+      <div class="hq-reccard"><div class="hq-recmid"><div class="rk">Q-Cade Arcade</div><div class="rt">REC Room</div><div class="rn">Loading the live REC Room&hellip;</div></div><iframe id="hqRecFrame" class="hq-recframe" data-src="https://qlik-rec-room.vercel.app/" title="Q-Cade REC Room" allow="fullscreen" allowfullscreen loading="lazy" scrolling="no"></iframe></div>
     </section>
     <div class="hq-foot">  <footer class="sitefoot">
     <div class="sf-cred"><span class="sf-u sf-brand">A <img class="sf-logo sf-logo-dark" src="assets/images/logos/Sales_Enablement_Logos/Typemark_Qlik-Sales-Enablement_2cReverse.svg" alt="Qlik Sales Enablement" onerror="sfBrandFallback(this)"><img class="sf-logo sf-logo-light" src="assets/images/logos/Sales_Enablement_Logos/Typemark_Qlik-Sales-Enablement_Color.svg" alt="Qlik Sales Enablement" onerror="sfBrandFallback(this)"><span class="sf-logo-fallback">Qlik Sales Enablement</span> initiative&nbsp;&middot;</span> <span class="sf-u">Designed &amp; developed by <strong>Travis Slusser</strong>,</span> <span class="sf-u">Senior Learning Strategist&nbsp;&middot;</span> <span class="sf-u"><a href="mailto:Travis.Slusser@Qlik.com">Travis.Slusser@Qlik.com</a></span></div>
@@ -1784,7 +1785,7 @@ setInterval(renderToday, 10*60*1000);   // re-evaluate the 4x/day slot while the
 (function(){
   var tabs=document.querySelectorAll('.hq-tab');
   var panels={ai:document.getElementById('hq-ai'),rec:document.getElementById('hq-rec')};
-  var stage=document.querySelector('.hq-stage');tabs.forEach(function(t){t.addEventListener('click',function(){var tgt=t.getAttribute('data-target');if(t.classList.contains('active'))return;tabs.forEach(function(x){x.classList.remove('active');x.setAttribute('aria-selected','false');});t.classList.add('active');t.setAttribute('aria-selected','true');stage.classList.toggle('showing-rec',tgt==='rec');Object.keys(panels).forEach(function(k){panels[k].classList.remove('active');});panels[tgt].classList.add('active');});});
+  var stage=document.querySelector('.hq-stage');tabs.forEach(function(t){t.addEventListener('click',function(){var tgt=t.getAttribute('data-target');if(t.classList.contains('active'))return;tabs.forEach(function(x){x.classList.remove('active');x.setAttribute('aria-selected','false');});t.classList.add('active');t.setAttribute('aria-selected','true');stage.classList.toggle('showing-rec',tgt==='rec');Object.keys(panels).forEach(function(k){panels[k].classList.remove('active');});panels[tgt].classList.add('active');if(tgt==='rec'){var rf=document.getElementById('hqRecFrame');if(rf&&!rf.getAttribute('src'))rf.src=rf.getAttribute('data-src');}});});
   var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   function clock(){var n=new Date(),h=n.getHours(),m=String(n.getMinutes()).padStart(2,'0'),ap=h>=12?'PM':'AM';h=h%12||12;document.getElementById('hqTime').textContent=h+':'+m+' '+ap;document.getElementById('hqDate').textContent=days[n.getDay()]+', '+months[n.getMonth()]+' '+n.getDate()+', '+n.getFullYear();var p=n.toLocaleTimeString('en-us',{timeZoneName:'short'}).split(' ');document.getElementById('hqTz').textContent=p[2]||'LOCAL';}
   clock();setInterval(clock,1000);
