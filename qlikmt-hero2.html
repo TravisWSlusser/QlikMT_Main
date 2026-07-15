@@ -1795,7 +1795,8 @@ setInterval(renderToday, 10*60*1000);   // re-evaluate the 4x/day slot while the
   var lastMtH = 0;
   function reportMTHeight(){
     var h = Math.ceil(document.documentElement.scrollHeight);
-    if (Math.abs(h - lastMtH) > 4){ lastMtH = h; try{ parent.postMessage({ qlikmtHeight: h }, '*'); }catch(e){} }
+    if (Math.abs(h - lastMtH) > 4){ lastMtH = h; try{ parent.postMessage({ qlikmtHeight: h }, '*'); }catch(e){}
+      console.log('QLIKMT-HEIGHT:', h); }
   }
   window.addEventListener('message', function(e){
     if (e.origin !== 'https://qlik-rec-room.vercel.app') return;
