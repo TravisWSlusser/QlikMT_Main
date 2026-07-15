@@ -1050,7 +1050,7 @@
 .hq-dt .dd{font-size:10px;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px}
 /* ---- panels ---- */
 /* ---- stage: tall; AI-HQ slab (banner + bedrock) slides DOWN to reveal REC ---- */
-.hq-stage{position:relative;margin-top:clamp(16px,2.4vw,22px);height:1430px;border-radius:16px;overflow:hidden}
+.hq-stage{position:relative;margin-top:clamp(16px,2.4vw,22px);height:1430px;border-radius:16px;overflow:hidden;transition:height .5s ease}
 .hq-panel{position:absolute;inset:0}
 #hq-rec{z-index:1}
 #hq-ai{z-index:2;display:flex;flex-direction:column;background:#0a090b;transform:translateY(0);transition:transform .92s cubic-bezier(.74,0,.16,1);will-change:transform}
@@ -1785,7 +1785,28 @@ setInterval(renderToday, 10*60*1000);   // re-evaluate the 4x/day slot while the
 (function(){
   var tabs=document.querySelectorAll('.hq-tab');
   var panels={ai:document.getElementById('hq-ai'),rec:document.getElementById('hq-rec')};
-  var stage=document.querySelector('.hq-stage');tabs.forEach(function(t){t.addEventListener('click',function(){var tgt=t.getAttribute('data-target');if(t.classList.contains('active'))return;tabs.forEach(function(x){x.classList.remove('active');x.setAttribute('aria-selected','false');});t.classList.add('active');t.setAttribute('aria-selected','true');stage.classList.toggle('showing-rec',tgt==='rec');Object.keys(panels).forEach(function(k){panels[k].classList.remove('active');});panels[tgt].classList.add('active');if(tgt==='rec'){var rf=document.getElementById('hqRecFrame');if(rf&&!rf.getAttribute('src'))rf.src=rf.getAttribute('data-src');}});});
+  var stage=document.querySelector('.hq-stage');
+  /* --- chain auto-height: REC Room reports up, we grow the stage, we report up to Mindtickle --- */
+  var STAGE_BASE_H = 1430, recH = 0;
+  function applyStageH(){
+    var showingRec = stage.classList.contains('showing-rec');
+    stage.style.height = (showingRec && recH ? Math.max(STAGE_BASE_H, recH) : STAGE_BASE_H) + 'px';
+  }
+  var lastMtH = 0;
+  function reportMTHeight(){
+    var h = Math.ceil(document.documentElement.scrollHeight);
+    if (Math.abs(h - lastMtH) > 4){ lastMtH = h; try{ parent.postMessage({ qlikmtHeight: h }, '*'); }catch(e){} }
+  }
+  window.addEventListener('message', function(e){
+    if (e.origin !== 'https://qlik-rec-room.vercel.app') return;
+    var d = e.data || {};
+    if (d.type === 'REC_ROOM_HEIGHT' && d.height){ recH = Math.ceil(d.height); applyStageH(); }
+  });
+  try{ new ResizeObserver(function(){ reportMTHeight(); }).observe(document.documentElement); }
+  catch(e){ setInterval(reportMTHeight, 1500); }
+  window.addEventListener('load', reportMTHeight);
+  setTimeout(reportMTHeight, 600); setTimeout(reportMTHeight, 2000);
+  tabs.forEach(function(t){t.addEventListener('click',function(){var tgt=t.getAttribute('data-target');if(t.classList.contains('active'))return;tabs.forEach(function(x){x.classList.remove('active');x.setAttribute('aria-selected','false');});t.classList.add('active');t.setAttribute('aria-selected','true');stage.classList.toggle('showing-rec',tgt==='rec');Object.keys(panels).forEach(function(k){panels[k].classList.remove('active');});panels[tgt].classList.add('active');if(tgt==='rec'){var rf=document.getElementById('hqRecFrame');if(rf&&!rf.getAttribute('src'))rf.src=rf.getAttribute('data-src');}applyStageH();});});
   var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   function clock(){var n=new Date(),h=n.getHours(),m=String(n.getMinutes()).padStart(2,'0'),ap=h>=12?'PM':'AM';h=h%12||12;document.getElementById('hqTime').textContent=h+':'+m+' '+ap;document.getElementById('hqDate').textContent=days[n.getDay()]+', '+months[n.getMonth()]+' '+n.getDate()+', '+n.getFullYear();var p=n.toLocaleTimeString('en-us',{timeZoneName:'short'}).split(' ');document.getElementById('hqTz').textContent=p[2]||'LOCAL';}
   clock();setInterval(clock,1000);
